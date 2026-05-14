@@ -111,7 +111,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
             onClick = { showDownloadLocationDialog = true },
         )
 
-        Divider(
+        HorizontalDivider(
             modifier = Modifier.padding(horizontal = 16.dp),
             color = MaterialTheme.colorScheme.outlineVariant,
         )
@@ -150,7 +150,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
         )
 
         if (state.updateError != null) {
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 color = MaterialTheme.colorScheme.outlineVariant,
             )
@@ -158,7 +158,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
         }
 
         if (state.latestRelease != null) {
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 color = MaterialTheme.colorScheme.outlineVariant,
             )

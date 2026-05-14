@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.OpenInNew
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -608,7 +609,7 @@ private fun AboutDialog(onDismiss: () -> Unit) {
                         "A multi-platform media downloader powered by a plugin-based extension system.",
                         style = MaterialTheme.typography.bodySmall,
                     )
-                    Divider(Modifier.padding(vertical = 12.dp))
+                    HorizontalDivider(Modifier.padding(vertical = 12.dp))
 
                     SocialLink("TobyG74",  "GitHub", "https://github.com/TobyG74",  context)
                     Spacer(Modifier.height(8.dp))
@@ -617,7 +618,7 @@ private fun AboutDialog(onDismiss: () -> Unit) {
                     SocialLink("nugraizy", "GitHub", "https://github.com/nugraizy", context)
 
                     Spacer(Modifier.height(12.dp))
-                    Divider()
+                    HorizontalDivider()
                     Spacer(Modifier.height(12.dp))
 
                     Text("© 2026 Torikomi Developers. All rights reserved.", fontSize = 10.sp, color = Color.Gray)
@@ -644,7 +645,7 @@ private fun SocialLink(label: String, subtitle: String, url: String, context: Co
                 Text(label,    fontWeight = FontWeight.Bold, fontSize = 13.sp)
                 Text(subtitle, style = MaterialTheme.typography.bodySmall)
             }
-            Icon(Icons.Rounded.OpenInNew, null, modifier = Modifier.size(16.dp), tint = Color.Gray)
+            Icon(Icons.AutoMirrored.Rounded.OpenInNew, null, modifier = Modifier.size(16.dp), tint = Color.Gray)
         }
     }
 }
