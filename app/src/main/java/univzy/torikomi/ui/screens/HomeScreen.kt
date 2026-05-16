@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.OpenInNew
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -22,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -268,6 +267,7 @@ private fun DownloadsTab(
 }
 
 private fun platformIdToDisplayName(platform: String): String = when (platform.lowercase()) {
+    "whatsapp" -> "WhatsApp"
     "tiktok" -> "TikTok"
     "youtube" -> "YouTube"
     "instagram" -> "Instagram"
@@ -279,12 +279,13 @@ private fun platformIdToDisplayName(platform: String): String = when (platform.l
     "soundcloud" -> "SoundCloud"
     "douyin" -> "Douyin"
     "bilibili" -> "Bilibili"
-    else -> platform
+    else -> platform.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
 }
 
 private fun inferPlatformFromBaseUrl(baseUrl: String): String? {
     val host = baseUrl.trim().lowercase()
     return when {
+        "whatsapp" in host -> "WhatsApp"
         "tiktok" in host -> "TikTok"
         "youtube" in host || "youtu.be" in host -> "YouTube"
         "instagram" in host -> "Instagram"
@@ -303,6 +304,7 @@ private fun inferPlatformFromBaseUrl(baseUrl: String): String? {
 private fun inferPlatformIdFromBaseUrl(baseUrl: String): String? {
     val host = baseUrl.trim().lowercase()
     return when {
+        "whatsapp" in host -> "whatsapp"
         "tiktok" in host -> "tiktok"
         "youtube" in host || "youtu.be" in host -> "youtube"
         "instagram" in host -> "instagram"
@@ -602,14 +604,14 @@ private fun AboutDialog(onDismiss: () -> Unit) {
                         Surface(
                             color = MaterialTheme.colorScheme.primaryContainer,
                             shape = MaterialTheme.shapes.large,
-                        ) { Text("v1.0.0", Modifier.padding(horizontal = 8.dp, vertical = 2.dp), fontSize = 11.sp) }
+                        ) { Text("v1.0.1", Modifier.padding(horizontal = 8.dp, vertical = 2.dp), fontSize = 11.sp) }
                     }
                     Spacer(Modifier.height(8.dp))
                     Text(
                         "A multi-platform media downloader powered by a plugin-based extension system.",
                         style = MaterialTheme.typography.bodySmall,
                     )
-                    HorizontalDivider(Modifier.padding(vertical = 12.dp))
+                    Divider(Modifier.padding(vertical = 12.dp))
 
                     SocialLink("TobyG74",  "GitHub", "https://github.com/TobyG74",  context)
                     Spacer(Modifier.height(8.dp))
@@ -618,7 +620,7 @@ private fun AboutDialog(onDismiss: () -> Unit) {
                     SocialLink("nugraizy", "GitHub", "https://github.com/nugraizy", context)
 
                     Spacer(Modifier.height(12.dp))
-                    HorizontalDivider()
+                    Divider()
                     Spacer(Modifier.height(12.dp))
 
                     Text("© 2026 Torikomi Developers. All rights reserved.", fontSize = 10.sp, color = Color.Gray)
@@ -645,7 +647,7 @@ private fun SocialLink(label: String, subtitle: String, url: String, context: Co
                 Text(label,    fontWeight = FontWeight.Bold, fontSize = 13.sp)
                 Text(subtitle, style = MaterialTheme.typography.bodySmall)
             }
-            Icon(Icons.AutoMirrored.Rounded.OpenInNew, null, modifier = Modifier.size(16.dp), tint = Color.Gray)
+            Icon(Icons.Rounded.OpenInNew, null, modifier = Modifier.size(16.dp), tint = Color.Gray)
         }
     }
 }

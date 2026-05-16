@@ -3,7 +3,6 @@ package univzy.torikomi.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowForwardIos
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -87,7 +86,7 @@ fun PlatformCard(
             }
 
             Icon(
-                Icons.AutoMirrored.Rounded.ArrowForwardIos,
+                Icons.Rounded.ArrowForwardIos,
                 contentDescription = null,
                 modifier = Modifier.size(16.dp),
                 tint = Color.Gray,

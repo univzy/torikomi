@@ -3,11 +3,14 @@ package univzy.torikomi.ui.screens
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.media.MediaMetadataRetriever
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Size
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -17,22 +20,25 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.documentfile.provider.DocumentFile
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import univzy.torikomi.data.repository.SettingsRepository
 import java.io.File
 
 private val WA_GREEN = Color(0xFF25D366)
@@ -53,23 +59,35 @@ data class WaStatus(
 )
 
 private fun formatSize(bytes: Long): String = when {
-    bytes < 1024            -> "${bytes}B"
-    bytes < 1024 * 1024     -> "${"%.1f".format(bytes / 1024f)}KB"
-    else                    -> "${"%.1f".format(bytes / (1024f * 1024f))}MB"
+    bytes < 1024        -> "${bytes}B"
+    bytes < 1024 * 1024 -> "${"%.1f".format(bytes / 1024f)}KB"
+    else                -> "${"%.1f".format(bytes / (1024f * 1024f))}MB"
 }
+
+private fun loadVideoThumbnail(file: File): android.graphics.Bitmap? = try {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        ThumbnailUtils.createVideoThumbnail(file, Size(320, 320), null)
+    } else {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(file.absolutePath)
+        val bmp = retriever.frameAtTime
+        retriever.release()
+        bmp
+    }
+} catch (_: Exception) { null }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WhatsAppStatusScreen(onBack: () -> Unit) {
     val context = LocalContext.current
-    val scope   = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
 
     var hasPermission by remember { mutableStateOf(false) }
-    var isLoading     by remember { mutableStateOf(true) }
-    var statuses      by remember { mutableStateOf<List<WaStatus>>(emptyList()) }
-    var error         by remember { mutableStateOf<String?>(null) }
-    var savingAll     by remember { mutableStateOf(false) }
-    val saving        = remember { mutableStateListOf<String>() }
+    var isLoading by remember { mutableStateOf(true) }
+    var statuses by remember { mutableStateOf<List<WaStatus>>(emptyList()) }
+    var error by remember { mutableStateOf<String?>(null) }
+    var savingAll by remember { mutableStateOf(false) }
+    val saving = remember { mutableStateListOf<String>() }
 
     val snackState = remember { SnackbarHostState() }
 
@@ -85,8 +103,9 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
                         if (!dir.exists()) continue
                         dir.listFiles()?.forEach { f ->
                             if (f.name.startsWith(".")) return@forEach
-                            val ext = f.name.substringAfterLast('.', "").let { ".${it.lowercase()}" }
-                            val isImg   = IMAGE_EXT.contains(ext)
+                            val ext = f.name.substringAfterLast('.', "")
+                                .let { ".${it.lowercase()}" }
+                            val isImg = IMAGE_EXT.contains(ext)
                             val isVideo = VIDEO_EXT.contains(ext)
                             if (!isImg && !isVideo) return@forEach
                             list.add(WaStatus(f, isVideo, formatSize(f.length())))
@@ -100,7 +119,6 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
         }
     }
 
-    // Permission launcher
     val permLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
@@ -108,7 +126,6 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
         if (granted) loadStatuses()
     }
 
-    // Manage-storage launcher (Android 11+)
     val manageLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
@@ -117,7 +134,6 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
         if (ok) loadStatuses()
     }
 
-    // Check permission on enter
     LaunchedEffect(Unit) {
         isLoading = true
         val ok = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -133,25 +149,53 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
     fun saveFile(status: WaStatus) {
         scope.launch {
             saving.add(status.file.absolutePath)
-            runCatching {
+            val settingsRepo = SettingsRepository(context.applicationContext)
+            val downloadSettings = withContext(Dispatchers.IO) { settingsRepo.getDownloadPathSettings() }
+            val folderUri = downloadSettings.folderUri
+            val fileName = status.file.name
+            val mimeType = if (status.isVideo) "video/mp4" else "image/jpeg"
+            val subFolder = if (status.isVideo) "WhatsApp Statuses/Video" else "WhatsApp Statuses/Photo"
+            val result = runCatching {
                 withContext(Dispatchers.IO) {
-                    val values = android.content.ContentValues().apply {
-                        put(MediaStore.MediaColumns.DISPLAY_NAME, status.file.name)
-                        put(MediaStore.MediaColumns.MIME_TYPE,
-                            if (status.isVideo) "video/mp4" else "image/jpeg")
-                        put(MediaStore.MediaColumns.RELATIVE_PATH,
-                            if (status.isVideo) "Movies/WhatsApp Statuses" else "Pictures/WhatsApp Statuses")
-                    }
-                    val uri = if (status.isVideo)
-                        context.contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values)!!
-                    else
-                        context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
-                    context.contentResolver.openOutputStream(uri)!!.use { out ->
-                        status.file.inputStream().use { it.copyTo(out) }
+                    if (folderUri.isNotBlank()) {
+                        val treeUri = Uri.parse(folderUri)
+                        val pickedDir = DocumentFile.fromTreeUri(context, treeUri)
+                            ?: throw Exception("Cannot access selected folder")
+                        val targetDir = pickedDir.findFile(subFolder)
+                            ?: pickedDir.createDirectory(subFolder)
+                            ?: throw Exception("Cannot create/find subfolder")
+                        targetDir.findFile(fileName)?.delete()
+                        val newFile = targetDir.createFile(mimeType, fileName)
+                            ?: throw Exception("Failed to create file in folder")
+                        context.contentResolver.openOutputStream(newFile.uri)?.use { out ->
+                            status.file.inputStream().use { it.copyTo(out) }
+                        } ?: throw Exception("Failed to open output stream")
+                    } else {
+                        val values = android.content.ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                            put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
+                            put(
+                                MediaStore.MediaColumns.RELATIVE_PATH,
+                                if (status.isVideo) "Movies/WhatsApp Statuses" else "Pictures/WhatsApp Statuses"
+                            )
+                        }
+                        val uri = if (status.isVideo)
+                            context.contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values)!!
+                        else
+                            context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
+                        context.contentResolver.openOutputStream(uri)!!.use { out ->
+                            status.file.inputStream().use { it.copyTo(out) }
+                        }
                     }
                 }
-            }.onSuccess { snackState.showSnackbar("Saved to gallery ✓") }
-             .onFailure { snackState.showSnackbar("Save failed: ${it.message}") }
+            }
+            result.onSuccess {
+                snackState.showSnackbar(
+                    if (folderUri.isNotBlank()) "Saved to folder" else "Saved to gallery"
+                )
+            }.onFailure {
+                snackState.showSnackbar("Save failed: ${it.message}")
+            }
             saving.remove(status.file.absolutePath)
         }
     }
@@ -163,7 +207,7 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
             statuses.forEach { s ->
                 runCatching { saveFile(s); count++ }
             }
-            snackState.showSnackbar("$count files saved to gallery")
+            snackState.showSnackbar("$count files saved")
             savingAll = false
         }
     }
@@ -172,19 +216,22 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
         snackbarHost = { SnackbarHost(snackState) },
         topBar = {
             TopAppBar(
-                title            = { Text("WhatsApp Status") },
-                navigationIcon   = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "Back") } },
-                colors           = TopAppBarDefaults.topAppBarColors(
-                    containerColor    = WA_GREEN,
+                title = { Text("WhatsApp Status") },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Rounded.ArrowBack, "Back") } },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = WA_GREEN,
                     titleContentColor = Color.White,
                     navigationIconContentColor = Color.White,
-                    actionIconContentColor     = Color.White,
+                    actionIconContentColor = Color.White,
                 ),
                 actions = {
                     if (hasPermission && statuses.isNotEmpty()) {
                         IconButton(onClick = { saveAll() }, enabled = !savingAll) {
-                            if (savingAll) CircularProgressIndicator(Modifier.size(20.dp), color = Color.White, strokeWidth = 2.dp)
-                            else Icon(Icons.Rounded.SaveAlt, "Save all")
+                            if (savingAll) CircularProgressIndicator(
+                                Modifier.size(20.dp),
+                                color = Color.White,
+                                strokeWidth = 2.dp
+                            ) else Icon(Icons.Rounded.SaveAlt, "Save all")
                         }
                         IconButton(onClick = { loadStatuses() }) {
                             Icon(Icons.Rounded.Refresh, "Refresh")
@@ -203,8 +250,10 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
                     onGrant = {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             manageLauncher.launch(
-                                Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
-                                    Uri.parse("package:${context.packageName}"))
+                                Intent(
+                                    Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                                    Uri.parse("package:${context.packageName}")
+                                )
                             )
                         } else {
                             permLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -215,8 +264,8 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
                 statuses.isEmpty() -> EmptyState(onRetry = { loadStatuses() })
                 else -> StatusGrid(
                     statuses = statuses,
-                    saving   = saving.toSet(),
-                    onSave   = { saveFile(it) },
+                    saving = saving.toSet(),
+                    onSave = { saveFile(it) },
                 )
             }
         }
@@ -235,14 +284,13 @@ private fun PermissionRequest(onGrant: () -> Unit) {
         Text("Storage Permission Required", fontWeight = FontWeight.Bold, fontSize = 20.sp)
         Spacer(Modifier.height(12.dp))
         Text(
-            "Torikomi Downloader needs storage access to read your WhatsApp statuses.",
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            "Torikomi needs storage access to read your WhatsApp statuses.",
             color = Color.Gray,
         )
         Spacer(Modifier.height(24.dp))
         Button(
             onClick = onGrant,
-            colors  = ButtonDefaults.buttonColors(containerColor = WA_GREEN),
+            colors = ButtonDefaults.buttonColors(containerColor = WA_GREEN),
         ) {
             Icon(Icons.Rounded.Security, null, Modifier.size(16.dp))
             Spacer(Modifier.width(8.dp))
@@ -262,7 +310,7 @@ private fun ErrorState(message: String, onRetry: () -> Unit) {
         Spacer(Modifier.height(16.dp))
         Text("An error occurred", fontWeight = FontWeight.Bold, fontSize = 18.sp)
         Spacer(Modifier.height(8.dp))
-        Text(message, textAlign = androidx.compose.ui.text.style.TextAlign.Center, color = Color.Gray)
+        Text(message, color = Color.Gray)
         Spacer(Modifier.height(24.dp))
         Button(onClick = onRetry, colors = ButtonDefaults.buttonColors(containerColor = WA_GREEN)) {
             Icon(Icons.Rounded.Refresh, null, Modifier.size(16.dp))
@@ -283,8 +331,7 @@ private fun EmptyState(onRetry: () -> Unit) {
         Spacer(Modifier.height(16.dp))
         Text("No statuses found", fontWeight = FontWeight.Bold, fontSize = 18.sp)
         Spacer(Modifier.height(8.dp))
-        Text("View some WhatsApp statuses first, then come back here.", color = Color.Gray,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+        Text("View some WhatsApp statuses first, then come back here.", color = Color.Gray)
         Spacer(Modifier.height(24.dp))
         Button(onClick = onRetry, colors = ButtonDefaults.buttonColors(containerColor = WA_GREEN)) {
             Icon(Icons.Rounded.Refresh, null, Modifier.size(16.dp))
@@ -304,10 +351,9 @@ private fun StatusGrid(
     val videos = statuses.filter { it.isVideo }
 
     Column {
-        // Stats bar
-        Surface(color = WA_GREEN.copy(alpha = .1f)) {
+        Surface(color = WA_GREEN.copy(alpha = 0.1f)) {
             Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
-                Icon(Icons.Rounded.Image,    null, Modifier.size(16.dp), tint = WA_GREEN)
+                Icon(Icons.Rounded.Image, null, Modifier.size(16.dp), tint = WA_GREEN)
                 Spacer(Modifier.width(4.dp))
                 Text("${images.size} photos", fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
                 Spacer(Modifier.width(16.dp))
@@ -320,20 +366,28 @@ private fun StatusGrid(
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(4.dp),
-            verticalArrangement   = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             if (images.isNotEmpty()) {
                 item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(3) }) {
-                    Text("Photos", fontWeight = FontWeight.Bold, fontSize = 15.sp,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp))
+                    Text(
+                        "Photos",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp)
+                    )
                 }
                 items(images.size) { StatusTile(images[it], saving, onSave) }
             }
             if (videos.isNotEmpty()) {
                 item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(3) }) {
-                    Text("Videos", fontWeight = FontWeight.Bold, fontSize = 15.sp,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp))
+                    Text(
+                        "Videos",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp)
+                    )
                 }
                 items(videos.size) { StatusTile(videos[it], saving, onSave) }
             }
@@ -344,37 +398,54 @@ private fun StatusGrid(
 @Composable
 private fun StatusTile(status: WaStatus, saving: Set<String>, onSave: (WaStatus) -> Unit) {
     val isSaving = saving.contains(status.file.absolutePath)
+    val videoThumb by produceState<android.graphics.Bitmap?>(initialValue = null, key1 = status.file.absolutePath) {
+        if (status.isVideo) value = withContext(Dispatchers.IO) { loadVideoThumbnail(status.file) }
+    }
     Box(
         Modifier
             .aspectRatio(1f)
-            .background(Color.Black.copy(.7f))
+            .background(Color.Black.copy(0.7f))
     ) {
-        Image(
-            painter            = rememberAsyncImagePainter(status.file),
-            contentDescription = null,
-            modifier           = Modifier.fillMaxSize(),
-            contentScale       = ContentScale.Crop,
-        )
+        if (status.isVideo) {
+            val bmp = videoThumb
+            if (bmp != null) {
+                Image(
+                    bitmap = bmp.asImageBitmap(),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                )
+            }
+        } else {
+            Image(
+                painter = rememberAsyncImagePainter(status.file),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+            )
+        }
         if (status.isVideo) {
             Box(
                 Modifier
                     .align(Alignment.Center)
-                    .background(Color.Black.copy(.35f), shape = androidx.compose.foundation.shape.CircleShape)
+                    .background(Color.Black.copy(0.35f), shape = androidx.compose.foundation.shape.CircleShape)
                     .padding(8.dp)
             ) {
                 Icon(Icons.Rounded.PlayArrow, null, Modifier.size(28.dp), tint = Color.White)
             }
-            // File size badge
             Surface(
                 Modifier.align(Alignment.BottomStart).padding(4.dp),
-                color  = Color.Black.copy(.55f),
-                shape  = MaterialTheme.shapes.extraSmall,
+                color = Color.Black.copy(0.55f),
+                shape = MaterialTheme.shapes.extraSmall,
             ) {
-                Text(status.sizeLabel, Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
-                    color = Color.White, fontSize = 10.sp)
+                Text(
+                    status.sizeLabel,
+                    Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+                    color = Color.White,
+                    fontSize = 10.sp
+                )
             }
         }
-        // Save button
         Box(
             Modifier
                 .align(Alignment.BottomEnd)

@@ -33,7 +33,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -111,7 +111,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
             onClick = { showDownloadLocationDialog = true },
         )
 
-        HorizontalDivider(
+        Divider(
             modifier = Modifier.padding(horizontal = 16.dp),
             color = MaterialTheme.colorScheme.outlineVariant,
         )
@@ -150,7 +150,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
         )
 
         if (state.updateError != null) {
-            HorizontalDivider(
+            Divider(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 color = MaterialTheme.colorScheme.outlineVariant,
             )
@@ -158,7 +158,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
         }
 
         if (state.latestRelease != null) {
-            HorizontalDivider(
+            Divider(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 color = MaterialTheme.colorScheme.outlineVariant,
             )
