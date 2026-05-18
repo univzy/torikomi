@@ -99,7 +99,7 @@ class HistoryRepository(private val context: Context) {
                 else    -> "IMAGES"
             }
             if (item.folderUri == "default" || item.folderUri.isBlank()) {
-                val storageDir = Environment.getExternalStorageDirectory()
+                val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                 val file = File(storageDir, "Torikomi/$mediaTypeFolder/${item.fileName}")
                 if (file.exists()) {
                     file.delete()

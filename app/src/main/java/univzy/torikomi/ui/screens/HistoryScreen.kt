@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -191,33 +192,30 @@ private fun HistoryItem(context: android.content.Context, item: DownloadHistory,
                 .padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val showThumbnail = item.thumbnailUrl.isNotBlank() &&
-                !item.platform.equals("instagram", ignoreCase = true) &&
-                !item.platform.equals("snapsave_instagram", ignoreCase = true)
-
-            // Thumbnail
+            // Thumbnail. We always attempt to render the URL via Coil and
+            // gracefully fall back to a type icon when the load fails (e.g.
+            // expired CDN URLs from Instagram/SnapSave responses). This is
+            // platform-agnostic — no platform allowlist required.
             Box(Modifier.size(56.dp)) {
-                if (showThumbnail) {
-                    AsyncImage(
-                        model = item.thumbnailUrl,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                    )
+                val fallbackIcon: ImageVector = when (item.downloadType) {
+                    "video" -> Icons.Rounded.Videocam
+                    "audio" -> Icons.Rounded.MusicNote
+                    else -> Icons.Rounded.Image
+                }
+
+                if (item.thumbnailUrl.isBlank()) {
+                    ThumbnailFallbackIcon(fallbackIcon)
                 } else {
-                    Surface(
-                        Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.surfaceVariant,
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Icon(
-                                when (item.downloadType) {
-                                    "video" -> Icons.Rounded.Videocam
-                                    "audio" -> Icons.Rounded.MusicNote
-                                    else    -> Icons.Rounded.Image
-                                },
-                                contentDescription = null,
-                            )
-                        }
+                    var loadFailed by remember(item.thumbnailUrl) { mutableStateOf(false) }
+                    if (loadFailed) {
+                        ThumbnailFallbackIcon(fallbackIcon)
+                    } else {
+                        AsyncImage(
+                            model = item.thumbnailUrl,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            onError = { loadFailed = true },
+                        )
                     }
                 }
             }
@@ -284,7 +282,11 @@ private fun findMediaUri(context: android.content.Context, item: DownloadHistory
     val fileName = item.fileName.takeIf { it.isNotBlank() } ?: sanitizeFileName(item.title)
 
     if (item.folderUri == "default" || item.folderUri.isEmpty()) {
-        val storageDir = Environment.getExternalStorageDirectory()
+        // DownloadManager saves to /Download/Torikomi/<MediaTypeFolder>/<file>,
+        // so the lookup root must be DIRECTORY_DOWNLOADS — not the external
+        // storage root. Using the wrong root here was the cause of the
+        // "File not found" toast even though the file existed on disk.
+        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val exactFile = java.io.File(storageDir, "Torikomi/$mediaTypeFolder/$fileName")
         val file = if (exactFile.exists()) {
             exactFile
@@ -400,4 +402,20 @@ private fun historyPlatformDisplayName(id: String): String = when (id.lowercase(
     "musicaldown"         -> "MusicalDown"
     "snapsave"            -> "SnapSave"
     else -> id.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+}
+
+
+@Composable
+private fun ThumbnailFallbackIcon(icon: ImageVector) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+            )
+        }
+    }
 }
