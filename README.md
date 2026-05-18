@@ -206,14 +206,15 @@ If no signing config is provided, the release build falls back to the debug keys
 | Platform        | Extension              | Source ID |
 |-----------------|------------------------|-----------|
 | TikTok          | Musicaldown            | 1001      |
-| Douyin          | Douyin                 | 1018      |
-| Twitter / X     | SnapSave Twitter       | 1012      |
-| Instagram       | SnapSave Instagram     | 1013      |
-| YouTube         | YTDown                 | 1014      |
-| Facebook        | SnapSave Facebook      | 1015      |
-| Threads         | SnapSave Threads       | 1016      |
-| Spotify         | Spotmate               | 1017      |
-| WhatsApp Status | WhatsApp Status (local)| 1019      |
+| Douyin          | Douyin                 | 1002      |
+| Twitter / X     | SnapSave Twitter       | 1003      |
+| Instagram       | SnapSave Instagram     | 1004      |
+| YouTube         | YTDown                 | 1007      |
+| Facebook        | SnapSave Facebook      | 1006      |
+| Threads         | SnapSave Threads       | 1005      |
+| Spotify         | Spotmate               | 1008      |
+| SoundCloud      | SoundLoadMate          | 1009      |
+| WhatsApp Status | WhatsApp Status (local)| 1010      |
 
 Source code for each extension lives in
 [`torikomi-source`](https://github.com/univzy/torikomi-source).
