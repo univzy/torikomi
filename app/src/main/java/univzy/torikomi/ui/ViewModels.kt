@@ -844,6 +844,11 @@ class DownloadViewModel(
             Regex("(^|[./])threads\\.net(/|$)", RegexOption.IGNORE_CASE),
             Regex("(^|[./])threads\\.com(/|$)", RegexOption.IGNORE_CASE),
         ),
+        "soundcloud" to listOf(
+            Regex("(^|[./])soundcloud\\.com(/|$)", RegexOption.IGNORE_CASE),
+            Regex("(^|[./])on\\.soundcloud\\.com(/|$)", RegexOption.IGNORE_CASE),
+            Regex("(^|[./])snd\\.sc(/|$)", RegexOption.IGNORE_CASE),
+        ),
     )
 }
 
