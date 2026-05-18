@@ -68,10 +68,6 @@ internal fun RenderBlock(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Input / Search blocks
-// ─────────────────────────────────────────────────────────────────────────────
-
 @Composable
 internal fun UrlInputBlock(
     block: ScreenBlock.UrlInput,
@@ -146,9 +142,6 @@ internal fun SearchButtonBlock(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Active downloads block
-// ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
 internal fun ActiveDownloadsBlock(items: List<ActiveDownload>) {
@@ -183,10 +176,6 @@ internal fun ActiveDownloadsBlock(items: List<ActiveDownload>) {
     }
     Spacer(Modifier.height(12.dp))
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Media info blocks
-// ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
 internal fun ThumbnailBlock(block: ScreenBlock.Thumbnail, result: ScrapeResult?) {
@@ -228,10 +217,6 @@ internal fun DescriptionBlock(block: ScreenBlock.Description, result: ScrapeResu
     Spacer(Modifier.height(8.dp))
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Preview block
-// ─────────────────────────────────────────────────────────────────────────────
-
 @Composable
 internal fun VideoPreviewBlock(result: ScrapeResult?) {
     val url = result?.downloadItems
@@ -245,35 +230,62 @@ internal fun VideoPreviewBlock(result: ScrapeResult?) {
     )
     Spacer(Modifier.height(8.dp))
     AndroidView(
+        // Lock the preview frame to a 1280x720 (16:9) shape so every video
+        // renders inside the same fixed area regardless of the source aspect
+        // ratio. Portrait videos are letterboxed in black inside this frame
+        // instead of shrinking the whole preview.
         modifier = Modifier
             .fillMaxWidth()
-            .height(220.dp),
+            .aspectRatio(1280f / 720f)
+            .background(Color.Black, RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(12.dp)),
         factory = { ctx ->
-            VideoView(ctx).apply {
-                val controller = MediaController(ctx)
-                controller.setAnchorView(this)
-                setMediaController(controller)
+            // FrameLayout fills the entire 16:9 box. The VideoView inside is
+            // free to shrink to the video's natural aspect ratio (default
+            // VideoView behavior), but the MediaController is anchored to the
+            // FrameLayout so its play/seek buttons always appear at the bottom
+            // of the visible 16:9 preview — never hidden when video is portrait.
+            val frame = android.widget.FrameLayout(ctx).apply {
+                layoutParams = android.view.ViewGroup.LayoutParams(
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                )
+            }
+
+            val videoView = VideoView(ctx).apply {
+                layoutParams = android.widget.FrameLayout.LayoutParams(
+                    android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+                    android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+                    android.view.Gravity.CENTER,
+                )
                 setVideoURI(Uri.parse(url))
+                // Show the first frame as a poster but do NOT auto-play.
+                // User must tap the play button on the MediaController.
                 setOnPreparedListener { mp ->
-                    mp.isLooping = true
-                    start()
+                    mp.isLooping = false
+                    seekTo(1)
                 }
             }
+            frame.addView(videoView)
+
+            val controller = MediaController(ctx)
+            controller.setAnchorView(frame)            // anchor to 16:9 frame, not VideoView
+            videoView.setMediaController(controller)
+
+            frame.tag = url
+            frame
         },
-        update = { view ->
-            if (view.tag != url) {
-                view.tag = url
-                view.setVideoURI(Uri.parse(url))
-                view.start()
+        update = { frame ->
+            if (frame.tag != url) {
+                frame.tag = url
+                val vv = frame.getChildAt(0) as? VideoView
+                vv?.setVideoURI(Uri.parse(url))
+                // Intentionally do not call start() — playback is user-initiated.
             }
         },
     )
     Spacer(Modifier.height(12.dp))
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Download blocks
-// ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
 internal fun DownloadButtonsBlock(
@@ -288,7 +300,6 @@ internal fun DownloadButtonsBlock(
     val playlistItems = result.downloadItems.filter { it.type == "playlist_item" }
     val regularItems  = result.downloadItems.filter { it.type != "playlist_item" }
 
-    // ── Regular download buttons ───────────────────────────────────────────
     regularItems.forEach { item ->
         DownloadItemRow(
             item         = item,
@@ -302,7 +313,6 @@ internal fun DownloadButtonsBlock(
         Spacer(Modifier.height(6.dp))
     }
 
-    // ── Playlist items ─────────────────────────────────────────────────────
     if (playlistItems.isNotEmpty()) {
         Text(
             "${playlistItems.size} video • Tap to view download options",
@@ -341,7 +351,6 @@ private fun PlaylistItemCard(
 
     Card(elevation = CardDefaults.cardElevation(0.dp)) {
         Column {
-            // ── Header row ─────────────────────────────────────────────────
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -418,7 +427,6 @@ private fun PlaylistItemCard(
                 }
             }
 
-            // ── Inline format buttons ───────────────────────────────────────
             if (isLoaded) {
                 HorizontalDivider(Modifier.padding(horizontal = 8.dp))
                 Column(Modifier.padding(horizontal = 8.dp, vertical = 6.dp)) {
@@ -499,10 +507,6 @@ internal fun ImageGalleryBlock(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Custom / layout blocks
-// ─────────────────────────────────────────────────────────────────────────────
-
 @Composable
 internal fun CustomTextBlock(block: ScreenBlock.CustomText) {
     val style = when (block.style) {
@@ -536,10 +540,6 @@ internal fun CustomButtonBlock(block: ScreenBlock.CustomButton) {
         }
     }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Internal helpers
-// ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
 private fun DownloadItemRow(

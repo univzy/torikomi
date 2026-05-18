@@ -179,10 +179,6 @@ data class ExtensionScreenConfig(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Builder helper – buat config langsung tanpa lambda verbose
-// ─────────────────────────────────────────────────────────────────────────────
-
 /** Standard full layout (thumbnail + preview + download). */
 fun defaultExtensionConfig(titleOverride: String? = null, placeholder: String = "Paste URL here…") =
     ExtensionScreenConfig(

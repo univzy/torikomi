@@ -185,20 +185,71 @@ class DownloadViewModel(
     }
 
     private fun friendlyNetworkError(throwable: Throwable, platform: String, platformId: String): ScrapeResult {
-        val msg = throwable.message ?: ""
-        val friendlyMsg = when {
-            msg.contains("unable to resolve host", ignoreCase = true) ||
-            msg.contains("no address associated", ignoreCase = true) ->
-                "No internet connection. Check your network and try again."
-            msg.contains("failed to connect", ignoreCase = true) ||
-            msg.contains("connection refused", ignoreCase = true) ->
-                "Could not connect to server. It may be temporarily unavailable."
-            msg.contains("timeout", ignoreCase = true) ||
-            msg.contains("timed out", ignoreCase = true) ->
+        return ScrapeResult(
+            extensionId = platformId,
+            platform = platform,
+            title = "",
+            error = humanizeErrorMessage(throwable.message),
+            downloadItems = emptyList(),
+        )
+    }
+
+    /**
+     * Translate technical error strings into user-friendly messages.
+     */
+    private fun humanizeErrorMessage(raw: String?): String {
+        val original = raw?.trim().orEmpty()
+        if (original.isEmpty()) return "Failed to fetch media. Please try again."
+
+        val stripped = original.replaceFirst(
+            Regex("^.*?(?:download|unduh|scrape)\\s+(?:failed|gagal)\\s*:\\s*", RegexOption.IGNORE_CASE),
+            ""
+        ).ifBlank { original }
+
+        val lower = stripped.lowercase()
+
+        return when {
+            "unable to resolve host" in lower ||
+            "no address associated" in lower ||
+            "nodename nor servname" in lower ||
+            "name or service not known" in lower ->
+                "Could not reach the server. Your network may be blocking it — try switching connection (Wi-Fi/data) or using a VPN."
+
+            "failed to connect" in lower ||
+            "connection refused" in lower ||
+            "network is unreachable" in lower ||
+            "econnreset" in lower ||
+            "connection reset" in lower ->
+                "Could not connect to server. It may be temporarily unavailable, please try again later."
+
+            "timeout" in lower ||
+            "timed out" in lower ->
                 "Request timed out. Check your connection and try again."
-            else -> msg
+
+            "ssl" in lower ||
+            "handshake" in lower ||
+            "certificate" in lower ||
+            "trust anchor" in lower ->
+                "Secure connection failed. Update your device or try again on a different network."
+
+            "is not responding or not installed" in lower ->
+                "The extension is not installed or not responding. Please reinstall it from the Extensions tab."
+
+            // Server returned non-2xx
+            Regex("api returned status\\s+(\\d+)", RegexOption.IGNORE_CASE).containsMatchIn(lower) -> {
+                val code = Regex("api returned status\\s+(\\d+)", RegexOption.IGNORE_CASE)
+                    .find(lower)?.groupValues?.get(1) ?: ""
+                when {
+                    code.startsWith("5") -> "The downloader service is temporarily down (HTTP $code). Please try again later."
+                    code == "403" || code == "401" -> "Access blocked by the source (HTTP $code). The link may be private or rate-limited."
+                    code == "404" -> "Content not found (HTTP 404). The link may have been removed."
+                    code == "429" -> "Too many requests. Please wait a moment and try again."
+                    else -> "The downloader service returned an error (HTTP $code). Please try again later."
+                }
+            }
+
+            else -> stripped
         }
-        return ScrapeResult(extensionId = platformId, platform = platform, title = "", error = friendlyMsg, downloadItems = emptyList())
     }
 
     init {
@@ -292,7 +343,11 @@ class DownloadViewModel(
             }.getOrElse {
                 friendlyNetworkError(it, platform, platformId)
             }
-            _uiState.update { it.copy(result = result, isLoading = false) }
+
+            val finalResult = if (!result.isSuccess) {
+                result.copy(error = humanizeErrorMessage(result.error))
+            } else result
+            _uiState.update { it.copy(result = finalResult, isLoading = false) }
         }
     }
 
@@ -572,7 +627,7 @@ class DownloadViewModel(
                     
                     historyRepo.saveDownload(
                         platform = platform,
-                        title = sourceTitle,
+                        title = sourceTitle.ifBlank { deriveFallbackTitle(platform, sourceUrl) },
                         url = sourceUrl,
                         thumbnailUrl = thumbnailUrl,
                         downloadType = downloadType,
@@ -674,6 +729,76 @@ class DownloadViewModel(
         Environment.DIRECTORY_PICTURES -> "Pictures"
         Environment.DIRECTORY_MUSIC -> "Music"
         else -> "Downloads"
+    }
+
+    /**
+     * Build a fallback title for History when the extension doesn't supply one.
+     *
+     * Platform-agnostic by design — it never hard-codes any extension name,
+     * so adding a new extension does NOT require updating this method:
+     *
+     *  • The platform label is derived by title-casing the platform id itself
+     *    (e.g. "snapsave_instagram" → "Snapsave Instagram").
+     *  • The URL identifier is heuristically extracted as the last segment
+     *    that looks like an alphanumeric id (≥ 4 chars), so it works for
+     *    URLs like /p/CzExAbCd/, /video/123456, /watch?v=AbCdEf, etc.
+     *
+     * Examples:
+     *  • instagram + .../p/CzExAbCdEfG/  → "Instagram • CzExAbCdEfG"
+     *  • tiktok    + .../video/12345     → "Tiktok • 12345"
+     *  • newplat   + https://x.io/foo/bar → "Newplat • bar"
+     */
+    private fun deriveFallbackTitle(platform: String, url: String): String {
+        val displayPlatform = platform
+            .trim()
+            .replace('_', ' ')
+            .replace('-', ' ')
+            .split(' ')
+            .filter { it.isNotBlank() }
+            .joinToString(" ") { word ->
+                word.replaceFirstChar { c -> if (c.isLowerCase()) c.titlecase() else c.toString() }
+            }
+            .ifBlank { "Download" }
+
+        val id = extractIdFromUrl(url)
+        return if (id != null) "$displayPlatform • $id" else "$displayPlatform Post"
+    }
+
+
+    private fun extractIdFromUrl(url: String): String? {
+        val cleaned = url.trim()
+            .substringBefore('?')
+            .substringBefore('#')
+            .trimEnd('/')
+        if (cleaned.isBlank()) return null
+
+        val queryString = url.substringAfter('?', "")
+        if (queryString.isNotBlank()) {
+            for (param in queryString.split('&')) {
+                val (rawKey, rawValue) = param.split('=', limit = 2).let {
+                    if (it.size == 2) it[0] to it[1] else return@let "" to ""
+                }
+                if (rawKey.lowercase() in setOf("v", "id", "videoid", "vid") &&
+                    rawValue.matches(Regex("[\\w-]{4,}"))
+                ) {
+                    return rawValue
+                }
+            }
+        }
+
+        val segments = cleaned.split('/').filter { it.isNotBlank() }
+  
+        val genericKeywords = setOf(
+            "p", "post", "posts", "video", "videos", "watch", "reel", "reels",
+            "shorts", "tv", "status", "track", "album", "playlist",
+        )
+        for (segment in segments.asReversed()) {
+            if (segment.length < 4) continue
+            if (segment.lowercase() in genericKeywords) continue
+            if (!segment.matches(Regex("[\\w-]+"))) continue
+            return segment
+        }
+        return null
     }
 
     private fun normalizeRequestedExtensionId(platform: String): String {

@@ -172,10 +172,6 @@ fun ExtensionScreenTemplate(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Internal helpers
-// ─────────────────────────────────────────────────────────────────────────────
-
 @Composable
 private fun ErrorResultCard(message: String) {
     Card {

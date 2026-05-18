@@ -596,6 +596,22 @@ private fun AboutDialog(onDismiss: () -> Unit) {
                 }
 
                 Column(Modifier.padding(20.dp)) {
+                    val appVersionLabel = remember(context) {
+                        runCatching {
+                            val pkg = context.packageName
+                            val info = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                                context.packageManager.getPackageInfo(
+                                    pkg,
+                                    android.content.pm.PackageManager.PackageInfoFlags.of(0),
+                                )
+                            } else {
+                                @Suppress("DEPRECATION")
+                                context.packageManager.getPackageInfo(pkg, 0)
+                            }
+                            "v${info.versionName ?: "?"}"
+                        }.getOrDefault("v?")
+                    }
+
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Rounded.Download, null, tint = MaterialTheme.colorScheme.primary)
                         Spacer(Modifier.width(8.dp))
@@ -604,7 +620,7 @@ private fun AboutDialog(onDismiss: () -> Unit) {
                         Surface(
                             color = MaterialTheme.colorScheme.primaryContainer,
                             shape = MaterialTheme.shapes.large,
-                        ) { Text("v1.0.1", Modifier.padding(horizontal = 8.dp, vertical = 2.dp), fontSize = 11.sp) }
+                        ) { Text(appVersionLabel, Modifier.padding(horizontal = 8.dp, vertical = 2.dp), fontSize = 11.sp) }
                     }
                     Spacer(Modifier.height(8.dp))
                     Text(

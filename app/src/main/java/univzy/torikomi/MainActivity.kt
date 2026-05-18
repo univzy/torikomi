@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import univzy.torikomi.service.UpdateChecker
 import univzy.torikomi.ui.App
 
 class MainActivity : ComponentActivity() {
@@ -17,6 +18,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private var sharedUrl: String? = null
+    private val updateChecker by lazy { UpdateChecker(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,11 @@ class MainActivity : ComponentActivity() {
         // Handle share intent
         sharedUrl = handleIntent(intent)
         ensureNotificationPermission()
+
+        // Kick off background app-update check. Safe to call regardless of
+        // permission state — UpdateChecker no-ops on Android 13+ when
+        // POST_NOTIFICATIONS isn't granted yet.
+        updateChecker.checkInBackground()
 
         setContent {
             App(initialSharedUrl = sharedUrl)
@@ -36,6 +43,21 @@ class MainActivity : ComponentActivity() {
         setIntent(intent)
         // Re-trigger share handling by updating app state
         sharedUrl = handleIntent(intent)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQ_POST_NOTIFICATIONS &&
+            grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission was just granted — re-run the check so the user gets
+            // the notification right after accepting on first launch.
+            updateChecker.checkInBackground()
+        }
     }
 
     private fun handleIntent(intent: Intent?): String? {
