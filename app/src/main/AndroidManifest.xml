@@ -11,10 +11,8 @@
         android:maxSdkVersion="29" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <queries>
         <intent>
@@ -23,9 +21,6 @@
         </intent>
         <intent>
             <action android:name="android.intent.action.MAIN" />
-        </intent>
-        <intent>
-            <action android:name="com.torikomi.extension.action.DISCOVERY" />
         </intent>
     </queries>
 
@@ -59,7 +54,12 @@
             </intent-filter>
         </activity>
 
-        <!-- FileProvider for APK installation (extension system) -->
+        <service
+            android:name=".service.DownloadService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- FileProvider for sharing/opening downloaded media files -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

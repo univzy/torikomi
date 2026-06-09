@@ -2,15 +2,16 @@
   <img src="torikomi.png" width="220" alt="Torikomi" />
 </p>
 
-<h1 align="center">Torikomi Downloader</h1>
+<h1 align="center">Torikomi</h1>
 
 <p align="center">
-  <b>A multi-platform media downloader for Android</b>, powered by a plugin-based extension system.
+  <b>A universal media downloader for Android, powered by yt-dlp.</b>
   <br/>
   Built with Kotlin and Jetpack Compose (Material 3).
 </p>
 
 <p align="center">
+  <img alt="Version"      src="https://img.shields.io/badge/Version-2.0.0-blue" />
   <img alt="Min SDK"      src="https://img.shields.io/badge/Min%20SDK-24-3DDC84?logo=android&logoColor=white" />
   <img alt="Target SDK"   src="https://img.shields.io/badge/Target%20SDK-35-3DDC84?logo=android&logoColor=white" />
   <img alt="Kotlin"       src="https://img.shields.io/badge/Kotlin-2.1-7F52FF?logo=kotlin&logoColor=white" />
@@ -20,110 +21,68 @@
 
 ---
 
-## ✨ Features
+## What it is
 
-- **Plugin-based extensions** — every platform is a separate, sideloadable APK. Add new platforms without updating the main app.
-- **Multi-platform** — TikTok, Douyin, YouTube, Instagram, Twitter / X, Threads, Facebook, Spotify, WhatsApp Status.
-- **Share-to-app** — paste a URL or share from any browser / app via Android Share Sheet.
-- **DNS-over-HTTPS fallback** — bypasses ISP-level DNS blocking automatically (Cloudflare 1.1.1.1, Google 8.8.8.8) so downloads keep working even when downloader hosts are filtered.
-- **Smart update notifications** — checks GitHub Releases on launch and surfaces a Mihon-style notification with `Download` and `What's new` actions.
-- **Animated onboarding wizard** — guided setup for permissions and storage on first launch.
-- **In-app video preview** — fixed 1280x720 (16:9) preview frame so portrait videos letterbox cleanly without breaking the controls.
-- **Custom storage location** — pick any folder via SAF, or use the default Torikomi folder under `Download/`.
-- **Download history** — type / platform filters, in-place playback, share, and delete-with-file.
-- **Light, dark, and system themes**.
+Torikomi lets you paste or share any link from 1800+ supported sites (YouTube, TikTok,
+Instagram, Twitter/X, SoundCloud, and many more) and download video or audio in a
+quality you choose. The download engine is [yt-dlp](https://github.com/yt-dlp/yt-dlp),
+bundled via [`io.github.junkfood02.youtubedl-android`](https://github.com/junkfood02/youtubedl-android).
 
-## 🚀 Quick Start (for end users)
+## First launch
 
-1. Download the latest `torikomi-<version>.apk` from the [Releases](https://github.com/univzy/torikomi-kotlin/releases) page.
-2. Install it on Android 7.0 (API 24) or newer.
-3. Walk through the onboarding wizard:
-   - Grant **notification** permission (Android 13+) so download progress and update alerts show up.
-   - Grant **install unknown apps** permission so extensions can be installed from inside the app.
-   - Choose a **download folder** (default or custom).
-4. Open the **Extensions** tab and install the platforms you want (TikTok, Instagram, etc.).
-5. Paste or share a URL — pick the quality, hit download.
+1. Install the APK (Android 7.0 / API 24 or newer).
+2. Walk through the **onboarding wizard** — grant notification permission (and storage
+   permission on Android 9 and below) and choose a download folder.
+3. On the **Setup screen**, tap **Download yt-dlp**. The app fetches the latest yt-dlp
+   binary from GitHub. This is a one-time required step; downloads are blocked until it
+   completes. You can update yt-dlp later from **Settings → yt-dlp Engine**.
+4. The Home screen unlocks. Paste or share a URL, fetch info, pick a quality, download.
 
-## 🧱 Tech Stack
+> The bundled Python runtime and FFmpeg are included in the APK; only the yt-dlp
+> script itself is fetched at runtime (a small download).
 
-- **Kotlin** + **Jetpack Compose** (Material 3, Navigation)
-- **MVVM** + **StateFlow**
-- **DataStore Preferences** for persistent settings & history
-- **OkHttp** + custom DNS resolver (system → DoH fallback) for HTTP
-- **Coil** for image loading with graceful error fallbacks
-- **Android `DownloadManager`** for the actual file transfer
-- **`ContentProvider` IPC** for talking to extension APKs
+## Features
 
-## 🏗️ System Architecture
+- **Universal URL downloading** — paste any link or share from any app; yt-dlp resolves
+  it.
+- **Quality presets with size estimate** — Best (video + audio merged), resolution-stepped
+  options (e.g. 1080p, 720p, …), and Audio (MP3 extracted), each showing an estimated file
+  size. FFmpeg handles merging and MP3 extraction.
+- **Download Now or Later** — start a download immediately, or save it to a queue to grab
+  later.
+- **Downloads hub** — a top-bar icon (with a count badge) opens a *Now* tab (active
+  progress) and a *Later* tab (the saved queue, with download / download-all / remove).
+- **Foreground-service downloads** — progress shown in a persistent notification;
+  downloads survive app backgrounding.
+- **Flexible storage** — saves to `Downloads/Torikomi/` by default (organised into
+  `VIDEO/`, `MUSIC/`, `IMAGES/` sub-folders), or to a custom folder you pick via the
+  Storage Access Framework. In a custom SAF folder, files are written with a type prefix
+  (e.g. `VIDEO_clip.mp4`, `MUSIC_song.mp3`).
+- **Download history** — type/platform filters, share, and delete-with-file.
+- **Statistics** — total downloads, total data downloaded, a breakdown by type, downloads
+  in the last 7 days, and top platforms.
+- **Appearance** — Theme (System / Light / Dark) and an in-app **language switcher** with
+  **15 languages** (English, Bahasa Indonesia, Español, Português, Français, Deutsch,
+  Italiano, Русский, Türkçe, Tiếng Việt, العربية, हिन्दी, 中文, 日本語, 한국어), applied via a
+  per-app locale that works on all supported Android versions.
+- **WhatsApp Status saver** — a dedicated navbar tab to browse and save local WhatsApp
+  statuses.
+- **In-app update check** — checks GitHub Releases on launch and surfaces a notification
+  when a newer version is available; update yt-dlp itself from **Settings → yt-dlp Engine**.
 
-```
-┌────────────────────────────────────────────┐
-│            Torikomi App (UI)               │
-│  Onboarding → Home → ExtensionScreen       │
-│            → DownloadScreen → History      │
-└──────────────────┬─────────────────────────┘
-                   │ ContentResolver query
-                   ▼
-┌────────────────────────────────────────────┐
-│         Extension APK (sideloaded)         │
-│  content://torikomi.extension.<id>/        │
-│  scrape?url=...&cfCookies=...              │
-│                                            │
-│  Discovery via:                            │
-│    <intent-filter>                         │
-│      action: com.torikomi.extension        │
-│              .action.DISCOVERY             │
-│    </intent-filter>                        │
-└──────────────────┬─────────────────────────┘
-                   │ JSON payload
-                   ▼
-┌────────────────────────────────────────────┐
-│           ExtensionRepository              │
-│     parse ScrapeResult → DownloadItems     │
-└──────────────────┬─────────────────────────┘
-                   │
-                   ▼
-┌────────────────────────────────────────────┐
-│        Android DownloadManager             │
-│      queue → progress → completed          │
-└────────────────────────────────────────────┘
-```
+## Tech stack
 
-The main app discovers any installed extension that declares an `<intent-filter>` for `com.torikomi.extension.action.DISCOVERY`, so adding a new extension does **not** require re-publishing the main app.
+| Component | Library |
+|---|---|
+| Language | Kotlin 2.1 |
+| UI | Jetpack Compose + Material 3 |
+| Architecture | MVVM + StateFlow/Flow |
+| Persistence | DataStore Preferences |
+| Networking | OkHttp |
+| Image loading | Coil |
+| Download engine | `io.github.junkfood02.youtubedl-android` (`:library` + `:ffmpeg`) |
 
-## 📁 Project Structure
-
-```text
-torikomi-kotlin/
-├── app/
-│   ├── build.gradle.kts
-│   └── src/main/
-│       ├── AndroidManifest.xml      # extension discovery <queries>
-│       └── java/univzy/torikomi/
-│           ├── data/
-│           │   ├── model/           # ScrapeResult, ExtensionInfo, DownloadHistory, JsonMappers
-│           │   └── repository/      # ExtensionRepository, HistoryRepository, SettingsRepository
-│           ├── service/
-│           │   ├── ExtensionBridgeHandler.kt   # ContentProvider IPC client
-│           │   └── UpdateChecker.kt            # GitHub Releases → notification
-│           ├── ui/
-│           │   ├── components/      # reusable widgets (PlatformCard, …)
-│           │   ├── screens/         # Onboarding, Home, Download, History, Settings, …
-│           │   ├── template/        # ExtensionScreenTemplate + ScreenBlock + BlockRenderer
-│           │   ├── theme/           # MaterialTheme tokens
-│           │   ├── App.kt           # NavHost + global routing
-│           │   └── ViewModels.kt    # all ViewModels in one file
-│           ├── util/                # UrlDetectorService and helpers
-│           ├── MainActivity.kt      # share intent + permission + update check
-│           └── Torikomi.kt          # Application class + notification channels
-├── gradle/
-├── keys/                            # release keystore (gitignored)
-├── keystore.properties              # signing config (gitignored, see below)
-├── settings.gradle.kts
-└── build.gradle.kts
-```
-
-## 🛠️ Build
+## Build
 
 ### Requirements
 
@@ -131,33 +90,33 @@ torikomi-kotlin/
 - JDK **11** or newer
 - The bundled Gradle wrapper (no global Gradle install required)
 
+> Note: the APK is large (~70–80 MB) because it bundles a Python runtime and FFmpeg for
+> two ABIs (arm64-v8a and armeabi-v7a).
+
 ### Commands
 
 #### Windows (PowerShell)
 
 ```powershell
 # Debug APK
-.\gradlew.bat app:assembleDebug
+.\gradlew.bat assembleDebug
 
 # Release APK
-.\gradlew.bat app:assembleRelease
+.\gradlew.bat assembleRelease
 ```
 
 #### macOS / Linux
 
 ```bash
-# Debug APK
-./gradlew app:assembleDebug
-
-# Release APK
-./gradlew app:assembleRelease
+./gradlew assembleDebug
+./gradlew assembleRelease
 ```
 
 Output: `app/build/outputs/apk/{debug,release}/app-{debug,release}.apk`.
 
 ### Signing
 
-Release signing is read from either `keystore.properties` (preferred for local builds) or environment variables (preferred for CI):
+Release signing is read from `keystore.properties` (local) or environment variables (CI):
 
 `keystore.properties` (local, **not committed**):
 
@@ -168,151 +127,19 @@ keyAlias=YOUR_KEY_ALIAS
 keyPassword=YOUR_KEY_PASSWORD
 ```
 
-Or via env (CI):
+| Env variable             | Maps to                       |
+|--------------------------|-------------------------------|
+| `TORIKOMI_STOREFILE`     | `signingConfig.storeFile`     |
+| `TORIKOMI_STOREPASSWORD` | `signingConfig.storePassword` |
+| `TORIKOMI_KEYALIAS`      | `signingConfig.keyAlias`      |
+| `TORIKOMI_KEYPASSWORD`   | `signingConfig.keyPassword`   |
 
-| Env variable                | Maps to                  |
-|-----------------------------|--------------------------|
-| `TORIKOMI_STOREFILE`        | `signingConfig.storeFile` |
-| `TORIKOMI_STOREPASSWORD`    | `signingConfig.storePassword` |
-| `TORIKOMI_KEYALIAS`         | `signingConfig.keyAlias` |
-| `TORIKOMI_KEYPASSWORD`      | `signingConfig.keyPassword` |
+If no signing config is provided, the release build falls back to the debug keystore.
 
-If no signing config is provided, the release build falls back to the debug keystore so it still produces an installable APK.
-
-## 🔌 Extension System
-
-### How It Works
-
-1. The app fetches the extension catalog from
-   `https://raw.githubusercontent.com/univzy/torikomi-extensions/master/index.min.json`.
-2. The user installs the extensions they want from the **Extensions** tab — each is a small APK (~600 KB – 2.2 MB).
-3. Installed extensions are discovered via Android's `<queries>` mechanism: the main app declares
-   ```xml
-   <queries>
-     <intent>
-       <action android:name="com.torikomi.extension.action.DISCOVERY" />
-     </intent>
-   </queries>
-   ```
-   and every extension exports an activity matching that filter.
-4. To scrape a URL, the app calls
-   ```
-   content://torikomi.extension.<id>/scrape?url=<encoded_url>&cfCookies=<cookies>
-   ```
-5. The extension returns a JSON `ScrapeResult` that lists downloadable items, thumbnails, etc.
-
-### Supported Platforms
-
-| Platform        | Extension              | Source ID |
-|-----------------|------------------------|-----------|
-| TikTok          | Musicaldown            | 1001      |
-| Douyin          | Douyin                 | 1002      |
-| Twitter / X     | SnapSave Twitter       | 1003      |
-| Instagram       | SnapSave Instagram     | 1004      |
-| YouTube         | YTDown                 | 1007      |
-| Facebook        | SnapSave Facebook      | 1006      |
-| Threads         | SnapSave Threads       | 1005      |
-| Spotify         | Spotmate               | 1008      |
-| SoundCloud      | SoundLoadMate          | 1009      |
-| WhatsApp Status | WhatsApp Status (local)| 1010      |
-
-Source code for each extension lives in
-[`torikomi-source`](https://github.com/univzy/torikomi-source).
-
-## 🧩 Screen Template System
-
-Download screens are composed declaratively from a list of blocks
-([`ui/template/`](app/src/main/java/univzy/torikomi/ui/template/)). This
-keeps every extension's screen consistent yet customisable.
-
-### Available `ScreenBlock`s
-
-| Block             | Description |
-|-------------------|-------------|
-| `UrlInput`        | URL input with paste button and save-path hint |
-| `SearchButton`    | Fetch / search button with loading state |
-| `Thumbnail`       | Scraped thumbnail (configurable height & corner radius) |
-| `Title` / `Author`| Media title and uploader |
-| `Description`     | Static or dynamic description |
-| `VideoPreview`    | In-app preview locked to 16:9 (1280x720) frame |
-| `DownloadButtons` | One row per downloadable item |
-| `ImageGallery`    | Full image gallery with per-image download |
-| `ActiveDownloads` | Running download progress card |
-| `CustomText`      | Static text in any of 5 styles |
-| `CustomButton`    | Filled or outlined action button |
-| `Divider` / `Spacer` | Layout helpers |
-
-### Preset configs
-
-```kotlin
-defaultExtensionConfig()       // thumbnail + preview + downloads
-minimalExtensionConfig()       // URL input + download buttons only
-mediaFocusedExtensionConfig()  // large thumbnail + video preview
-galleryExtensionConfig()       // gallery focus for image-heavy posts
-audioExtensionConfig()         // square thumbnail + audio downloads
-```
-
-### Example
-
-```kotlin
-ExtensionScreenTemplate(
-    platform = "spotify",
-    config   = audioExtensionConfig("Spotify Downloader"),
-    onBack   = { navController.popBackStack() },
-)
-
-// Or fully custom:
-ExtensionScreenTemplate(
-    platform = "custom",
-    config   = ExtensionScreenConfig(
-        blocks = listOf(
-            ScreenBlock.UrlInput(placeholder = "https://example.com/video"),
-            ScreenBlock.SearchButton(label = "Search Media"),
-            ScreenBlock.Spacer(16),
-            ScreenBlock.Thumbnail(heightDp = 240, cornerDp = 12),
-            ScreenBlock.Title,
-            ScreenBlock.Divider,
-            ScreenBlock.DownloadButtons,
-            ScreenBlock.CustomButton(label = "Open in Browser", onClick = { /* … */ }),
-        )
-    ),
-    onBack = { navController.popBackStack() },
-)
-```
-
-## 🔁 Update Notifications
-
-On every launch, [`UpdateChecker`](app/src/main/java/univzy/torikomi/service/UpdateChecker.kt)
-queries `https://api.github.com/repos/univzy/torikomi/releases/latest`,
-compares the tag against the installed `versionName`, and posts a system
-notification (channel: **App Updates**) when a newer release is available.
-
-The notification has two actions:
-
-- **Download** — opens the GitHub release page in the user's browser
-- **What's new** — opens the same page (the body holds the changelog)
-
-Notifications are de-duplicated per release tag via DataStore.
-
-## 🤝 Contributing
-
-PRs are welcome. The codebase tries to keep main-app changes to a minimum
-when adding a new platform — most of the work happens in
-[`torikomi-source`](https://github.com/univzy/torikomi-source). Please
-open an issue first for non-trivial UX changes.
-
-## 📦 Related Repositories
-
-| Repository | Description |
-|---|---|
-| [`torikomi-kotlin`](https://github.com/univzy/torikomi-kotlin) | This repo — main Android app |
-| [`torikomi-source`](https://github.com/univzy/torikomi-source) | Source code for every extension (Kotlin scrapers) |
-| [`torikomi-extensions`](https://github.com/univzy/torikomi-extensions) | Extension catalog (`index.json`, icons, signed APKs) |
-
-## 🧑‍💻 Core Developers
+## Core Developers
 
 [TobyG74](https://github.com/TobyG74) • [arugaz](https://github.com/arugaz) • [nugraizy](https://github.com/nugraizy)
 
-## 📄 License
+## License
 
 MIT © Torikomi Developers

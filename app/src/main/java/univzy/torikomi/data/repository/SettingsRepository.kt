@@ -12,21 +12,17 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import univzy.torikomi.engine.DownloadPaths
 
 private val Context.settingsDataStore by preferencesDataStore(name = "torikomi_settings")
 private val DOWNLOAD_FOLDER_URI_KEY = stringPreferencesKey("download_folder_uri")
 private val DOWNLOAD_FOLDER_NAME_KEY = stringPreferencesKey("download_folder_name")
 private val LAST_NOTIFIED_UPDATE_TAG_KEY = stringPreferencesKey("last_notified_update_tag")
 private val ONBOARDING_DONE_KEY = booleanPreferencesKey("onboarding_done")
+private val YTDLP_READY_KEY = booleanPreferencesKey("ytdlp_ready")
+private val YTDLP_VERSION_KEY = stringPreferencesKey("ytdlp_version")
 
-val MEDIA_TYPE_FOLDERS = mapOf(
-    "music" to "MUSIC",
-    "audio" to "MUSIC",
-    "videos" to "VIDEO",
-    "video" to "VIDEO",
-    "pictures" to "IMAGES",
-    "image" to "IMAGES",
-)
+val MEDIA_TYPE_FOLDERS: Map<String, String> = DownloadPaths.MEDIA_TYPE_FOLDERS
 
 data class DownloadPathSettings(
     val folderUri: String = "",  // Tree URI from SAF
@@ -108,4 +104,18 @@ class SettingsRepository(private val context: Context) {
         if (tagName.isBlank()) return
         context.settingsDataStore.edit { it[LAST_NOTIFIED_UPDATE_TAG_KEY] = tagName }
     }
+
+    suspend fun isYtDlpReady(): Boolean =
+        context.settingsDataStore.data.first()[YTDLP_READY_KEY] == true
+
+    suspend fun setYtDlpReady(ready: Boolean, version: String) {
+        context.settingsDataStore.edit {
+            it[YTDLP_READY_KEY] = ready
+            if (version.isNotBlank()) it[YTDLP_VERSION_KEY] = version
+            else if (!ready) it.remove(YTDLP_VERSION_KEY)
+        }
+    }
+
+    suspend fun getYtDlpVersion(): String =
+        context.settingsDataStore.data.first()[YTDLP_VERSION_KEY] ?: ""
 }

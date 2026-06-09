@@ -1,0 +1,230 @@
+<resources>
+    <string name="app_name">Torikomi</string>
+
+    <!-- Common -->
+    <string name="action_back">Geri</string>
+    <string name="action_close">Kapat</string>
+    <string name="action_cancel">İptal</string>
+    <string name="action_retry">Yeniden dene</string>
+    <string name="action_refresh">Yenile</string>
+    <string name="action_open">Aç</string>
+    <string name="action_dismiss">Kapat</string>
+    <string name="action_remove">Kaldır</string>
+
+    <!-- Bottom navigation / tab titles -->
+    <string name="tab_downloads">İndirilenler</string>
+    <string name="tab_whatsapp">WhatsApp</string>
+    <string name="tab_history">Geçmiş</string>
+    <string name="tab_settings">Ayarlar</string>
+
+    <!-- HomeScreen -->
+    <string name="home_my_downloads">İndirdiklerim</string>
+    <string name="home_toggle_theme">Temayı değiştir</string>
+    <string name="home_about">Hakkında</string>
+    <string name="home_share_hint">Herhangi bir video/ses bağlantısı yapıştırın veya başka bir uygulamadan paylaşın</string>
+    <string name="home_link_label">Bağlantı</string>
+    <string name="home_link_placeholder">https://…</string>
+    <string name="home_clear">Temizle</string>
+    <string name="home_fetch">Getir</string>
+    <string name="home_fetching">Getiriliyor…</string>
+    <string name="home_choose_quality">Kalite seçin</string>
+    <string name="home_download_now">Şimdi indir</string>
+    <string name="home_later">Sonra</string>
+    <string name="home_duration_none">—</string>
+    <string name="home_storage_permission_required">İndirilenleri kaydetmek için depolama izni gerekir</string>
+
+    <!-- DownloadsHubScreen -->
+    <string name="hub_title">İndirdiklerim</string>
+    <string name="hub_tab_now">Şimdi</string>
+    <string name="hub_tab_later">Sonra</string>
+    <string name="hub_empty_now_title">Etkin indirme yok</string>
+    <string name="hub_empty_now_subtitle">Başlattığınız indirmelerin ilerlemesi burada gösterilir</string>
+    <string name="hub_empty_later_title">Kaydedilmiş indirme yok</string>
+    <string name="hub_empty_later_subtitle">\'Sonra\' olarak seçtiğiniz öğeler burada görünür</string>
+    <string name="hub_saved_for_later">Sonrası için kaydedildi</string>
+    <string name="hub_download_all">Tümünü indir</string>
+    <string name="hub_status_completed">Tamamlandı</string>
+    <string name="hub_status_failed">Başarısız</string>
+    <string name="hub_download_now">Şimdi indir</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings_section_download">İndirme Ayarları</string>
+    <string name="settings_section_app">Uygulama Ayarları</string>
+    <string name="settings_download_folder">İndirme Klasörü</string>
+    <string name="settings_download_folder_choose">Klasör seçmek için dokunun</string>
+    <string name="settings_appearance">Görünüm</string>
+    <string name="settings_appearance_subtitle">Tema ve dil</string>
+    <string name="settings_engine">yt-dlp Motoru</string>
+    <string name="settings_engine_version">Sürüm: %1$s</string>
+    <string name="settings_engine_update">Güncellemek için dokunun</string>
+    <string name="settings_queue">İndirme Kuyruğu</string>
+    <string name="settings_queue_subtitle">Sonrası için kaydedilen öğeler</string>
+    <string name="settings_statistics">İstatistikler</string>
+    <string name="settings_statistics_subtitle">İndirme istatistikleriniz</string>
+    <string name="settings_about">Hakkında</string>
+    <string name="settings_about_subtitle">Sürüm, lisanslar, gizlilik</string>
+    <string name="settings_folder_dialog_title">İndirme Klasörü Seç</string>
+    <string name="settings_folder_dialog_desc">Cihazınızın depolama alanından bir klasör seçin. Dosyalar oraya, türlerine göre ön ekle kaydedilir:\nMUSIC_song.mp3\nVIDEO_clip.mp4\nIMAGES_photo.jpg</string>
+    <string name="settings_folder_current">Geçerli: %1$s</string>
+    <string name="settings_folder_choose_btn">Klasör Seç</string>
+
+    <!-- AppearanceScreen -->
+    <string name="appearance_title">Görünüm</string>
+    <string name="appearance_theme">Tema</string>
+    <string name="appearance_theme_system">Sistem varsayılanı</string>
+    <string name="appearance_theme_light">Açık</string>
+    <string name="appearance_theme_dark">Koyu</string>
+    <string name="appearance_language">Dil</string>
+    <string name="appearance_language_caption">Yeniden başlatma uygulamanın tamamına uygulanır.</string>
+    <string name="appearance_lang_system">Sistem varsayılanı</string>
+    <string name="appearance_lang_english">English</string>
+    <string name="appearance_lang_indonesian">Bahasa Indonesia</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">Hakkında</string>
+    <string name="about_tagline">yt-dlp ile çalışan medya indirici</string>
+    <string name="about_version">Sürüm</string>
+    <string name="about_version_value">v%1$s</string>
+    <string name="about_check_updates">Güncellemeleri denetle</string>
+    <string name="about_update_available">Güncelleme mevcut: %1$s</string>
+    <string name="about_up_to_date">En son sürümü kullanıyorsunuz</string>
+    <string name="about_tap_to_check">Denetlemek için dokunun</string>
+    <string name="about_unknown_error">Bilinmeyen hata</string>
+    <string name="about_whats_new">Yenilikler</string>
+    <string name="about_whats_new_subtitle">GitHub\'daki sürüm notları</string>
+    <string name="about_licenses">Açık Kaynak Lisansları</string>
+    <string name="about_licenses_subtitle">Üçüncü taraf bileşenler</string>
+    <string name="about_privacy">Gizlilik Politikası</string>
+    <string name="about_privacy_subtitle">Verilerinizin nasıl işlendiği</string>
+    <string name="about_copyright">© 2026 Torikomi</string>
+    <string name="about_licenses_intro">Torikomi şu açık kaynak bileşenlerle oluşturulmuştur:</string>
+    <string name="about_privacy_body">Torikomi, geliştiricilerine herhangi bir kişisel veri toplamaz, saklamaz veya iletmez. Hiçbir analiz aracı veya üçüncü taraf izleyici yoktur.\n\n• İndirme geçmişi (başlıklar, bağlantılar, küçük resimler, dosya adları) yalnızca cihazınızda yerel olarak saklanır ve Geçmiş sekmesinden istediğiniz zaman temizlenebilir.\n\n• Uygulama ağı yalnızca şunlar için kullanır: (a) sağladığınız bağlantılardan indirmeyi seçtiğiniz medyayı getirmek (yt-dlp aracılığıyla), (b) GitHub\'dan uygulama güncellemelerini denetlemek ve (c) yt-dlp motorunu GitHub\'dan indirmek/güncellemek.\n\n• Kullanılan izinler: depolama (indirmelerinizi kaydetmek için) ve bildirimler (indirme ve güncelleme durumunu göstermek için) — yalnızca bu amaçlarla.\n\n• İndirilen içerik, orijinal kaynağının telif hakkına ve koşullarına tabidir; bunu nasıl kullandığınızdan siz sorumlusunuz.\n\n• Torikomi açık kaynaklıdır — kullanılan bileşenler için Açık Kaynak Lisansları\'na bakın.</string>
+
+    <!-- StatisticsScreen -->
+    <string name="stats_title">İstatistikler</string>
+    <string name="stats_empty_title">Henüz istatistik yok</string>
+    <string name="stats_empty_subtitle">İndirme istatistikleriniz burada görünecek</string>
+    <string name="stats_total_downloads">Toplam indirme</string>
+    <string name="stats_total_downloaded">Toplam indirilen</string>
+    <string name="stats_by_type">Türe göre</string>
+    <string name="stats_video">Video</string>
+    <string name="stats_audio">Ses</string>
+    <string name="stats_image">Görsel</string>
+    <string name="stats_last_7_days">Son 7 günde %1$d indirme</string>
+    <string name="stats_top_platforms">En çok kullanılan platformlar</string>
+
+    <!-- OnboardingScreen -->
+    <string name="onboarding_get_started">Başla</string>
+    <string name="onboarding_continue">Devam et</string>
+    <string name="onboarding_welcome_title">Torikomi\'ye hoş geldiniz</string>
+    <string name="onboarding_welcome_subtitle">yt-dlp ile çalışan\nevrensel bir medya indirici.</string>
+    <string name="onboarding_welcome_hint">Birkaç izin ayarlayacağız ve indirmelerinizi\nnereye kaydedeceğinizi seçeceğiz.</string>
+    <string name="onboarding_notif_title">Güncel kalın</string>
+    <string name="onboarding_notif_desc">Torikomi\'nin indirme ilerlemesini göstermesi ve yeni uygulama güncellemeleri hakkında sizi uyarması için bildirimlere izin verin.</string>
+    <string name="onboarding_notif_granted">Bildirimler etkinleştirildi</string>
+    <string name="onboarding_notif_action">Bildirimlere izin ver</string>
+    <string name="onboarding_notif_force">Devam etmek için bildirimlere izin verin</string>
+    <string name="onboarding_storage_title">Depolama erişimine izin ver</string>
+    <string name="onboarding_storage_desc">Android 9 ve daha eski sürümlerde Torikomi, indirmeleri İndirilenler klasörünüze kaydetmek için depolama iznine ihtiyaç duyar.</string>
+    <string name="onboarding_storage_granted">Depolama erişimi verildi</string>
+    <string name="onboarding_storage_action">Depolamaya izin ver</string>
+    <string name="onboarding_storage_force">Devam etmek için depolamaya izin verin</string>
+    <string name="onboarding_folder_title">İndirmeleri nereye kaydedelim?</string>
+    <string name="onboarding_folder_subtitle">Bunu daha sonra Ayarlar\'dan değiştirebilirsiniz.</string>
+    <string name="onboarding_folder_default_title">Varsayılan klasör</string>
+    <string name="onboarding_folder_default_desc">Dosyalar şuraya kaydedilecek\nTorikomi (sdcard kök dizini)</string>
+    <string name="onboarding_folder_custom_title">Özel klasör</string>
+    <string name="onboarding_folder_custom_selected">Seçili: %1$s</string>
+    <string name="onboarding_folder_custom_pick">Depolamanızdan bir klasör seçmek için dokunun</string>
+    <string name="onboarding_folder_pick_first">Önce bir klasör seçin</string>
+    <string name="onboarding_folder_selected_label">Seçili</string>
+    <string name="onboarding_done_title">Her şey hazır!</string>
+    <string name="onboarding_done_save_custom">%1$s konumuna kaydediliyor</string>
+    <string name="onboarding_done_save_default">Varsayılan Torikomi klasörüne kaydediliyor</string>
+    <string name="onboarding_done_body">Torikomi kullanıma hazır.\n%1$s</string>
+    <string name="onboarding_enter">Torikomi\'ye gir</string>
+
+    <!-- SetupScreen -->
+    <string name="setup_title">yt-dlp motorunu indir</string>
+    <string name="setup_desc">Torikomi\'nin medyayı getirip indirmesi için en son yt-dlp gerekir. Bu tek seferlik bir indirmedir (daha sonra Ayarlar\'dan güncelleyebilirsiniz).</string>
+    <string name="setup_downloading">yt-dlp indiriliyor…</string>
+    <string name="setup_download_btn">yt-dlp\'yi indir</string>
+
+    <!-- WhatsAppStatusScreen -->
+    <string name="wa_save_all">Tümünü kaydet</string>
+    <string name="wa_photos">%1$d fotoğraf</string>
+    <string name="wa_videos">%1$d video</string>
+    <string name="wa_section_photos">Fotoğraflar</string>
+    <string name="wa_section_videos">Videolar</string>
+    <string name="wa_permission_title">Depolama İzni Gerekli</string>
+    <string name="wa_permission_desc">Torikomi, WhatsApp durumlarınızı okumak için depolama erişimine ihtiyaç duyar.</string>
+    <string name="wa_grant_permission">İzin Ver</string>
+    <string name="wa_error_title">Bir hata oluştu</string>
+    <string name="wa_empty_title">Durum bulunamadı</string>
+    <string name="wa_empty_desc">Önce birkaç WhatsApp durumu görüntüleyin, sonra buraya geri dönün.</string>
+    <string name="wa_saved_to_folder">Klasöre kaydedildi</string>
+    <string name="wa_saved_to_gallery">Galeriye kaydedildi</string>
+    <string name="wa_save_failed">Kaydetme başarısız: %1$s</string>
+    <string name="wa_files_saved">%1$d dosya kaydedildi</string>
+
+    <!-- HistoryScreen -->
+    <string name="history_filter_type">TÜR</string>
+    <string name="history_filter_platform">PLATFORM</string>
+    <string name="history_filter_all">Tümü</string>
+    <string name="history_filter_video">Video</string>
+    <string name="history_filter_audio">Ses</string>
+    <string name="history_filter_image">Görsel</string>
+    <string name="history_items_found">%1$d öğe bulundu</string>
+    <string name="history_empty_title">Henüz indirme yok</string>
+    <string name="history_empty_subtitle">İndirmeler burada görünecek</string>
+    <string name="history_clear_all">Tümünü Temizle</string>
+    <string name="history_today">Bugün %1$s</string>
+    <string name="history_yesterday">Dün %1$s</string>
+    <string name="history_days_ago">%1$dg önce</string>
+    <string name="history_clear_dialog_title">Tüm geçmiş temizlensin mi?</string>
+    <string name="history_clear_dialog_text">Bu, tüm geçmiş girişlerini kaldıracak ve indirilen dosyaları silecektir. Bu işlem geri alınamaz.</string>
+    <string name="history_clear_dialog_confirm">Tümünü Sil</string>
+    <string name="history_delete_dialog_title">İndirme silinsin mi?</string>
+    <string name="history_delete_dialog_text">\"%1$s\" geçmişten kaldırılacak ve depolamadan silinecek.</string>
+    <string name="history_delete_dialog_confirm">Sil</string>
+    <string name="history_file_not_found">Dosya bulunamadı</string>
+    <string name="history_no_app_open">Bu dosyayı açmak için uygun uygulama yok</string>
+    <string name="history_no_app_share">Bu dosyayı paylaşmak için uygun uygulama yok</string>
+
+    <!-- DownloadViewModel toasts / errors -->
+    <string name="toast_download_started">İndirme başladı</string>
+    <string name="toast_saved_for_later">Sonrası için kaydedildi</string>
+    <string name="error_paste_link_first">Önce bir bağlantı yapıştırın</string>
+    <string name="error_invalid_link">Bu geçerli bir bağlantıya benzemiyor</string>
+    <string name="error_no_internet">İnternet bağlantısı yok. Ağınızı denetleyip yeniden deneyin.</string>
+    <string name="error_fetch_generic">Medya getirilemedi. Lütfen yeniden deneyin.</string>
+    <string name="error_unsupported_link">Bu bağlantı yt-dlp tarafından desteklenmiyor.</string>
+    <string name="error_unreachable">Sunucuya ulaşılamadı. Başka bir ağ veya VPN deneyin.</string>
+    <string name="error_timeout">İstek zaman aşımına uğradı. Bağlantınızı denetleyip yeniden deneyin.</string>
+    <string name="error_access_blocked">Erişim kaynak tarafından engellendi — bağlantı özel veya hız sınırlı olabilir.</string>
+    <string name="error_not_found">İçerik bulunamadı — bağlantı kaldırılmış olabilir.</string>
+
+    <!-- DownloadService notifications -->
+    <string name="notif_app_name">Torikomi</string>
+    <string name="notif_preparing">İndirme hazırlanıyor…</string>
+    <string name="notif_downloading">İndiriliyor</string>
+    <string name="notif_status_starting">Başlatılıyor…</string>
+    <string name="notif_status_downloading_pct">İndiriliyor %1$d%%</string>
+    <string name="notif_progress">%1$s — %2$d%%</string>
+    <string name="notif_saving">Kaydediliyor…</string>
+    <string name="notif_completed">Tamamlandı</string>
+    <string name="notif_failed">Başarısız: %1$s</string>
+    <string name="notif_default_title">İndirme</string>
+    <string name="notif_unknown_error">bilinmeyen hata</string>
+    <string name="history_untitled">Başlıksız</string>
+
+    <!-- Startup update dialog (App.kt) -->
+    <string name="startup_update_title">Güncelleme Mevcut</string>
+    <string name="startup_update_body">Daha yeni bir sürüm (%1$s) mevcut.\n\n%2$s</string>
+    <string name="startup_update_no_changelog">Değişiklik günlüğü sağlanmadı.</string>
+    <string name="startup_update_btn">Güncelle</string>
+    <string name="startup_update_later">Sonra</string>
+
+    <!-- SplashScreen -->
+    <string name="splash_subtitle">Medya İndirici</string>
+</resources>

@@ -1,0 +1,230 @@
+<resources>
+    <string name="app_name">Torikomi</string>
+
+    <!-- Common -->
+    <string name="action_back">Retour</string>
+    <string name="action_close">Fermer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_retry">Réessayer</string>
+    <string name="action_refresh">Actualiser</string>
+    <string name="action_open">Ouvrir</string>
+    <string name="action_dismiss">Ignorer</string>
+    <string name="action_remove">Supprimer</string>
+
+    <!-- Bottom navigation / tab titles -->
+    <string name="tab_downloads">Téléchargements</string>
+    <string name="tab_whatsapp">WhatsApp</string>
+    <string name="tab_history">Historique</string>
+    <string name="tab_settings">Paramètres</string>
+
+    <!-- HomeScreen -->
+    <string name="home_my_downloads">Mes téléchargements</string>
+    <string name="home_toggle_theme">Changer de thème</string>
+    <string name="home_about">À propos</string>
+    <string name="home_share_hint">Collez un lien vidéo/audio, ou partagez-le depuis une autre appli</string>
+    <string name="home_link_label">Lien</string>
+    <string name="home_link_placeholder">https://…</string>
+    <string name="home_clear">Effacer</string>
+    <string name="home_fetch">Récupérer</string>
+    <string name="home_fetching">Récupération…</string>
+    <string name="home_choose_quality">Choisir la qualité</string>
+    <string name="home_download_now">Télécharger maintenant</string>
+    <string name="home_later">Plus tard</string>
+    <string name="home_duration_none">—</string>
+    <string name="home_storage_permission_required">L\'autorisation de stockage est requise pour enregistrer les téléchargements</string>
+
+    <!-- DownloadsHubScreen -->
+    <string name="hub_title">Mes Téléchargements</string>
+    <string name="hub_tab_now">Maintenant</string>
+    <string name="hub_tab_later">Plus tard</string>
+    <string name="hub_empty_now_title">Aucun téléchargement actif</string>
+    <string name="hub_empty_now_subtitle">Les téléchargements que vous lancez afficheront leur progression ici</string>
+    <string name="hub_empty_later_title">Aucun téléchargement enregistré</string>
+    <string name="hub_empty_later_subtitle">Les éléments que vous choisissez en \'Plus tard\' apparaîtront ici</string>
+    <string name="hub_saved_for_later">Enregistré pour plus tard</string>
+    <string name="hub_download_all">Tout télécharger</string>
+    <string name="hub_status_completed">Terminé</string>
+    <string name="hub_status_failed">Échec</string>
+    <string name="hub_download_now">Télécharger maintenant</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings_section_download">Paramètres de téléchargement</string>
+    <string name="settings_section_app">Paramètres de l\'appli</string>
+    <string name="settings_download_folder">Dossier de téléchargement</string>
+    <string name="settings_download_folder_choose">Appuyez pour choisir un dossier</string>
+    <string name="settings_appearance">Apparence</string>
+    <string name="settings_appearance_subtitle">Thème et langue</string>
+    <string name="settings_engine">Moteur yt-dlp</string>
+    <string name="settings_engine_version">Version : %1$s</string>
+    <string name="settings_engine_update">Appuyez pour mettre à jour</string>
+    <string name="settings_queue">File de téléchargement</string>
+    <string name="settings_queue_subtitle">Éléments enregistrés pour plus tard</string>
+    <string name="settings_statistics">Statistiques</string>
+    <string name="settings_statistics_subtitle">Vos statistiques de téléchargement</string>
+    <string name="settings_about">À propos</string>
+    <string name="settings_about_subtitle">Version, licences, confidentialité</string>
+    <string name="settings_folder_dialog_title">Choisir le dossier de téléchargement</string>
+    <string name="settings_folder_dialog_desc">Sélectionnez un dossier dans le stockage de votre appareil. Les fichiers y sont enregistrés, préfixés selon leur type :\nMUSIC_song.mp3\nVIDEO_clip.mp4\nIMAGES_photo.jpg</string>
+    <string name="settings_folder_current">Actuel : %1$s</string>
+    <string name="settings_folder_choose_btn">Choisir un dossier</string>
+
+    <!-- AppearanceScreen -->
+    <string name="appearance_title">Apparence</string>
+    <string name="appearance_theme">Thème</string>
+    <string name="appearance_theme_system">Par défaut du système</string>
+    <string name="appearance_theme_light">Clair</string>
+    <string name="appearance_theme_dark">Sombre</string>
+    <string name="appearance_language">Langue</string>
+    <string name="appearance_language_caption">Le redémarrage s\'applique à toute l\'appli.</string>
+    <string name="appearance_lang_system">Par défaut du système</string>
+    <string name="appearance_lang_english">English</string>
+    <string name="appearance_lang_indonesian">Bahasa Indonesia</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">À propos</string>
+    <string name="about_tagline">Téléchargeur de médias propulsé par yt-dlp</string>
+    <string name="about_version">Version</string>
+    <string name="about_version_value">v%1$s</string>
+    <string name="about_check_updates">Vérifier les mises à jour</string>
+    <string name="about_update_available">Mise à jour disponible : %1$s</string>
+    <string name="about_up_to_date">Vous avez la dernière version</string>
+    <string name="about_tap_to_check">Appuyez pour vérifier</string>
+    <string name="about_unknown_error">Erreur inconnue</string>
+    <string name="about_whats_new">Nouveautés</string>
+    <string name="about_whats_new_subtitle">Notes de version sur GitHub</string>
+    <string name="about_licenses">Licences open source</string>
+    <string name="about_licenses_subtitle">Composants tiers</string>
+    <string name="about_privacy">Politique de confidentialité</string>
+    <string name="about_privacy_subtitle">Comment vos données sont traitées</string>
+    <string name="about_copyright">© 2026 Torikomi</string>
+    <string name="about_licenses_intro">Torikomi est construit avec ces composants open source :</string>
+    <string name="about_privacy_body">Torikomi ne collecte, ne stocke ni ne transmet aucune donnée personnelle à ses développeurs. Il n\'y a aucune analyse ni aucun traceur tiers.\n\n• L\'historique des téléchargements (titres, liens, miniatures, noms de fichiers) est stocké uniquement en local sur votre appareil et peut être effacé à tout moment depuis l\'onglet Historique.\n\n• L\'appli utilise le réseau uniquement pour : (a) récupérer le média que vous choisissez de télécharger à partir des liens que vous fournissez (via yt-dlp), (b) vérifier les mises à jour de l\'appli sur GitHub, et (c) télécharger/mettre à jour le moteur yt-dlp depuis GitHub.\n\n• Autorisations utilisées : stockage (pour enregistrer vos téléchargements) et notifications (pour afficher l\'état des téléchargements et des mises à jour) — uniquement à ces fins.\n\n• Le contenu téléchargé est soumis aux droits d\'auteur et aux conditions de sa source d\'origine ; vous êtes responsable de la façon dont vous l\'utilisez.\n\n• Torikomi est open source — voir Licences open source pour les composants utilisés.</string>
+
+    <!-- StatisticsScreen -->
+    <string name="stats_title">Statistiques</string>
+    <string name="stats_empty_title">Pas encore de statistiques</string>
+    <string name="stats_empty_subtitle">Vos statistiques de téléchargement apparaîtront ici</string>
+    <string name="stats_total_downloads">Total des téléchargements</string>
+    <string name="stats_total_downloaded">Total téléchargé</string>
+    <string name="stats_by_type">Par type</string>
+    <string name="stats_video">Vidéo</string>
+    <string name="stats_audio">Audio</string>
+    <string name="stats_image">Image</string>
+    <string name="stats_last_7_days">%1$d téléchargements au cours des 7 derniers jours</string>
+    <string name="stats_top_platforms">Principales plateformes</string>
+
+    <!-- OnboardingScreen -->
+    <string name="onboarding_get_started">Commencer</string>
+    <string name="onboarding_continue">Continuer</string>
+    <string name="onboarding_welcome_title">Bienvenue dans Torikomi</string>
+    <string name="onboarding_welcome_subtitle">Un téléchargeur de médias universel\npropulsé par yt-dlp.</string>
+    <string name="onboarding_welcome_hint">Nous allons configurer quelques autorisations et choisir\noù enregistrer vos téléchargements.</string>
+    <string name="onboarding_notif_title">Restez informé</string>
+    <string name="onboarding_notif_desc">Autorisez les notifications pour que Torikomi puisse afficher la progression des téléchargements et vous avertir des nouvelles mises à jour de l\'appli.</string>
+    <string name="onboarding_notif_granted">Notifications activées</string>
+    <string name="onboarding_notif_action">Autoriser les notifications</string>
+    <string name="onboarding_notif_force">Autorisez les notifications pour continuer</string>
+    <string name="onboarding_storage_title">Autoriser l\'accès au stockage</string>
+    <string name="onboarding_storage_desc">Sous Android 9 et versions antérieures, Torikomi a besoin de l\'autorisation de stockage pour enregistrer les téléchargements dans votre dossier Téléchargements.</string>
+    <string name="onboarding_storage_granted">Accès au stockage accordé</string>
+    <string name="onboarding_storage_action">Autoriser le stockage</string>
+    <string name="onboarding_storage_force">Autorisez le stockage pour continuer</string>
+    <string name="onboarding_folder_title">Où devrions-nous enregistrer les téléchargements ?</string>
+    <string name="onboarding_folder_subtitle">Vous pourrez le modifier plus tard dans les Paramètres.</string>
+    <string name="onboarding_folder_default_title">Dossier par défaut</string>
+    <string name="onboarding_folder_default_desc">Les fichiers seront enregistrés dans\nTorikomi (racine de la carte SD)</string>
+    <string name="onboarding_folder_custom_title">Dossier personnalisé</string>
+    <string name="onboarding_folder_custom_selected">Sélectionné : %1$s</string>
+    <string name="onboarding_folder_custom_pick">Appuyez pour choisir un dossier dans votre stockage</string>
+    <string name="onboarding_folder_pick_first">Choisissez d\'abord un dossier</string>
+    <string name="onboarding_folder_selected_label">Sélectionné</string>
+    <string name="onboarding_done_title">Tout est prêt !</string>
+    <string name="onboarding_done_save_custom">Enregistrement dans %1$s</string>
+    <string name="onboarding_done_save_default">Enregistrement dans le dossier Torikomi par défaut</string>
+    <string name="onboarding_done_body">Torikomi est prêt à l\'emploi.\n%1$s</string>
+    <string name="onboarding_enter">Entrer dans Torikomi</string>
+
+    <!-- SetupScreen -->
+    <string name="setup_title">Télécharger le moteur yt-dlp</string>
+    <string name="setup_desc">Torikomi a besoin de la dernière version de yt-dlp pour récupérer et télécharger des médias. Il s\'agit d\'un téléchargement unique (vous pourrez le mettre à jour plus tard dans les Paramètres).</string>
+    <string name="setup_downloading">Téléchargement de yt-dlp…</string>
+    <string name="setup_download_btn">Télécharger yt-dlp</string>
+
+    <!-- WhatsAppStatusScreen -->
+    <string name="wa_save_all">Tout enregistrer</string>
+    <string name="wa_photos">%1$d photos</string>
+    <string name="wa_videos">%1$d vidéos</string>
+    <string name="wa_section_photos">Photos</string>
+    <string name="wa_section_videos">Vidéos</string>
+    <string name="wa_permission_title">Autorisation de stockage requise</string>
+    <string name="wa_permission_desc">Torikomi a besoin d\'un accès au stockage pour lire vos statuts WhatsApp.</string>
+    <string name="wa_grant_permission">Accorder l\'autorisation</string>
+    <string name="wa_error_title">Une erreur est survenue</string>
+    <string name="wa_empty_title">Aucun statut trouvé</string>
+    <string name="wa_empty_desc">Regardez d\'abord quelques statuts WhatsApp, puis revenez ici.</string>
+    <string name="wa_saved_to_folder">Enregistré dans le dossier</string>
+    <string name="wa_saved_to_gallery">Enregistré dans la galerie</string>
+    <string name="wa_save_failed">Échec de l\'enregistrement : %1$s</string>
+    <string name="wa_files_saved">%1$d fichiers enregistrés</string>
+
+    <!-- HistoryScreen -->
+    <string name="history_filter_type">TYPE</string>
+    <string name="history_filter_platform">PLATEFORME</string>
+    <string name="history_filter_all">Tous</string>
+    <string name="history_filter_video">Vidéo</string>
+    <string name="history_filter_audio">Audio</string>
+    <string name="history_filter_image">Image</string>
+    <string name="history_items_found">%1$d éléments trouvés</string>
+    <string name="history_empty_title">Pas encore de téléchargements</string>
+    <string name="history_empty_subtitle">Les téléchargements apparaîtront ici</string>
+    <string name="history_clear_all">Tout effacer</string>
+    <string name="history_today">Aujourd\'hui %1$s</string>
+    <string name="history_yesterday">Hier %1$s</string>
+    <string name="history_days_ago">il y a %1$dj</string>
+    <string name="history_clear_dialog_title">Effacer tout l\'historique ?</string>
+    <string name="history_clear_dialog_text">Cela supprimera toutes les entrées de l\'historique et effacera les fichiers téléchargés. Cette action est irréversible.</string>
+    <string name="history_clear_dialog_confirm">Tout supprimer</string>
+    <string name="history_delete_dialog_title">Supprimer le téléchargement ?</string>
+    <string name="history_delete_dialog_text">\"%1$s\" sera retiré de l\'historique et supprimé du stockage.</string>
+    <string name="history_delete_dialog_confirm">Supprimer</string>
+    <string name="history_file_not_found">Fichier introuvable</string>
+    <string name="history_no_app_open">Aucune appli disponible pour ouvrir ce fichier</string>
+    <string name="history_no_app_share">Aucune appli disponible pour partager ce fichier</string>
+
+    <!-- DownloadViewModel toasts / errors -->
+    <string name="toast_download_started">Téléchargement démarré</string>
+    <string name="toast_saved_for_later">Enregistré pour plus tard</string>
+    <string name="error_paste_link_first">Collez d\'abord un lien</string>
+    <string name="error_invalid_link">Cela ne ressemble pas à un lien valide</string>
+    <string name="error_no_internet">Pas de connexion internet. Vérifiez votre réseau et réessayez.</string>
+    <string name="error_fetch_generic">Échec de la récupération du média. Veuillez réessayer.</string>
+    <string name="error_unsupported_link">Ce lien n\'est pas pris en charge par yt-dlp.</string>
+    <string name="error_unreachable">Impossible de joindre le serveur. Essayez un autre réseau ou un VPN.</string>
+    <string name="error_timeout">Délai de la requête dépassé. Vérifiez votre connexion et réessayez.</string>
+    <string name="error_access_blocked">Accès bloqué par la source — le lien est peut-être privé ou limité.</string>
+    <string name="error_not_found">Contenu introuvable — le lien a peut-être été supprimé.</string>
+
+    <!-- DownloadService notifications -->
+    <string name="notif_app_name">Torikomi</string>
+    <string name="notif_preparing">Préparation du téléchargement…</string>
+    <string name="notif_downloading">Téléchargement</string>
+    <string name="notif_status_starting">Démarrage…</string>
+    <string name="notif_status_downloading_pct">Téléchargement %1$d%%</string>
+    <string name="notif_progress">%1$s — %2$d%%</string>
+    <string name="notif_saving">Enregistrement…</string>
+    <string name="notif_completed">Terminé</string>
+    <string name="notif_failed">Échec : %1$s</string>
+    <string name="notif_default_title">Téléchargement</string>
+    <string name="notif_unknown_error">erreur inconnue</string>
+    <string name="history_untitled">Sans titre</string>
+
+    <!-- Startup update dialog (App.kt) -->
+    <string name="startup_update_title">Mise à jour disponible</string>
+    <string name="startup_update_body">Une version plus récente (%1$s) est disponible.\n\n%2$s</string>
+    <string name="startup_update_no_changelog">Aucun journal des modifications fourni.</string>
+    <string name="startup_update_btn">Mettre à jour</string>
+    <string name="startup_update_later">Plus tard</string>
+
+    <!-- SplashScreen -->
+    <string name="splash_subtitle">Téléchargeur de médias</string>
+</resources>

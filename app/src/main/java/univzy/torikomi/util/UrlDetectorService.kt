@@ -2,6 +2,8 @@ package univzy.torikomi.util
 
 object UrlDetectorService {
 
+    private val VALID_URL_REGEX = Regex("^https?://[^\\s/]+\\.[^\\s/]+", RegexOption.IGNORE_CASE)
+
     private val platformPatterns: Map<String, List<Regex>> = mapOf(
         "YouTube"    to listOf(
             Regex("youtube\\.com/watch",      RegexOption.IGNORE_CASE),
@@ -74,10 +76,12 @@ object UrlDetectorService {
         return null
     }
 
+    /** Any well-formed http(s) URL is acceptable — yt-dlp decides if it's supported. */
     fun isValidMediaUrl(text: String): Boolean {
         val t = text.trim()
-        if (!t.startsWith("http://") && !t.startsWith("https://")) return false
-        return detectPlatform(t) != null
+        if (!t.startsWith("http://", ignoreCase = true) && !t.startsWith("https://", ignoreCase = true)) return false
+        // Require at least scheme + host with a dot.
+        return VALID_URL_REGEX.containsMatchIn(t)
     }
 
     fun extractUrl(text: String): String? {
@@ -85,7 +89,8 @@ object UrlDetectorService {
         val trimmed = text.trim()
         if (isValidMediaUrl(trimmed)) return trimmed
         val urlRegex = Regex("https?://\\S+", RegexOption.IGNORE_CASE)
-        return urlRegex.findAll(text).mapNotNull { it.value.takeIf { u -> isValidMediaUrl(u) } }.firstOrNull()
+        return urlRegex.findAll(text).map { it.value.trimEnd('.', ',', ')', ']') }
+            .firstOrNull { isValidMediaUrl(it) }
     }
 
     fun getPlatformEmoji(platform: String): String = when (platform) {

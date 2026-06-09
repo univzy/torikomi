@@ -1,0 +1,230 @@
+<resources>
+    <string name="app_name">Torikomi</string>
+
+    <!-- Common -->
+    <string name="action_back">Kembali</string>
+    <string name="action_close">Tutup</string>
+    <string name="action_cancel">Batal</string>
+    <string name="action_retry">Coba lagi</string>
+    <string name="action_refresh">Segarkan</string>
+    <string name="action_open">Buka</string>
+    <string name="action_dismiss">Tutup</string>
+    <string name="action_remove">Hapus</string>
+
+    <!-- Bottom navigation / tab titles -->
+    <string name="tab_downloads">Unduhan</string>
+    <string name="tab_whatsapp">WhatsApp</string>
+    <string name="tab_history">Riwayat</string>
+    <string name="tab_settings">Pengaturan</string>
+
+    <!-- HomeScreen -->
+    <string name="home_my_downloads">Unduhan saya</string>
+    <string name="home_toggle_theme">Ganti tema</string>
+    <string name="home_about">Tentang</string>
+    <string name="home_share_hint">Tempel tautan video/audio apa pun, atau bagikan dari aplikasi lain</string>
+    <string name="home_link_label">Tautan</string>
+    <string name="home_link_placeholder">https://…</string>
+    <string name="home_clear">Hapus</string>
+    <string name="home_fetch">Ambil</string>
+    <string name="home_fetching">Mengambil…</string>
+    <string name="home_choose_quality">Pilih kualitas</string>
+    <string name="home_download_now">Unduh sekarang</string>
+    <string name="home_later">Nanti</string>
+    <string name="home_duration_none">—</string>
+    <string name="home_storage_permission_required">Izin penyimpanan diperlukan untuk menyimpan unduhan</string>
+
+    <!-- DownloadsHubScreen -->
+    <string name="hub_title">Unduhan Saya</string>
+    <string name="hub_tab_now">Sekarang</string>
+    <string name="hub_tab_later">Nanti</string>
+    <string name="hub_empty_now_title">Tidak ada unduhan aktif</string>
+    <string name="hub_empty_now_subtitle">Unduhan yang Anda mulai akan menampilkan progresnya di sini</string>
+    <string name="hub_empty_later_title">Tidak ada unduhan tersimpan</string>
+    <string name="hub_empty_later_subtitle">Item yang Anda pilih \'Nanti\' akan muncul di sini</string>
+    <string name="hub_saved_for_later">Disimpan untuk nanti</string>
+    <string name="hub_download_all">Unduh semua</string>
+    <string name="hub_status_completed">Selesai</string>
+    <string name="hub_status_failed">Gagal</string>
+    <string name="hub_download_now">Unduh sekarang</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings_section_download">Pengaturan Unduhan</string>
+    <string name="settings_section_app">Pengaturan Aplikasi</string>
+    <string name="settings_download_folder">Folder Unduhan</string>
+    <string name="settings_download_folder_choose">Ketuk untuk memilih folder</string>
+    <string name="settings_appearance">Tampilan</string>
+    <string name="settings_appearance_subtitle">Tema &amp; bahasa</string>
+    <string name="settings_engine">Mesin yt-dlp</string>
+    <string name="settings_engine_version">Versi: %1$s</string>
+    <string name="settings_engine_update">Ketuk untuk memperbarui</string>
+    <string name="settings_queue">Antrean Unduhan</string>
+    <string name="settings_queue_subtitle">Item yang disimpan untuk nanti</string>
+    <string name="settings_statistics">Statistik</string>
+    <string name="settings_statistics_subtitle">Statistik unduhan Anda</string>
+    <string name="settings_about">Tentang</string>
+    <string name="settings_about_subtitle">Versi, lisensi, privasi</string>
+    <string name="settings_folder_dialog_title">Pilih Folder Unduhan</string>
+    <string name="settings_folder_dialog_desc">Pilih folder dari penyimpanan perangkat Anda. File disimpan di sana, dengan awalan sesuai jenis:\nMUSIC_song.mp3\nVIDEO_clip.mp4\nIMAGES_photo.jpg</string>
+    <string name="settings_folder_current">Saat ini: %1$s</string>
+    <string name="settings_folder_choose_btn">Pilih Folder</string>
+
+    <!-- AppearanceScreen -->
+    <string name="appearance_title">Tampilan</string>
+    <string name="appearance_theme">Tema</string>
+    <string name="appearance_theme_system">Bawaan sistem</string>
+    <string name="appearance_theme_light">Terang</string>
+    <string name="appearance_theme_dark">Gelap</string>
+    <string name="appearance_language">Bahasa</string>
+    <string name="appearance_language_caption">Mulai ulang akan diterapkan ke seluruh aplikasi.</string>
+    <string name="appearance_lang_system">Bawaan sistem</string>
+    <string name="appearance_lang_english">English</string>
+    <string name="appearance_lang_indonesian">Bahasa Indonesia</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">Tentang</string>
+    <string name="about_tagline">Pengunduh media yang ditenagai yt-dlp</string>
+    <string name="about_version">Versi</string>
+    <string name="about_version_value">v%1$s</string>
+    <string name="about_check_updates">Periksa pembaruan</string>
+    <string name="about_update_available">Pembaruan tersedia: %1$s</string>
+    <string name="about_up_to_date">Anda menggunakan versi terbaru</string>
+    <string name="about_tap_to_check">Ketuk untuk memeriksa</string>
+    <string name="about_unknown_error">Kesalahan tidak diketahui</string>
+    <string name="about_whats_new">Yang Baru</string>
+    <string name="about_whats_new_subtitle">Catatan rilis di GitHub</string>
+    <string name="about_licenses">Lisensi Sumber Terbuka</string>
+    <string name="about_licenses_subtitle">Komponen pihak ketiga</string>
+    <string name="about_privacy">Kebijakan Privasi</string>
+    <string name="about_privacy_subtitle">Bagaimana data Anda ditangani</string>
+    <string name="about_copyright">© 2026 Torikomi</string>
+    <string name="about_licenses_intro">Torikomi dibuat dengan komponen sumber terbuka berikut:</string>
+    <string name="about_privacy_body">Torikomi tidak mengumpulkan, menyimpan, atau mengirimkan data pribadi apa pun kepada pengembangnya. Tidak ada analitik atau pelacak pihak ketiga.\n\n• Riwayat unduhan (judul, tautan, gambar mini, nama file) hanya disimpan secara lokal di perangkat Anda dan dapat dihapus kapan saja dari tab Riwayat.\n\n• Aplikasi menggunakan jaringan hanya untuk: (a) mengambil media yang Anda pilih untuk diunduh dari tautan yang Anda berikan (melalui yt-dlp), (b) memeriksa pembaruan aplikasi dari GitHub, dan (c) mengunduh/memperbarui mesin yt-dlp dari GitHub.\n\n• Izin yang digunakan: penyimpanan (untuk menyimpan unduhan Anda) dan notifikasi (untuk menampilkan status unduhan dan pembaruan) — hanya untuk tujuan tersebut.\n\n• Konten yang diunduh tunduk pada hak cipta dan ketentuan sumber aslinya; Anda bertanggung jawab atas cara Anda menggunakannya.\n\n• Torikomi bersifat sumber terbuka — lihat Lisensi Sumber Terbuka untuk komponen yang digunakan.</string>
+
+    <!-- StatisticsScreen -->
+    <string name="stats_title">Statistik</string>
+    <string name="stats_empty_title">Belum ada statistik</string>
+    <string name="stats_empty_subtitle">Statistik unduhan Anda akan muncul di sini</string>
+    <string name="stats_total_downloads">Total unduhan</string>
+    <string name="stats_total_downloaded">Total terunduh</string>
+    <string name="stats_by_type">Berdasarkan jenis</string>
+    <string name="stats_video">Video</string>
+    <string name="stats_audio">Audio</string>
+    <string name="stats_image">Gambar</string>
+    <string name="stats_last_7_days">%1$d unduhan dalam 7 hari terakhir</string>
+    <string name="stats_top_platforms">Platform teratas</string>
+
+    <!-- OnboardingScreen -->
+    <string name="onboarding_get_started">Mulai</string>
+    <string name="onboarding_continue">Lanjutkan</string>
+    <string name="onboarding_welcome_title">Selamat datang di Torikomi</string>
+    <string name="onboarding_welcome_subtitle">Pengunduh media universal\nyang ditenagai yt-dlp.</string>
+    <string name="onboarding_welcome_hint">Kami akan menyiapkan beberapa izin dan memilih\ntempat menyimpan unduhan Anda.</string>
+    <string name="onboarding_notif_title">Tetap mendapat info</string>
+    <string name="onboarding_notif_desc">Izinkan notifikasi agar Torikomi dapat menampilkan progres unduhan dan memberi tahu Anda tentang pembaruan aplikasi baru.</string>
+    <string name="onboarding_notif_granted">Notifikasi diaktifkan</string>
+    <string name="onboarding_notif_action">Izinkan notifikasi</string>
+    <string name="onboarding_notif_force">Izinkan notifikasi untuk melanjutkan</string>
+    <string name="onboarding_storage_title">Izinkan akses penyimpanan</string>
+    <string name="onboarding_storage_desc">Pada Android 9 dan lebih lama, Torikomi memerlukan izin penyimpanan untuk menyimpan unduhan ke folder Unduhan Anda.</string>
+    <string name="onboarding_storage_granted">Akses penyimpanan diberikan</string>
+    <string name="onboarding_storage_action">Izinkan penyimpanan</string>
+    <string name="onboarding_storage_force">Izinkan penyimpanan untuk melanjutkan</string>
+    <string name="onboarding_folder_title">Di mana sebaiknya kami menyimpan unduhan?</string>
+    <string name="onboarding_folder_subtitle">Anda dapat mengubahnya nanti di Pengaturan.</string>
+    <string name="onboarding_folder_default_title">Folder bawaan</string>
+    <string name="onboarding_folder_default_desc">File akan disimpan ke\nTorikomi (root sdcard)</string>
+    <string name="onboarding_folder_custom_title">Folder khusus</string>
+    <string name="onboarding_folder_custom_selected">Dipilih: %1$s</string>
+    <string name="onboarding_folder_custom_pick">Ketuk untuk memilih folder dari penyimpanan Anda</string>
+    <string name="onboarding_folder_pick_first">Pilih folder terlebih dahulu</string>
+    <string name="onboarding_folder_selected_label">Dipilih</string>
+    <string name="onboarding_done_title">Semua siap!</string>
+    <string name="onboarding_done_save_custom">Menyimpan ke %1$s</string>
+    <string name="onboarding_done_save_default">Menyimpan ke folder Torikomi bawaan</string>
+    <string name="onboarding_done_body">Torikomi siap digunakan.\n%1$s</string>
+    <string name="onboarding_enter">Masuk ke Torikomi</string>
+
+    <!-- SetupScreen -->
+    <string name="setup_title">Unduh mesin yt-dlp</string>
+    <string name="setup_desc">Torikomi memerlukan yt-dlp terbaru untuk mengambil dan mengunduh media. Ini hanya diunduh sekali (Anda dapat memperbaruinya nanti di Pengaturan).</string>
+    <string name="setup_downloading">Mengunduh yt-dlp…</string>
+    <string name="setup_download_btn">Unduh yt-dlp</string>
+
+    <!-- WhatsAppStatusScreen -->
+    <string name="wa_save_all">Simpan semua</string>
+    <string name="wa_photos">%1$d foto</string>
+    <string name="wa_videos">%1$d video</string>
+    <string name="wa_section_photos">Foto</string>
+    <string name="wa_section_videos">Video</string>
+    <string name="wa_permission_title">Izin Penyimpanan Diperlukan</string>
+    <string name="wa_permission_desc">Torikomi memerlukan akses penyimpanan untuk membaca status WhatsApp Anda.</string>
+    <string name="wa_grant_permission">Berikan Izin</string>
+    <string name="wa_error_title">Terjadi kesalahan</string>
+    <string name="wa_empty_title">Tidak ada status ditemukan</string>
+    <string name="wa_empty_desc">Lihat beberapa status WhatsApp dulu, lalu kembali ke sini.</string>
+    <string name="wa_saved_to_folder">Disimpan ke folder</string>
+    <string name="wa_saved_to_gallery">Disimpan ke galeri</string>
+    <string name="wa_save_failed">Gagal menyimpan: %1$s</string>
+    <string name="wa_files_saved">%1$d file disimpan</string>
+
+    <!-- HistoryScreen -->
+    <string name="history_filter_type">JENIS</string>
+    <string name="history_filter_platform">PLATFORM</string>
+    <string name="history_filter_all">Semua</string>
+    <string name="history_filter_video">Video</string>
+    <string name="history_filter_audio">Audio</string>
+    <string name="history_filter_image">Gambar</string>
+    <string name="history_items_found">%1$d item ditemukan</string>
+    <string name="history_empty_title">Belum ada unduhan</string>
+    <string name="history_empty_subtitle">Unduhan akan muncul di sini</string>
+    <string name="history_clear_all">Hapus Semua</string>
+    <string name="history_today">Hari ini %1$s</string>
+    <string name="history_yesterday">Kemarin %1$s</string>
+    <string name="history_days_ago">%1$d hr lalu</string>
+    <string name="history_clear_dialog_title">Hapus semua riwayat?</string>
+    <string name="history_clear_dialog_text">Ini akan menghapus semua entri riwayat dan menghapus file yang diunduh. Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="history_clear_dialog_confirm">Hapus Semua</string>
+    <string name="history_delete_dialog_title">Hapus unduhan?</string>
+    <string name="history_delete_dialog_text">\"%1$s\" akan dihapus dari riwayat dan dihapus dari penyimpanan.</string>
+    <string name="history_delete_dialog_confirm">Hapus</string>
+    <string name="history_file_not_found">File tidak ditemukan</string>
+    <string name="history_no_app_open">Tidak ada aplikasi untuk membuka file ini</string>
+    <string name="history_no_app_share">Tidak ada aplikasi untuk membagikan file ini</string>
+
+    <!-- DownloadViewModel toasts / errors -->
+    <string name="toast_download_started">Unduhan dimulai</string>
+    <string name="toast_saved_for_later">Disimpan untuk nanti</string>
+    <string name="error_paste_link_first">Tempel tautan terlebih dahulu</string>
+    <string name="error_invalid_link">Itu sepertinya bukan tautan yang valid</string>
+    <string name="error_no_internet">Tidak ada koneksi internet. Periksa jaringan Anda dan coba lagi.</string>
+    <string name="error_fetch_generic">Gagal mengambil media. Silakan coba lagi.</string>
+    <string name="error_unsupported_link">Tautan ini tidak didukung oleh yt-dlp.</string>
+    <string name="error_unreachable">Tidak dapat menjangkau server. Coba jaringan lain atau VPN.</string>
+    <string name="error_timeout">Permintaan kehabisan waktu. Periksa koneksi Anda dan coba lagi.</string>
+    <string name="error_access_blocked">Akses diblokir oleh sumber — tautan mungkin bersifat pribadi atau dibatasi kecepatannya.</string>
+    <string name="error_not_found">Konten tidak ditemukan — tautan mungkin telah dihapus.</string>
+
+    <!-- DownloadService notifications -->
+    <string name="notif_app_name">Torikomi</string>
+    <string name="notif_preparing">Menyiapkan unduhan…</string>
+    <string name="notif_downloading">Mengunduh</string>
+    <string name="notif_status_starting">Memulai…</string>
+    <string name="notif_status_downloading_pct">Mengunduh %1$d%%</string>
+    <string name="notif_progress">%1$s — %2$d%%</string>
+    <string name="notif_saving">Menyimpan…</string>
+    <string name="notif_completed">Selesai</string>
+    <string name="notif_failed">Gagal: %1$s</string>
+    <string name="notif_default_title">Unduhan</string>
+    <string name="notif_unknown_error">kesalahan tidak diketahui</string>
+    <string name="history_untitled">Tanpa judul</string>
+
+    <!-- Startup update dialog (App.kt) -->
+    <string name="startup_update_title">Pembaruan Tersedia</string>
+    <string name="startup_update_body">Versi yang lebih baru (%1$s) tersedia.\n\n%2$s</string>
+    <string name="startup_update_no_changelog">Tidak ada catatan perubahan.</string>
+    <string name="startup_update_btn">Perbarui</string>
+    <string name="startup_update_later">Nanti</string>
+
+    <!-- SplashScreen -->
+    <string name="splash_subtitle">Pengunduh Media</string>
+</resources>

@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import univzy.torikomi.R
@@ -45,17 +46,17 @@ fun SplashScreen(loadingStep: String) {
         ) {
             Image(
                 painter = painterResource(R.drawable.torikomi_icon),
-                contentDescription = "Torikomi",
+                contentDescription = stringResource(R.string.app_name),
                 modifier = Modifier.size(100.dp),
             )
             Spacer(Modifier.height(20.dp))
             Text(
-                text = "Torikomi",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.primary,
             )
             Text(
-                text = "Media Downloader",
+                text = stringResource(R.string.splash_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.55f),
             )

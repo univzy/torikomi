@@ -1,0 +1,230 @@
+<resources>
+    <string name="app_name">Torikomi</string>
+
+    <!-- Common -->
+    <string name="action_back">Quay lại</string>
+    <string name="action_close">Đóng</string>
+    <string name="action_cancel">Hủy</string>
+    <string name="action_retry">Thử lại</string>
+    <string name="action_refresh">Làm mới</string>
+    <string name="action_open">Mở</string>
+    <string name="action_dismiss">Bỏ qua</string>
+    <string name="action_remove">Xóa</string>
+
+    <!-- Bottom navigation / tab titles -->
+    <string name="tab_downloads">Tải xuống</string>
+    <string name="tab_whatsapp">WhatsApp</string>
+    <string name="tab_history">Lịch sử</string>
+    <string name="tab_settings">Cài đặt</string>
+
+    <!-- HomeScreen -->
+    <string name="home_my_downloads">Mục tải xuống của tôi</string>
+    <string name="home_toggle_theme">Đổi giao diện</string>
+    <string name="home_about">Giới thiệu</string>
+    <string name="home_share_hint">Dán bất kỳ liên kết video/âm thanh nào, hoặc chia sẻ từ ứng dụng khác</string>
+    <string name="home_link_label">Liên kết</string>
+    <string name="home_link_placeholder">https://…</string>
+    <string name="home_clear">Xóa</string>
+    <string name="home_fetch">Lấy</string>
+    <string name="home_fetching">Đang lấy…</string>
+    <string name="home_choose_quality">Chọn chất lượng</string>
+    <string name="home_download_now">Tải xuống ngay</string>
+    <string name="home_later">Để sau</string>
+    <string name="home_duration_none">—</string>
+    <string name="home_storage_permission_required">Cần quyền lưu trữ để lưu các mục tải xuống</string>
+
+    <!-- DownloadsHubScreen -->
+    <string name="hub_title">Mục tải xuống của tôi</string>
+    <string name="hub_tab_now">Hiện tại</string>
+    <string name="hub_tab_later">Để sau</string>
+    <string name="hub_empty_now_title">Không có mục tải xuống đang hoạt động</string>
+    <string name="hub_empty_now_subtitle">Các mục tải xuống bạn bắt đầu sẽ hiển thị tiến trình tại đây</string>
+    <string name="hub_empty_later_title">Không có mục tải xuống đã lưu</string>
+    <string name="hub_empty_later_subtitle">Các mục bạn chọn \'Để sau\' sẽ xuất hiện tại đây</string>
+    <string name="hub_saved_for_later">Đã lưu để sau</string>
+    <string name="hub_download_all">Tải xuống tất cả</string>
+    <string name="hub_status_completed">Hoàn tất</string>
+    <string name="hub_status_failed">Thất bại</string>
+    <string name="hub_download_now">Tải xuống ngay</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings_section_download">Cài đặt tải xuống</string>
+    <string name="settings_section_app">Cài đặt ứng dụng</string>
+    <string name="settings_download_folder">Thư mục tải xuống</string>
+    <string name="settings_download_folder_choose">Nhấn để chọn thư mục</string>
+    <string name="settings_appearance">Giao diện</string>
+    <string name="settings_appearance_subtitle">Chủ đề và ngôn ngữ</string>
+    <string name="settings_engine">Bộ máy yt-dlp</string>
+    <string name="settings_engine_version">Phiên bản: %1$s</string>
+    <string name="settings_engine_update">Nhấn để cập nhật</string>
+    <string name="settings_queue">Hàng đợi tải xuống</string>
+    <string name="settings_queue_subtitle">Các mục đã lưu để sau</string>
+    <string name="settings_statistics">Thống kê</string>
+    <string name="settings_statistics_subtitle">Thống kê tải xuống của bạn</string>
+    <string name="settings_about">Giới thiệu</string>
+    <string name="settings_about_subtitle">Phiên bản, giấy phép, quyền riêng tư</string>
+    <string name="settings_folder_dialog_title">Chọn thư mục tải xuống</string>
+    <string name="settings_folder_dialog_desc">Chọn một thư mục từ bộ nhớ thiết bị của bạn. Tệp được lưu vào đó, có tiền tố theo loại:\nMUSIC_song.mp3\nVIDEO_clip.mp4\nIMAGES_photo.jpg</string>
+    <string name="settings_folder_current">Hiện tại: %1$s</string>
+    <string name="settings_folder_choose_btn">Chọn thư mục</string>
+
+    <!-- AppearanceScreen -->
+    <string name="appearance_title">Giao diện</string>
+    <string name="appearance_theme">Chủ đề</string>
+    <string name="appearance_theme_system">Mặc định hệ thống</string>
+    <string name="appearance_theme_light">Sáng</string>
+    <string name="appearance_theme_dark">Tối</string>
+    <string name="appearance_language">Ngôn ngữ</string>
+    <string name="appearance_language_caption">Khởi động lại áp dụng cho toàn bộ ứng dụng.</string>
+    <string name="appearance_lang_system">Mặc định hệ thống</string>
+    <string name="appearance_lang_english">English</string>
+    <string name="appearance_lang_indonesian">Bahasa Indonesia</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">Giới thiệu</string>
+    <string name="about_tagline">Trình tải phương tiện dựa trên yt-dlp</string>
+    <string name="about_version">Phiên bản</string>
+    <string name="about_version_value">v%1$s</string>
+    <string name="about_check_updates">Kiểm tra cập nhật</string>
+    <string name="about_update_available">Có bản cập nhật: %1$s</string>
+    <string name="about_up_to_date">Bạn đang dùng phiên bản mới nhất</string>
+    <string name="about_tap_to_check">Nhấn để kiểm tra</string>
+    <string name="about_unknown_error">Lỗi không xác định</string>
+    <string name="about_whats_new">Có gì mới</string>
+    <string name="about_whats_new_subtitle">Ghi chú phát hành trên GitHub</string>
+    <string name="about_licenses">Giấy phép nguồn mở</string>
+    <string name="about_licenses_subtitle">Thành phần của bên thứ ba</string>
+    <string name="about_privacy">Chính sách quyền riêng tư</string>
+    <string name="about_privacy_subtitle">Cách dữ liệu của bạn được xử lý</string>
+    <string name="about_copyright">© 2026 Torikomi</string>
+    <string name="about_licenses_intro">Torikomi được xây dựng với các thành phần nguồn mở sau:</string>
+    <string name="about_privacy_body">Torikomi không thu thập, lưu trữ hay truyền bất kỳ dữ liệu cá nhân nào tới nhà phát triển. Không có công cụ phân tích hay trình theo dõi của bên thứ ba.\n\n• Lịch sử tải xuống (tiêu đề, liên kết, hình thu nhỏ, tên tệp) chỉ được lưu cục bộ trên thiết bị của bạn và có thể xóa bất cứ lúc nào từ tab Lịch sử.\n\n• Ứng dụng chỉ sử dụng mạng để: (a) lấy phương tiện bạn chọn tải xuống từ các liên kết bạn cung cấp (qua yt-dlp), (b) kiểm tra cập nhật ứng dụng từ GitHub, và (c) tải xuống/cập nhật bộ máy yt-dlp từ GitHub.\n\n• Quyền được sử dụng: lưu trữ (để lưu các mục tải xuống của bạn) và thông báo (để hiển thị trạng thái tải xuống và cập nhật) — chỉ cho các mục đích đó.\n\n• Nội dung đã tải xuống tuân theo bản quyền và các điều khoản của nguồn gốc; bạn chịu trách nhiệm về cách bạn sử dụng nội dung đó.\n\n• Torikomi là nguồn mở — xem Giấy phép nguồn mở để biết các thành phần được sử dụng.</string>
+
+    <!-- StatisticsScreen -->
+    <string name="stats_title">Thống kê</string>
+    <string name="stats_empty_title">Chưa có thống kê</string>
+    <string name="stats_empty_subtitle">Thống kê tải xuống của bạn sẽ xuất hiện tại đây</string>
+    <string name="stats_total_downloads">Tổng số lượt tải xuống</string>
+    <string name="stats_total_downloaded">Tổng dung lượng đã tải</string>
+    <string name="stats_by_type">Theo loại</string>
+    <string name="stats_video">Video</string>
+    <string name="stats_audio">Âm thanh</string>
+    <string name="stats_image">Hình ảnh</string>
+    <string name="stats_last_7_days">%1$d lượt tải trong 7 ngày qua</string>
+    <string name="stats_top_platforms">Nền tảng hàng đầu</string>
+
+    <!-- OnboardingScreen -->
+    <string name="onboarding_get_started">Bắt đầu</string>
+    <string name="onboarding_continue">Tiếp tục</string>
+    <string name="onboarding_welcome_title">Chào mừng đến với Torikomi</string>
+    <string name="onboarding_welcome_subtitle">Một trình tải phương tiện đa năng\ndựa trên yt-dlp.</string>
+    <string name="onboarding_welcome_hint">Chúng tôi sẽ thiết lập một vài quyền và chọn\nnơi lưu các mục tải xuống của bạn.</string>
+    <string name="onboarding_notif_title">Luôn cập nhật</string>
+    <string name="onboarding_notif_desc">Cho phép thông báo để Torikomi có thể hiển thị tiến trình tải xuống và báo cho bạn về các bản cập nhật ứng dụng mới.</string>
+    <string name="onboarding_notif_granted">Đã bật thông báo</string>
+    <string name="onboarding_notif_action">Cho phép thông báo</string>
+    <string name="onboarding_notif_force">Cho phép thông báo để tiếp tục</string>
+    <string name="onboarding_storage_title">Cho phép truy cập bộ nhớ</string>
+    <string name="onboarding_storage_desc">Trên Android 9 trở về trước, Torikomi cần quyền lưu trữ để lưu các mục tải xuống vào thư mục Tải xuống của bạn.</string>
+    <string name="onboarding_storage_granted">Đã cấp quyền truy cập bộ nhớ</string>
+    <string name="onboarding_storage_action">Cho phép lưu trữ</string>
+    <string name="onboarding_storage_force">Cho phép lưu trữ để tiếp tục</string>
+    <string name="onboarding_folder_title">Chúng tôi nên lưu các mục tải xuống ở đâu?</string>
+    <string name="onboarding_folder_subtitle">Bạn có thể thay đổi điều này sau trong Cài đặt.</string>
+    <string name="onboarding_folder_default_title">Thư mục mặc định</string>
+    <string name="onboarding_folder_default_desc">Tệp sẽ được lưu vào\nTorikomi (gốc thẻ SD)</string>
+    <string name="onboarding_folder_custom_title">Thư mục tùy chỉnh</string>
+    <string name="onboarding_folder_custom_selected">Đã chọn: %1$s</string>
+    <string name="onboarding_folder_custom_pick">Nhấn để chọn một thư mục từ bộ nhớ của bạn</string>
+    <string name="onboarding_folder_pick_first">Hãy chọn một thư mục trước</string>
+    <string name="onboarding_folder_selected_label">Đã chọn</string>
+    <string name="onboarding_done_title">Tất cả đã sẵn sàng!</string>
+    <string name="onboarding_done_save_custom">Đang lưu vào %1$s</string>
+    <string name="onboarding_done_save_default">Đang lưu vào thư mục Torikomi mặc định</string>
+    <string name="onboarding_done_body">Torikomi đã sẵn sàng để dùng.\n%1$s</string>
+    <string name="onboarding_enter">Vào Torikomi</string>
+
+    <!-- SetupScreen -->
+    <string name="setup_title">Tải xuống bộ máy yt-dlp</string>
+    <string name="setup_desc">Torikomi cần yt-dlp mới nhất để lấy và tải phương tiện. Đây là lần tải xuống một lần (bạn có thể cập nhật sau trong Cài đặt).</string>
+    <string name="setup_downloading">Đang tải yt-dlp…</string>
+    <string name="setup_download_btn">Tải yt-dlp</string>
+
+    <!-- WhatsAppStatusScreen -->
+    <string name="wa_save_all">Lưu tất cả</string>
+    <string name="wa_photos">%1$d ảnh</string>
+    <string name="wa_videos">%1$d video</string>
+    <string name="wa_section_photos">Ảnh</string>
+    <string name="wa_section_videos">Video</string>
+    <string name="wa_permission_title">Cần quyền lưu trữ</string>
+    <string name="wa_permission_desc">Torikomi cần quyền truy cập bộ nhớ để đọc các trạng thái WhatsApp của bạn.</string>
+    <string name="wa_grant_permission">Cấp quyền</string>
+    <string name="wa_error_title">Đã xảy ra lỗi</string>
+    <string name="wa_empty_title">Không tìm thấy trạng thái</string>
+    <string name="wa_empty_desc">Hãy xem một vài trạng thái WhatsApp trước, rồi quay lại đây.</string>
+    <string name="wa_saved_to_folder">Đã lưu vào thư mục</string>
+    <string name="wa_saved_to_gallery">Đã lưu vào thư viện</string>
+    <string name="wa_save_failed">Lưu thất bại: %1$s</string>
+    <string name="wa_files_saved">Đã lưu %1$d tệp</string>
+
+    <!-- HistoryScreen -->
+    <string name="history_filter_type">LOẠI</string>
+    <string name="history_filter_platform">NỀN TẢNG</string>
+    <string name="history_filter_all">Tất cả</string>
+    <string name="history_filter_video">Video</string>
+    <string name="history_filter_audio">Âm thanh</string>
+    <string name="history_filter_image">Hình ảnh</string>
+    <string name="history_items_found">Tìm thấy %1$d mục</string>
+    <string name="history_empty_title">Chưa có mục tải xuống</string>
+    <string name="history_empty_subtitle">Các mục tải xuống sẽ xuất hiện tại đây</string>
+    <string name="history_clear_all">Xóa tất cả</string>
+    <string name="history_today">Hôm nay %1$s</string>
+    <string name="history_yesterday">Hôm qua %1$s</string>
+    <string name="history_days_ago">%1$d ngày trước</string>
+    <string name="history_clear_dialog_title">Xóa toàn bộ lịch sử?</string>
+    <string name="history_clear_dialog_text">Thao tác này sẽ xóa tất cả các mục trong lịch sử và xóa các tệp đã tải xuống. Không thể hoàn tác.</string>
+    <string name="history_clear_dialog_confirm">Xóa tất cả</string>
+    <string name="history_delete_dialog_title">Xóa mục tải xuống?</string>
+    <string name="history_delete_dialog_text">\"%1$s\" sẽ bị xóa khỏi lịch sử và xóa khỏi bộ nhớ.</string>
+    <string name="history_delete_dialog_confirm">Xóa</string>
+    <string name="history_file_not_found">Không tìm thấy tệp</string>
+    <string name="history_no_app_open">Không có ứng dụng nào để mở tệp này</string>
+    <string name="history_no_app_share">Không có ứng dụng nào để chia sẻ tệp này</string>
+
+    <!-- DownloadViewModel toasts / errors -->
+    <string name="toast_download_started">Đã bắt đầu tải xuống</string>
+    <string name="toast_saved_for_later">Đã lưu để sau</string>
+    <string name="error_paste_link_first">Hãy dán một liên kết trước</string>
+    <string name="error_invalid_link">Đó có vẻ không phải là một liên kết hợp lệ</string>
+    <string name="error_no_internet">Không có kết nối internet. Hãy kiểm tra mạng và thử lại.</string>
+    <string name="error_fetch_generic">Không lấy được phương tiện. Vui lòng thử lại.</string>
+    <string name="error_unsupported_link">Liên kết này không được yt-dlp hỗ trợ.</string>
+    <string name="error_unreachable">Không thể kết nối với máy chủ. Hãy thử mạng khác hoặc VPN.</string>
+    <string name="error_timeout">Yêu cầu đã hết thời gian. Hãy kiểm tra kết nối và thử lại.</string>
+    <string name="error_access_blocked">Truy cập bị chặn bởi nguồn — liên kết có thể là riêng tư hoặc bị giới hạn tốc độ.</string>
+    <string name="error_not_found">Không tìm thấy nội dung — liên kết có thể đã bị xóa.</string>
+
+    <!-- DownloadService notifications -->
+    <string name="notif_app_name">Torikomi</string>
+    <string name="notif_preparing">Đang chuẩn bị tải xuống…</string>
+    <string name="notif_downloading">Đang tải xuống</string>
+    <string name="notif_status_starting">Đang bắt đầu…</string>
+    <string name="notif_status_downloading_pct">Đang tải xuống %1$d%%</string>
+    <string name="notif_progress">%1$s — %2$d%%</string>
+    <string name="notif_saving">Đang lưu…</string>
+    <string name="notif_completed">Hoàn tất</string>
+    <string name="notif_failed">Thất bại: %1$s</string>
+    <string name="notif_default_title">Tải xuống</string>
+    <string name="notif_unknown_error">lỗi không xác định</string>
+    <string name="history_untitled">Không có tiêu đề</string>
+
+    <!-- Startup update dialog (App.kt) -->
+    <string name="startup_update_title">Có bản cập nhật</string>
+    <string name="startup_update_body">Đã có phiên bản mới hơn (%1$s).\n\n%2$s</string>
+    <string name="startup_update_no_changelog">Không có nhật ký thay đổi.</string>
+    <string name="startup_update_btn">Cập nhật</string>
+    <string name="startup_update_later">Để sau</string>
+
+    <!-- SplashScreen -->
+    <string name="splash_subtitle">Trình tải phương tiện</string>
+</resources>

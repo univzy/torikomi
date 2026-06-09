@@ -48,6 +48,7 @@ class HistoryRepository(private val context: Context) {
         folderUri: String = "default",
         fileName: String = "",
         quality: String = "",
+        fileSize: Long = 0,
     ) {
         val history = getHistory().toMutableList()
         history.add(
@@ -64,6 +65,7 @@ class HistoryRepository(private val context: Context) {
                 folderUri    = folderUri,
                 fileName     = fileName,
                 quality      = quality,
+                fileSize     = fileSize,
             )
         )
         if (history.size > MAX_HISTORY) history.subList(MAX_HISTORY, history.size).clear()
@@ -116,7 +118,9 @@ class HistoryRepository(private val context: Context) {
                 context.contentResolver.query(childrenUri, projection, null, null, null)?.use { cursor ->
                     while (cursor.moveToNext()) {
                         val displayName = cursor.getString(1) ?: continue
-                        if (displayName.equals(item.fileName, ignoreCase = true)) {
+                        val prefixedName = "${mediaTypeFolder}_${item.fileName}"
+                        if (displayName.equals(item.fileName, ignoreCase = true) ||
+                            displayName.equals(prefixedName, ignoreCase = true)) {
                             val docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, cursor.getString(0))
                             DocumentsContract.deleteDocument(context.contentResolver, docUri)
                             break

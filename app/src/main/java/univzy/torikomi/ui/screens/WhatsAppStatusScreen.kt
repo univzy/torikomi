@@ -29,10 +29,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.documentfile.provider.DocumentFile
+import univzy.torikomi.R
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -76,9 +78,8 @@ private fun loadVideoThumbnail(file: File): android.graphics.Bitmap? = try {
     }
 } catch (_: Exception) { null }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WhatsAppStatusScreen(onBack: () -> Unit) {
+fun WhatsAppStatusContent(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
@@ -191,10 +192,11 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
             }
             result.onSuccess {
                 snackState.showSnackbar(
-                    if (folderUri.isNotBlank()) "Saved to folder" else "Saved to gallery"
+                    if (folderUri.isNotBlank()) context.getString(R.string.wa_saved_to_folder)
+                    else context.getString(R.string.wa_saved_to_gallery)
                 )
             }.onFailure {
-                snackState.showSnackbar("Save failed: ${it.message}")
+                snackState.showSnackbar(context.getString(R.string.wa_save_failed, it.message ?: ""))
             }
             saving.remove(status.file.absolutePath)
         }
@@ -207,68 +209,72 @@ fun WhatsAppStatusScreen(onBack: () -> Unit) {
             statuses.forEach { s ->
                 runCatching { saveFile(s); count++ }
             }
-            snackState.showSnackbar("$count files saved")
+            snackState.showSnackbar(context.getString(R.string.wa_files_saved, count))
             savingAll = false
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackState) },
-        topBar = {
-            TopAppBar(
-                title = { Text("WhatsApp Status") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Rounded.ArrowBack, "Back") } },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = WA_GREEN,
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White,
-                    actionIconContentColor = Color.White,
-                ),
-                actions = {
-                    if (hasPermission && statuses.isNotEmpty()) {
-                        IconButton(onClick = { saveAll() }, enabled = !savingAll) {
-                            if (savingAll) CircularProgressIndicator(
-                                Modifier.size(20.dp),
-                                color = Color.White,
-                                strokeWidth = 2.dp
-                            ) else Icon(Icons.Rounded.SaveAlt, "Save all")
+    Box(modifier.fillMaxSize()) {
+        Column(Modifier.fillMaxSize()) {
+            if (hasPermission && statuses.isNotEmpty()) {
+                Surface(color = WA_GREEN.copy(alpha = 0.12f)) {
+                    Row(
+                        Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End,
+                    ) {
+                        Button(
+                            onClick = { saveAll() },
+                            enabled = !savingAll,
+                            colors = ButtonDefaults.buttonColors(containerColor = WA_GREEN),
+                        ) {
+                            if (savingAll) {
+                                CircularProgressIndicator(Modifier.size(16.dp), color = Color.White, strokeWidth = 2.dp)
+                            } else {
+                                Icon(Icons.Rounded.SaveAlt, null, Modifier.size(16.dp))
+                            }
+                            Spacer(Modifier.width(8.dp))
+                            Text(stringResource(R.string.wa_save_all))
                         }
-                        IconButton(onClick = { loadStatuses() }) {
-                            Icon(Icons.Rounded.Refresh, "Refresh")
+                        Spacer(Modifier.width(8.dp))
+                        OutlinedButton(onClick = { loadStatuses() }) {
+                            Icon(Icons.Rounded.Refresh, null, Modifier.size(16.dp), tint = WA_GREEN)
+                            Spacer(Modifier.width(8.dp))
+                            Text(stringResource(R.string.action_refresh), color = WA_GREEN)
                         }
                     }
-                },
-            )
-        },
-    ) { padding ->
-        Box(Modifier.fillMaxSize().padding(padding)) {
-            when {
-                isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = WA_GREEN)
                 }
-                !hasPermission -> PermissionRequest(
-                    onGrant = {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            manageLauncher.launch(
-                                Intent(
-                                    Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
-                                    Uri.parse("package:${context.packageName}")
-                                )
-                            )
-                        } else {
-                            permLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        }
+            }
+            Box(Modifier.fillMaxSize()) {
+                when {
+                    isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = WA_GREEN)
                     }
-                )
-                error != null -> ErrorState(error!!, onRetry = { loadStatuses() })
-                statuses.isEmpty() -> EmptyState(onRetry = { loadStatuses() })
-                else -> StatusGrid(
-                    statuses = statuses,
-                    saving = saving.toSet(),
-                    onSave = { saveFile(it) },
-                )
+                    !hasPermission -> PermissionRequest(
+                        onGrant = {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                manageLauncher.launch(
+                                    Intent(
+                                        Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                                        Uri.parse("package:${context.packageName}")
+                                    )
+                                )
+                            } else {
+                                permLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            }
+                        }
+                    )
+                    error != null -> ErrorState(error!!, onRetry = { loadStatuses() })
+                    statuses.isEmpty() -> EmptyState(onRetry = { loadStatuses() })
+                    else -> StatusGrid(
+                        statuses = statuses,
+                        saving = saving.toSet(),
+                        onSave = { saveFile(it) },
+                    )
+                }
             }
         }
+        SnackbarHost(snackState, Modifier.align(Alignment.BottomCenter))
     }
 }
 
@@ -281,10 +287,10 @@ private fun PermissionRequest(onGrant: () -> Unit) {
     ) {
         Icon(Icons.Rounded.FolderOpen, null, Modifier.size(64.dp), tint = WA_GREEN)
         Spacer(Modifier.height(16.dp))
-        Text("Storage Permission Required", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+        Text(stringResource(R.string.wa_permission_title), fontWeight = FontWeight.Bold, fontSize = 20.sp)
         Spacer(Modifier.height(12.dp))
         Text(
-            "Torikomi needs storage access to read your WhatsApp statuses.",
+            stringResource(R.string.wa_permission_desc),
             color = Color.Gray,
         )
         Spacer(Modifier.height(24.dp))
@@ -294,7 +300,7 @@ private fun PermissionRequest(onGrant: () -> Unit) {
         ) {
             Icon(Icons.Rounded.Security, null, Modifier.size(16.dp))
             Spacer(Modifier.width(8.dp))
-            Text("Grant Permission")
+            Text(stringResource(R.string.wa_grant_permission))
         }
     }
 }
@@ -308,14 +314,14 @@ private fun ErrorState(message: String, onRetry: () -> Unit) {
     ) {
         Icon(Icons.Rounded.ErrorOutline, null, Modifier.size(64.dp), tint = Color.Red)
         Spacer(Modifier.height(16.dp))
-        Text("An error occurred", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Text(stringResource(R.string.wa_error_title), fontWeight = FontWeight.Bold, fontSize = 18.sp)
         Spacer(Modifier.height(8.dp))
         Text(message, color = Color.Gray)
         Spacer(Modifier.height(24.dp))
         Button(onClick = onRetry, colors = ButtonDefaults.buttonColors(containerColor = WA_GREEN)) {
             Icon(Icons.Rounded.Refresh, null, Modifier.size(16.dp))
             Spacer(Modifier.width(8.dp))
-            Text("Retry")
+            Text(stringResource(R.string.action_retry))
         }
     }
 }
@@ -329,14 +335,14 @@ private fun EmptyState(onRetry: () -> Unit) {
     ) {
         Icon(Icons.Rounded.HourglassEmpty, null, Modifier.size(64.dp), tint = Color.LightGray)
         Spacer(Modifier.height(16.dp))
-        Text("No statuses found", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Text(stringResource(R.string.wa_empty_title), fontWeight = FontWeight.Bold, fontSize = 18.sp)
         Spacer(Modifier.height(8.dp))
-        Text("View some WhatsApp statuses first, then come back here.", color = Color.Gray)
+        Text(stringResource(R.string.wa_empty_desc), color = Color.Gray)
         Spacer(Modifier.height(24.dp))
         Button(onClick = onRetry, colors = ButtonDefaults.buttonColors(containerColor = WA_GREEN)) {
             Icon(Icons.Rounded.Refresh, null, Modifier.size(16.dp))
             Spacer(Modifier.width(8.dp))
-            Text("Retry")
+            Text(stringResource(R.string.action_retry))
         }
     }
 }
@@ -355,11 +361,11 @@ private fun StatusGrid(
             Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
                 Icon(Icons.Rounded.Image, null, Modifier.size(16.dp), tint = WA_GREEN)
                 Spacer(Modifier.width(4.dp))
-                Text("${images.size} photos", fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                Text(stringResource(R.string.wa_photos, images.size), fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
                 Spacer(Modifier.width(16.dp))
                 Icon(Icons.Rounded.Videocam, null, Modifier.size(16.dp), tint = WA_GREEN)
                 Spacer(Modifier.width(4.dp))
-                Text("${videos.size} videos", fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                Text(stringResource(R.string.wa_videos, videos.size), fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
             }
         }
 
@@ -372,7 +378,7 @@ private fun StatusGrid(
             if (images.isNotEmpty()) {
                 item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(3) }) {
                     Text(
-                        "Photos",
+                        stringResource(R.string.wa_section_photos),
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp)
@@ -383,7 +389,7 @@ private fun StatusGrid(
             if (videos.isNotEmpty()) {
                 item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(3) }) {
                     Text(
-                        "Videos",
+                        stringResource(R.string.wa_section_videos),
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp)

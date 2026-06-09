@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
@@ -54,7 +53,6 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.CreateNewFolder
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.Extension
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.RocketLaunch
@@ -68,7 +66,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -82,15 +79,13 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import univzy.torikomi.R
 
 /**
@@ -98,9 +93,8 @@ import univzy.torikomi.R
  *
  *  1. Welcome
  *  2. Notification permission (Android 13+)
- *  3. Install-unknown-apps permission (needed to install extension APKs)
- *  4. Choose storage folder
- *  5. Get started!
+ *  3. Choose storage folder
+ *  4. Get started!
  *
  * Steps that don't apply on the current OS / state are skipped automatically.
  * Transitions between steps use a horizontal slide + fade.
@@ -115,7 +109,9 @@ fun OnboardingScreen(onComplete: (folderUri: String, folderName: String) -> Unit
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 add(OnboardingStep.NOTIFICATIONS)
             }
-            add(OnboardingStep.INSTALL_PERMISSION)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                add(OnboardingStep.STORAGE_PERMISSION)
+            }
             add(OnboardingStep.STORAGE)
             add(OnboardingStep.DONE)
         }
@@ -161,26 +157,19 @@ fun OnboardingScreen(onComplete: (folderUri: String, folderName: String) -> Unit
         contract = ActivityResultContracts.RequestPermission(),
     ) { granted -> notificationsGranted = granted }
 
-    // canRequestPackageInstalls is dynamic — re-check when the activity resumes
-    // (user may toggle the system setting).
-    var installPermissionGranted by remember {
+    // Storage write permission (Android 9 and below need it to save to public storage).
+    var storageGranted by remember {
         mutableStateOf(
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) true
-            else context.packageManager.canRequestPackageInstalls()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) true
+            else ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            ) == PackageManager.PERMISSION_GRANTED
         )
     }
-    val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-            ) {
-                installPermissionGranted = context.packageManager.canRequestPackageInstalls()
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
-    }
+    val storageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+    ) { granted -> storageGranted = granted }
 
     val canGoBack by remember(stepIndex) { derivedStateOf { stepIndex > 0 } }
 
@@ -236,7 +225,7 @@ fun OnboardingScreen(onComplete: (folderUri: String, folderName: String) -> Unit
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.ArrowBack,
-                        contentDescription = if (canGoBack) "Back" else null,
+                        contentDescription = if (canGoBack) stringResource(R.string.action_back) else null,
                     )
                 }
                 Spacer(Modifier.width(4.dp))
@@ -277,14 +266,10 @@ fun OnboardingScreen(onComplete: (folderUri: String, folderName: String) -> Unit
                             }
                         },
                     )
-                    OnboardingStep.INSTALL_PERMISSION -> InstallPermissionStep(
-                        granted = installPermissionGranted,
+                    OnboardingStep.STORAGE_PERMISSION -> StoragePermissionStep(
+                        granted = storageGranted,
                         onRequest = {
-                            val intent = Intent(
-                                Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
-                                Uri.parse("package:${context.packageName}"),
-                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            context.startActivity(intent)
+                            storageLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         },
                     )
                     OnboardingStep.STORAGE -> StorageStep(
@@ -300,33 +285,41 @@ fun OnboardingScreen(onComplete: (folderUri: String, folderName: String) -> Unit
                 }
             }
 
+            // Pre-resolve labels here (stringResource cannot be called inside remember).
+            val labelGetStarted = stringResource(R.string.onboarding_get_started)
+            val labelContinue = stringResource(R.string.onboarding_continue)
+            val labelNotifForce = stringResource(R.string.onboarding_notif_force)
+            val labelStorageForce = stringResource(R.string.onboarding_storage_force)
+            val labelPickFirst = stringResource(R.string.onboarding_folder_pick_first)
+            val labelEnter = stringResource(R.string.onboarding_enter)
+
             val (label, enabled, action) = remember(
-                current, notificationsGranted, installPermissionGranted, useCustomFolder, customFolderUri,
+                current, notificationsGranted, storageGranted, useCustomFolder, customFolderUri,
             ) {
                 when (current) {
                     OnboardingStep.WELCOME ->
-                        Triple("Get started", true) { goNext() }
+                        Triple(labelGetStarted, true) { goNext() }
 
                     OnboardingStep.NOTIFICATIONS ->
                         if (notificationsGranted)
-                            Triple("Continue", true) { goNext() }
+                            Triple(labelContinue, true) { goNext() }
                         else
                             // Force the user to grant the permission first.
-                            Triple("Allow notifications to continue", false) { }
+                            Triple(labelNotifForce, false) { }
 
-                    OnboardingStep.INSTALL_PERMISSION ->
-                        if (installPermissionGranted)
-                            Triple("Continue", true) { goNext() }
+                    OnboardingStep.STORAGE_PERMISSION ->
+                        if (storageGranted)
+                            Triple(labelContinue, true) { goNext() }
                         else
-                            Triple("Allow installs to continue", false) { }
+                            Triple(labelStorageForce, false) { }
 
                     OnboardingStep.STORAGE -> {
                         val ok = !useCustomFolder || customFolderUri.isNotBlank()
-                        Triple(if (ok) "Continue" else "Pick a folder first", ok) { if (ok) goNext() }
+                        Triple(if (ok) labelContinue else labelPickFirst, ok) { if (ok) goNext() }
                     }
 
                     OnboardingStep.DONE ->
-                        Triple("Enter Torikomi", true) { finish() }
+                        Triple(labelEnter, true) { finish() }
                 }
             }
 
@@ -348,7 +341,7 @@ fun OnboardingScreen(onComplete: (folderUri: String, folderName: String) -> Unit
 }
 
 private enum class OnboardingStep {
-    WELCOME, NOTIFICATIONS, INSTALL_PERMISSION, STORAGE, DONE
+    WELCOME, NOTIFICATIONS, STORAGE_PERMISSION, STORAGE, DONE
 }
 
 @Composable
@@ -371,21 +364,21 @@ private fun WelcomeStep() {
     ) {
         Image(
             painter = painterResource(R.drawable.torikomi_icon),
-            contentDescription = "Torikomi",
+            contentDescription = stringResource(R.string.app_name),
             modifier = Modifier
                 .size(120.dp)
                 .scale(scale),
         )
         Spacer(Modifier.height(28.dp))
         Text(
-            text = "Welcome to Torikomi",
+            text = stringResource(R.string.onboarding_welcome_title),
             style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
         )
         Spacer(Modifier.height(12.dp))
         Text(
-            text = "A multi-platform downloader powered by\nplugin-based extensions.",
+            text = stringResource(R.string.onboarding_welcome_subtitle),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
             textAlign = TextAlign.Center,
@@ -393,7 +386,7 @@ private fun WelcomeStep() {
         )
         Spacer(Modifier.height(32.dp))
         Text(
-            text = "We'll set up a few permissions and choose\nwhere to save your downloads.",
+            text = stringResource(R.string.onboarding_welcome_hint),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.55f),
             textAlign = TextAlign.Center,
@@ -406,24 +399,24 @@ private fun WelcomeStep() {
 private fun NotificationsStep(granted: Boolean, onRequest: () -> Unit) {
     PermissionStepLayout(
         icon = Icons.Rounded.NotificationsActive,
-        title = "Stay updated",
-        description = "Allow notifications so Torikomi can show download progress and alert you about new app or extension updates.",
+        title = stringResource(R.string.onboarding_notif_title),
+        description = stringResource(R.string.onboarding_notif_desc),
         granted = granted,
-        grantedLabel = "Notifications enabled",
-        actionLabel = "Allow notifications",
+        grantedLabel = stringResource(R.string.onboarding_notif_granted),
+        actionLabel = stringResource(R.string.onboarding_notif_action),
         onRequest = onRequest,
     )
 }
 
 @Composable
-private fun InstallPermissionStep(granted: Boolean, onRequest: () -> Unit) {
+private fun StoragePermissionStep(granted: Boolean, onRequest: () -> Unit) {
     PermissionStepLayout(
-        icon = Icons.Rounded.Extension,
-        title = "Allow extension installs",
-        description = "Extensions are small APK plugins that add support for each platform. Torikomi needs permission to install them from inside the app.",
+        icon = Icons.Rounded.FolderOpen,
+        title = stringResource(R.string.onboarding_storage_title),
+        description = stringResource(R.string.onboarding_storage_desc),
         granted = granted,
-        grantedLabel = "Allowed by system",
-        actionLabel = "Open system settings",
+        grantedLabel = stringResource(R.string.onboarding_storage_granted),
+        actionLabel = stringResource(R.string.onboarding_storage_action),
         onRequest = onRequest,
     )
 }
@@ -608,14 +601,14 @@ private fun StorageStep(
         }
         Spacer(Modifier.height(28.dp))
         Text(
-            text = "Where should we save downloads?",
+            text = stringResource(R.string.onboarding_folder_title),
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
         )
         Spacer(Modifier.height(12.dp))
         Text(
-            text = "You can change this later in Settings.",
+            text = stringResource(R.string.onboarding_folder_subtitle),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.65f),
             textAlign = TextAlign.Center,
@@ -625,19 +618,19 @@ private fun StorageStep(
         FolderOptionCard(
             selected = !useCustomFolder,
             icon = Icons.Rounded.CreateNewFolder,
-            title = "Default folder",
-            description = "Files will be saved to\nTorikomi (sdcard root)",
+            title = stringResource(R.string.onboarding_folder_default_title),
+            description = stringResource(R.string.onboarding_folder_default_desc),
             onClick = onSelectDefault,
         )
         Spacer(Modifier.height(12.dp))
         FolderOptionCard(
             selected = useCustomFolder,
             icon = Icons.Rounded.FolderOpen,
-            title = "Custom folder",
+            title = stringResource(R.string.onboarding_folder_custom_title),
             description = if (customFolderName.isNotBlank())
-                "Selected: $customFolderName"
+                stringResource(R.string.onboarding_folder_custom_selected, customFolderName)
             else
-                "Tap to pick a folder from your storage",
+                stringResource(R.string.onboarding_folder_custom_pick),
             onClick = onPickCustomFolder,
         )
     }
@@ -681,18 +674,18 @@ private fun DoneStep(usingCustomFolder: Boolean, customFolderName: String) {
         }
         Spacer(Modifier.height(28.dp))
         Text(
-            text = "All set!",
+            text = stringResource(R.string.onboarding_done_title),
             style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
         )
         Spacer(Modifier.height(12.dp))
         val saveTo = if (usingCustomFolder && customFolderName.isNotBlank())
-            "Saving to $customFolderName"
+            stringResource(R.string.onboarding_done_save_custom, customFolderName)
         else
-            "Saving to default Torikomi folder"
+            stringResource(R.string.onboarding_done_save_default)
         Text(
-            text = "Torikomi is ready to use.\n$saveTo",
+            text = stringResource(R.string.onboarding_done_body, saveTo),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
             textAlign = TextAlign.Center,
@@ -811,7 +804,7 @@ private fun FolderOptionCard(
                     Spacer(Modifier.width(8.dp))
                     Icon(
                         imageVector = Icons.Rounded.CheckCircle,
-                        contentDescription = "Selected",
+                        contentDescription = stringResource(R.string.onboarding_folder_selected_label),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(22.dp),
                     )

@@ -17,11 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import univzy.torikomi.R
 import univzy.torikomi.Torikomi
 import univzy.torikomi.data.model.DownloadHistory
 import univzy.torikomi.ui.AppViewModelFactory
@@ -44,15 +46,20 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
         Surface(Modifier.fillMaxWidth(), tonalElevation = 1.dp) {
             Column(Modifier.padding(horizontal = 16.dp, vertical = 10.dp)) {
                 FilterRow(
-                    label  = "TYPE",
-                    chips  = listOf("all" to "All", "video" to "Video", "audio" to "Audio", "image" to "Image"),
+                    label  = stringResource(R.string.history_filter_type),
+                    chips  = listOf(
+                        "all" to stringResource(R.string.history_filter_all),
+                        "video" to stringResource(R.string.history_filter_video),
+                        "audio" to stringResource(R.string.history_filter_audio),
+                        "image" to stringResource(R.string.history_filter_image),
+                    ),
                     selected = state.typeFilter,
                     onSelect = vm::setTypeFilter,
                 )
                 Spacer(Modifier.height(8.dp))
                 FilterRow(
-                    label  = "PLATFORM",
-                    chips  = listOf("all" to "All") + state.availablePlatforms.map { id ->
+                    label  = stringResource(R.string.history_filter_platform),
+                    chips  = listOf("all" to stringResource(R.string.history_filter_all)) + state.availablePlatforms.map { id ->
                         id to historyPlatformDisplayName(id)
                     },
                     selected = state.platformFilter,
@@ -61,7 +68,7 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
                 if (!state.isLoading) {
                     Spacer(Modifier.height(6.dp))
                     Text(
-                        "${state.history.size} items found",
+                        stringResource(R.string.history_items_found, state.history.size),
                         style = MaterialTheme.typography.bodySmall.copy(
                             color = MaterialTheme.colorScheme.onSurface.copy(.5f)
                         ),
@@ -78,9 +85,9 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(Icons.Rounded.History, null, Modifier.size(72.dp), tint = Color.LightGray)
                     Spacer(Modifier.height(16.dp))
-                    Text("No downloads yet", color = Color.Gray, fontSize = 16.sp)
+                    Text(stringResource(R.string.history_empty_title), color = Color.Gray, fontSize = 16.sp)
                     Spacer(Modifier.height(6.dp))
-                    Text("Downloads will appear here", style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                    Text(stringResource(R.string.history_empty_subtitle), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
                 }
             }
             else -> {
@@ -93,7 +100,7 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
                     TextButton(onClick = { showClearDialog = true }) {
                         Icon(Icons.Rounded.DeleteSweep, null, Modifier.size(16.dp))
                         Spacer(Modifier.width(4.dp))
-                        Text("Clear All")
+                        Text(stringResource(R.string.history_clear_all))
                     }
                 }
                 LazyColumn(contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
@@ -117,15 +124,15 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
     if (showClearDialog) {
         AlertDialog(
             onDismissRequest = { showClearDialog = false },
-            title   = { Text("Clear all history?") },
-            text    = { Text("This will remove all history entries and delete the downloaded files. This cannot be undone.") },
+            title   = { Text(stringResource(R.string.history_clear_dialog_title)) },
+            text    = { Text(stringResource(R.string.history_clear_dialog_text)) },
             confirmButton = {
                 TextButton(onClick = { vm.clearAll(); showClearDialog = false }) {
-                    Text("Delete All", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.history_clear_dialog_confirm), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showClearDialog = false }) { Text("Cancel") }
+                TextButton(onClick = { showClearDialog = false }) { Text(stringResource(R.string.action_cancel)) }
             },
         )
     }
@@ -133,15 +140,15 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
     deletePendingItem?.let { pending ->
         AlertDialog(
             onDismissRequest = { deletePendingItem = null },
-            title   = { Text("Delete download?") },
-            text    = { Text("\"${pending.title.take(60)}\" will be removed from history and deleted from storage.") },
+            title   = { Text(stringResource(R.string.history_delete_dialog_title)) },
+            text    = { Text(stringResource(R.string.history_delete_dialog_text, pending.title.take(60))) },
             confirmButton = {
                 TextButton(onClick = { vm.deleteItem(pending); deletePendingItem = null }) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.history_delete_dialog_confirm), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { deletePendingItem = null }) { Text("Cancel") }
+                TextButton(onClick = { deletePendingItem = null }) { Text(stringResource(R.string.action_cancel)) }
             },
         )
     }
@@ -239,7 +246,7 @@ private fun HistoryItem(context: android.content.Context, item: DownloadHistory,
                     }
                 }
                 Spacer(Modifier.height(4.dp))
-                Text(formatDate(item.downloadDate), style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+                Text(formatDate(context, item.downloadDate), style = MaterialTheme.typography.labelSmall, color = Color.Gray)
             }
 
             IconButton(onClick = onShare) {
@@ -252,16 +259,16 @@ private fun HistoryItem(context: android.content.Context, item: DownloadHistory,
     }
 }
 
-private fun formatDate(epochMillis: Long): String {
+private fun formatDate(context: android.content.Context, epochMillis: Long): String {
     val now  = System.currentTimeMillis()
     val diff = now - epochMillis
     val days = diff / (1000 * 60 * 60 * 24)
     val date = Date(epochMillis)
     val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(date)
     return when {
-        days == 0L -> "Today $time"
-        days == 1L -> "Yesterday $time"
-        days < 7L  -> "${days}d ago"
+        days == 0L -> context.getString(R.string.history_today, time)
+        days == 1L -> context.getString(R.string.history_yesterday, time)
+        days < 7L  -> context.getString(R.string.history_days_ago, days)
         else       -> SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(date)
     }
 }
@@ -348,7 +355,7 @@ private fun findMediaUri(context: android.content.Context, item: DownloadHistory
 
 private fun openDownloadedMedia(context: android.content.Context, item: DownloadHistory) {
     val (uri, mimeType) = findMediaUri(context, item) ?: run {
-        android.widget.Toast.makeText(context, "File not found", android.widget.Toast.LENGTH_SHORT).show()
+        android.widget.Toast.makeText(context, context.getString(R.string.history_file_not_found), android.widget.Toast.LENGTH_SHORT).show()
         return
     }
     val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -358,13 +365,13 @@ private fun openDownloadedMedia(context: android.content.Context, item: Download
     try {
         context.startActivity(intent)
     } catch (e: Exception) {
-        android.widget.Toast.makeText(context, "No app available to open this file", android.widget.Toast.LENGTH_SHORT).show()
+        android.widget.Toast.makeText(context, context.getString(R.string.history_no_app_open), android.widget.Toast.LENGTH_SHORT).show()
     }
 }
 
 private fun shareDownloadedMedia(context: android.content.Context, item: DownloadHistory) {
     val (uri, mimeType) = findMediaUri(context, item) ?: run {
-        android.widget.Toast.makeText(context, "File not found", android.widget.Toast.LENGTH_SHORT).show()
+        android.widget.Toast.makeText(context, context.getString(R.string.history_file_not_found), android.widget.Toast.LENGTH_SHORT).show()
         return
     }
     val intent = Intent(Intent.ACTION_SEND).apply {
@@ -375,7 +382,7 @@ private fun shareDownloadedMedia(context: android.content.Context, item: Downloa
     try {
         context.startActivity(Intent.createChooser(intent, item.title))
     } catch (e: Exception) {
-        android.widget.Toast.makeText(context, "No app available to share this file", android.widget.Toast.LENGTH_SHORT).show()
+        android.widget.Toast.makeText(context, context.getString(R.string.history_no_app_share), android.widget.Toast.LENGTH_SHORT).show()
     }
 }
 

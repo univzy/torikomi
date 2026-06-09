@@ -20,6 +20,10 @@ class MainActivity : ComponentActivity() {
     private var sharedUrl: String? = null
     private val updateChecker by lazy { UpdateChecker(applicationContext) }
 
+    override fun attachBaseContext(newBase: android.content.Context) {
+        super.attachBaseContext(univzy.torikomi.util.LocaleHelper.wrap(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

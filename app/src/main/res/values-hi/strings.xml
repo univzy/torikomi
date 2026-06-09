@@ -1,0 +1,230 @@
+<resources>
+    <string name="app_name">Torikomi</string>
+
+    <!-- Common -->
+    <string name="action_back">वापस</string>
+    <string name="action_close">बंद करें</string>
+    <string name="action_cancel">रद्द करें</string>
+    <string name="action_retry">पुनः प्रयास करें</string>
+    <string name="action_refresh">रीफ़्रेश करें</string>
+    <string name="action_open">खोलें</string>
+    <string name="action_dismiss">खारिज करें</string>
+    <string name="action_remove">हटाएँ</string>
+
+    <!-- Bottom navigation / tab titles -->
+    <string name="tab_downloads">डाउनलोड</string>
+    <string name="tab_whatsapp">WhatsApp</string>
+    <string name="tab_history">इतिहास</string>
+    <string name="tab_settings">सेटिंग</string>
+
+    <!-- HomeScreen -->
+    <string name="home_my_downloads">मेरे डाउनलोड</string>
+    <string name="home_toggle_theme">थीम बदलें</string>
+    <string name="home_about">परिचय</string>
+    <string name="home_share_hint">कोई भी वीडियो/ऑडियो लिंक पेस्ट करें, या किसी अन्य ऐप से साझा करें</string>
+    <string name="home_link_label">लिंक</string>
+    <string name="home_link_placeholder">https://…</string>
+    <string name="home_clear">साफ़ करें</string>
+    <string name="home_fetch">लाएँ</string>
+    <string name="home_fetching">ला रहे हैं…</string>
+    <string name="home_choose_quality">गुणवत्ता चुनें</string>
+    <string name="home_download_now">अभी डाउनलोड करें</string>
+    <string name="home_later">बाद में</string>
+    <string name="home_duration_none">—</string>
+    <string name="home_storage_permission_required">डाउनलोड सहेजने के लिए स्टोरेज अनुमति आवश्यक है</string>
+
+    <!-- DownloadsHubScreen -->
+    <string name="hub_title">मेरे डाउनलोड</string>
+    <string name="hub_tab_now">अभी</string>
+    <string name="hub_tab_later">बाद में</string>
+    <string name="hub_empty_now_title">कोई सक्रिय डाउनलोड नहीं</string>
+    <string name="hub_empty_now_subtitle">आपके शुरू किए गए डाउनलोड की प्रगति यहाँ दिखेगी</string>
+    <string name="hub_empty_later_title">कोई सहेजा गया डाउनलोड नहीं</string>
+    <string name="hub_empty_later_subtitle">जिन आइटम को आप \'बाद में\' चुनेंगे वे यहाँ दिखेंगे</string>
+    <string name="hub_saved_for_later">बाद के लिए सहेजा गया</string>
+    <string name="hub_download_all">सभी डाउनलोड करें</string>
+    <string name="hub_status_completed">पूर्ण</string>
+    <string name="hub_status_failed">विफल</string>
+    <string name="hub_download_now">अभी डाउनलोड करें</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings_section_download">डाउनलोड सेटिंग</string>
+    <string name="settings_section_app">ऐप सेटिंग</string>
+    <string name="settings_download_folder">डाउनलोड फ़ोल्डर</string>
+    <string name="settings_download_folder_choose">फ़ोल्डर चुनने के लिए टैप करें</string>
+    <string name="settings_appearance">रूप</string>
+    <string name="settings_appearance_subtitle">थीम और भाषा</string>
+    <string name="settings_engine">yt-dlp इंजन</string>
+    <string name="settings_engine_version">संस्करण: %1$s</string>
+    <string name="settings_engine_update">अपडेट करने के लिए टैप करें</string>
+    <string name="settings_queue">डाउनलोड कतार</string>
+    <string name="settings_queue_subtitle">बाद के लिए सहेजे गए आइटम</string>
+    <string name="settings_statistics">आँकड़े</string>
+    <string name="settings_statistics_subtitle">आपके डाउनलोड आँकड़े</string>
+    <string name="settings_about">परिचय</string>
+    <string name="settings_about_subtitle">संस्करण, लाइसेंस, गोपनीयता</string>
+    <string name="settings_folder_dialog_title">डाउनलोड फ़ोल्डर चुनें</string>
+    <string name="settings_folder_dialog_desc">अपने डिवाइस स्टोरेज से एक फ़ोल्डर चुनें. फ़ाइलें वहीं सहेजी जाती हैं, प्रकार के अनुसार उपसर्ग के साथ:\nMUSIC_song.mp3\nVIDEO_clip.mp4\nIMAGES_photo.jpg</string>
+    <string name="settings_folder_current">वर्तमान: %1$s</string>
+    <string name="settings_folder_choose_btn">फ़ोल्डर चुनें</string>
+
+    <!-- AppearanceScreen -->
+    <string name="appearance_title">रूप</string>
+    <string name="appearance_theme">थीम</string>
+    <string name="appearance_theme_system">सिस्टम डिफ़ॉल्ट</string>
+    <string name="appearance_theme_light">हल्का</string>
+    <string name="appearance_theme_dark">गहरा</string>
+    <string name="appearance_language">भाषा</string>
+    <string name="appearance_language_caption">पुनः आरंभ पूरे ऐप पर लागू होता है.</string>
+    <string name="appearance_lang_system">सिस्टम डिफ़ॉल्ट</string>
+    <string name="appearance_lang_english">English</string>
+    <string name="appearance_lang_indonesian">Bahasa Indonesia</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">परिचय</string>
+    <string name="about_tagline">yt-dlp द्वारा संचालित मीडिया डाउनलोडर</string>
+    <string name="about_version">संस्करण</string>
+    <string name="about_version_value">v%1$s</string>
+    <string name="about_check_updates">अपडेट जाँचें</string>
+    <string name="about_update_available">अपडेट उपलब्ध: %1$s</string>
+    <string name="about_up_to_date">आप नवीनतम संस्करण पर हैं</string>
+    <string name="about_tap_to_check">जाँचने के लिए टैप करें</string>
+    <string name="about_unknown_error">अज्ञात त्रुटि</string>
+    <string name="about_whats_new">नया क्या है</string>
+    <string name="about_whats_new_subtitle">GitHub पर रिलीज़ नोट्स</string>
+    <string name="about_licenses">ओपन सोर्स लाइसेंस</string>
+    <string name="about_licenses_subtitle">तृतीय-पक्ष घटक</string>
+    <string name="about_privacy">गोपनीयता नीति</string>
+    <string name="about_privacy_subtitle">आपका डेटा कैसे संभाला जाता है</string>
+    <string name="about_copyright">© 2026 Torikomi</string>
+    <string name="about_licenses_intro">Torikomi इन ओपन-सोर्स घटकों के साथ बनाया गया है:</string>
+    <string name="about_privacy_body">Torikomi अपने डेवलपर्स को कोई व्यक्तिगत डेटा एकत्र, संग्रहीत या प्रसारित नहीं करता. कोई एनालिटिक्स या तृतीय-पक्ष ट्रैकर नहीं है.\n\n• डाउनलोड इतिहास (शीर्षक, लिंक, थंबनेल, फ़ाइल नाम) केवल आपके डिवाइस पर स्थानीय रूप से संग्रहीत होता है और इसे इतिहास टैब से कभी भी साफ़ किया जा सकता है.\n\n• ऐप नेटवर्क का उपयोग केवल इसके लिए करता है: (क) आपके दिए गए लिंक से डाउनलोड के लिए चुने गए मीडिया को लाने के लिए (yt-dlp के माध्यम से), (ख) GitHub से ऐप अपडेट की जाँच के लिए, और (ग) GitHub से yt-dlp इंजन को डाउनलोड/अपडेट करने के लिए.\n\n• उपयोग की गई अनुमतियाँ: स्टोरेज (आपके डाउनलोड सहेजने के लिए) और सूचनाएँ (डाउनलोड और अपडेट की स्थिति दिखाने के लिए) — केवल इन्हीं उद्देश्यों के लिए.\n\n• डाउनलोड की गई सामग्री उसके मूल स्रोत के कॉपीराइट और शर्तों के अधीन है; आप इसके उपयोग के लिए ज़िम्मेदार हैं.\n\n• Torikomi ओपन सोर्स है — उपयोग किए गए घटकों के लिए ओपन सोर्स लाइसेंस देखें.</string>
+
+    <!-- StatisticsScreen -->
+    <string name="stats_title">आँकड़े</string>
+    <string name="stats_empty_title">अभी कोई आँकड़े नहीं</string>
+    <string name="stats_empty_subtitle">आपके डाउनलोड आँकड़े यहाँ दिखेंगे</string>
+    <string name="stats_total_downloads">कुल डाउनलोड</string>
+    <string name="stats_total_downloaded">कुल डाउनलोड किया गया</string>
+    <string name="stats_by_type">प्रकार के अनुसार</string>
+    <string name="stats_video">वीडियो</string>
+    <string name="stats_audio">ऑडियो</string>
+    <string name="stats_image">छवि</string>
+    <string name="stats_last_7_days">पिछले 7 दिनों में %1$d डाउनलोड</string>
+    <string name="stats_top_platforms">शीर्ष प्लेटफ़ॉर्म</string>
+
+    <!-- OnboardingScreen -->
+    <string name="onboarding_get_started">शुरू करें</string>
+    <string name="onboarding_continue">जारी रखें</string>
+    <string name="onboarding_welcome_title">Torikomi में आपका स्वागत है</string>
+    <string name="onboarding_welcome_subtitle">एक सार्वभौमिक मीडिया डाउनलोडर\nजो yt-dlp द्वारा संचालित है.</string>
+    <string name="onboarding_welcome_hint">हम कुछ अनुमतियाँ सेट करेंगे और चुनेंगे\nकि आपके डाउनलोड कहाँ सहेजे जाएँ.</string>
+    <string name="onboarding_notif_title">अपडेट रहें</string>
+    <string name="onboarding_notif_desc">सूचनाओं की अनुमति दें ताकि Torikomi डाउनलोड प्रगति दिखा सके और नए ऐप अपडेट के बारे में आपको सूचित कर सके.</string>
+    <string name="onboarding_notif_granted">सूचनाएँ सक्षम</string>
+    <string name="onboarding_notif_action">सूचनाओं की अनुमति दें</string>
+    <string name="onboarding_notif_force">जारी रखने के लिए सूचनाओं की अनुमति दें</string>
+    <string name="onboarding_storage_title">स्टोरेज एक्सेस की अनुमति दें</string>
+    <string name="onboarding_storage_desc">Android 9 और उससे पुराने पर, Torikomi को आपके डाउनलोड फ़ोल्डर में डाउनलोड सहेजने के लिए स्टोरेज अनुमति की आवश्यकता है.</string>
+    <string name="onboarding_storage_granted">स्टोरेज एक्सेस दी गई</string>
+    <string name="onboarding_storage_action">स्टोरेज की अनुमति दें</string>
+    <string name="onboarding_storage_force">जारी रखने के लिए स्टोरेज की अनुमति दें</string>
+    <string name="onboarding_folder_title">हमें डाउनलोड कहाँ सहेजने चाहिए?</string>
+    <string name="onboarding_folder_subtitle">आप इसे बाद में सेटिंग में बदल सकते हैं.</string>
+    <string name="onboarding_folder_default_title">डिफ़ॉल्ट फ़ोल्डर</string>
+    <string name="onboarding_folder_default_desc">फ़ाइलें यहाँ सहेजी जाएँगी\nTorikomi (sdcard रूट)</string>
+    <string name="onboarding_folder_custom_title">कस्टम फ़ोल्डर</string>
+    <string name="onboarding_folder_custom_selected">चयनित: %1$s</string>
+    <string name="onboarding_folder_custom_pick">अपने स्टोरेज से फ़ोल्डर चुनने के लिए टैप करें</string>
+    <string name="onboarding_folder_pick_first">पहले एक फ़ोल्डर चुनें</string>
+    <string name="onboarding_folder_selected_label">चयनित</string>
+    <string name="onboarding_done_title">सब तैयार है!</string>
+    <string name="onboarding_done_save_custom">%1$s में सहेजा जा रहा है</string>
+    <string name="onboarding_done_save_default">डिफ़ॉल्ट Torikomi फ़ोल्डर में सहेजा जा रहा है</string>
+    <string name="onboarding_done_body">Torikomi उपयोग के लिए तैयार है.\n%1$s</string>
+    <string name="onboarding_enter">Torikomi में प्रवेश करें</string>
+
+    <!-- SetupScreen -->
+    <string name="setup_title">yt-dlp इंजन डाउनलोड करें</string>
+    <string name="setup_desc">मीडिया लाने और डाउनलोड करने के लिए Torikomi को नवीनतम yt-dlp की आवश्यकता है. यह एक बार का डाउनलोड है (आप इसे बाद में सेटिंग में अपडेट कर सकते हैं).</string>
+    <string name="setup_downloading">yt-dlp डाउनलोड हो रहा है…</string>
+    <string name="setup_download_btn">yt-dlp डाउनलोड करें</string>
+
+    <!-- WhatsAppStatusScreen -->
+    <string name="wa_save_all">सभी सहेजें</string>
+    <string name="wa_photos">%1$d फ़ोटो</string>
+    <string name="wa_videos">%1$d वीडियो</string>
+    <string name="wa_section_photos">फ़ोटो</string>
+    <string name="wa_section_videos">वीडियो</string>
+    <string name="wa_permission_title">स्टोरेज अनुमति आवश्यक</string>
+    <string name="wa_permission_desc">आपके WhatsApp स्टेटस पढ़ने के लिए Torikomi को स्टोरेज एक्सेस की आवश्यकता है.</string>
+    <string name="wa_grant_permission">अनुमति दें</string>
+    <string name="wa_error_title">एक त्रुटि हुई</string>
+    <string name="wa_empty_title">कोई स्टेटस नहीं मिला</string>
+    <string name="wa_empty_desc">पहले कुछ WhatsApp स्टेटस देखें, फिर यहाँ वापस आएँ.</string>
+    <string name="wa_saved_to_folder">फ़ोल्डर में सहेजा गया</string>
+    <string name="wa_saved_to_gallery">गैलरी में सहेजा गया</string>
+    <string name="wa_save_failed">सहेजना विफल: %1$s</string>
+    <string name="wa_files_saved">%1$d फ़ाइलें सहेजी गईं</string>
+
+    <!-- HistoryScreen -->
+    <string name="history_filter_type">प्रकार</string>
+    <string name="history_filter_platform">प्लेटफ़ॉर्म</string>
+    <string name="history_filter_all">सभी</string>
+    <string name="history_filter_video">वीडियो</string>
+    <string name="history_filter_audio">ऑडियो</string>
+    <string name="history_filter_image">छवि</string>
+    <string name="history_items_found">%1$d आइटम मिले</string>
+    <string name="history_empty_title">अभी कोई डाउनलोड नहीं</string>
+    <string name="history_empty_subtitle">डाउनलोड यहाँ दिखेंगे</string>
+    <string name="history_clear_all">सभी साफ़ करें</string>
+    <string name="history_today">आज %1$s</string>
+    <string name="history_yesterday">कल %1$s</string>
+    <string name="history_days_ago">%1$d दिन पहले</string>
+    <string name="history_clear_dialog_title">सारा इतिहास साफ़ करें?</string>
+    <string name="history_clear_dialog_text">यह सभी इतिहास प्रविष्टियाँ हटा देगा और डाउनलोड की गई फ़ाइलें मिटा देगा. इसे पूर्ववत नहीं किया जा सकता.</string>
+    <string name="history_clear_dialog_confirm">सभी हटाएँ</string>
+    <string name="history_delete_dialog_title">डाउनलोड हटाएँ?</string>
+    <string name="history_delete_dialog_text">\"%1$s\" इतिहास से हटा दिया जाएगा और स्टोरेज से मिटा दिया जाएगा.</string>
+    <string name="history_delete_dialog_confirm">हटाएँ</string>
+    <string name="history_file_not_found">फ़ाइल नहीं मिली</string>
+    <string name="history_no_app_open">इस फ़ाइल को खोलने के लिए कोई ऐप उपलब्ध नहीं</string>
+    <string name="history_no_app_share">इस फ़ाइल को साझा करने के लिए कोई ऐप उपलब्ध नहीं</string>
+
+    <!-- DownloadViewModel toasts / errors -->
+    <string name="toast_download_started">डाउनलोड शुरू हुआ</string>
+    <string name="toast_saved_for_later">बाद के लिए सहेजा गया</string>
+    <string name="error_paste_link_first">पहले एक लिंक पेस्ट करें</string>
+    <string name="error_invalid_link">यह एक वैध लिंक जैसा नहीं लगता</string>
+    <string name="error_no_internet">कोई इंटरनेट कनेक्शन नहीं. अपना नेटवर्क जाँचें और फिर से प्रयास करें.</string>
+    <string name="error_fetch_generic">मीडिया लाने में विफल. कृपया फिर से प्रयास करें.</string>
+    <string name="error_unsupported_link">यह लिंक yt-dlp द्वारा समर्थित नहीं है.</string>
+    <string name="error_unreachable">सर्वर तक नहीं पहुँच सके. कोई अन्य नेटवर्क या VPN आज़माएँ.</string>
+    <string name="error_timeout">अनुरोध का समय समाप्त. अपना कनेक्शन जाँचें और फिर से प्रयास करें.</string>
+    <string name="error_access_blocked">स्रोत द्वारा एक्सेस अवरुद्ध — लिंक निजी या दर-सीमित हो सकता है.</string>
+    <string name="error_not_found">सामग्री नहीं मिली — लिंक हटा दिया गया हो सकता है.</string>
+
+    <!-- DownloadService notifications -->
+    <string name="notif_app_name">Torikomi</string>
+    <string name="notif_preparing">डाउनलोड तैयार किया जा रहा है…</string>
+    <string name="notif_downloading">डाउनलोड हो रहा है</string>
+    <string name="notif_status_starting">शुरू हो रहा है…</string>
+    <string name="notif_status_downloading_pct">डाउनलोड हो रहा है %1$d%%</string>
+    <string name="notif_progress">%1$s — %2$d%%</string>
+    <string name="notif_saving">सहेजा जा रहा है…</string>
+    <string name="notif_completed">पूर्ण</string>
+    <string name="notif_failed">विफल: %1$s</string>
+    <string name="notif_default_title">डाउनलोड</string>
+    <string name="notif_unknown_error">अज्ञात त्रुटि</string>
+    <string name="history_untitled">शीर्षकहीन</string>
+
+    <!-- Startup update dialog (App.kt) -->
+    <string name="startup_update_title">अपडेट उपलब्ध</string>
+    <string name="startup_update_body">एक नया संस्करण (%1$s) उपलब्ध है.\n\n%2$s</string>
+    <string name="startup_update_no_changelog">कोई चेंजलॉग नहीं दिया गया.</string>
+    <string name="startup_update_btn">अपडेट करें</string>
+    <string name="startup_update_later">बाद में</string>
+
+    <!-- SplashScreen -->
+    <string name="splash_subtitle">मीडिया डाउनलोडर</string>
+</resources>

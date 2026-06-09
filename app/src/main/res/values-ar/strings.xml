@@ -1,0 +1,230 @@
+<resources>
+    <string name="app_name">Torikomi</string>
+
+    <!-- Common -->
+    <string name="action_back">رجوع</string>
+    <string name="action_close">إغلاق</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_retry">إعادة المحاولة</string>
+    <string name="action_refresh">تحديث</string>
+    <string name="action_open">فتح</string>
+    <string name="action_dismiss">تجاهل</string>
+    <string name="action_remove">إزالة</string>
+
+    <!-- Bottom navigation / tab titles -->
+    <string name="tab_downloads">التنزيلات</string>
+    <string name="tab_whatsapp">WhatsApp</string>
+    <string name="tab_history">السجل</string>
+    <string name="tab_settings">الإعدادات</string>
+
+    <!-- HomeScreen -->
+    <string name="home_my_downloads">تنزيلاتي</string>
+    <string name="home_toggle_theme">تبديل المظهر</string>
+    <string name="home_about">حول</string>
+    <string name="home_share_hint">الصق أي رابط فيديو/صوت، أو شاركه من تطبيق آخر</string>
+    <string name="home_link_label">الرابط</string>
+    <string name="home_link_placeholder">https://…</string>
+    <string name="home_clear">مسح</string>
+    <string name="home_fetch">جلب</string>
+    <string name="home_fetching">جارٍ الجلب…</string>
+    <string name="home_choose_quality">اختر الجودة</string>
+    <string name="home_download_now">تنزيل الآن</string>
+    <string name="home_later">لاحقًا</string>
+    <string name="home_duration_none">—</string>
+    <string name="home_storage_permission_required">يلزم إذن التخزين لحفظ التنزيلات</string>
+
+    <!-- DownloadsHubScreen -->
+    <string name="hub_title">تنزيلاتي</string>
+    <string name="hub_tab_now">الآن</string>
+    <string name="hub_tab_later">لاحقًا</string>
+    <string name="hub_empty_now_title">لا توجد تنزيلات نشطة</string>
+    <string name="hub_empty_now_subtitle">ستظهر التنزيلات التي تبدؤها مع تقدمها هنا</string>
+    <string name="hub_empty_later_title">لا توجد تنزيلات محفوظة</string>
+    <string name="hub_empty_later_subtitle">ستظهر هنا العناصر التي تختار \'لاحقًا\' لها</string>
+    <string name="hub_saved_for_later">محفوظ للاحقًا</string>
+    <string name="hub_download_all">تنزيل الكل</string>
+    <string name="hub_status_completed">اكتمل</string>
+    <string name="hub_status_failed">فشل</string>
+    <string name="hub_download_now">تنزيل الآن</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings_section_download">إعدادات التنزيل</string>
+    <string name="settings_section_app">إعدادات التطبيق</string>
+    <string name="settings_download_folder">مجلد التنزيل</string>
+    <string name="settings_download_folder_choose">انقر لاختيار مجلد</string>
+    <string name="settings_appearance">المظهر</string>
+    <string name="settings_appearance_subtitle">المظهر واللغة</string>
+    <string name="settings_engine">محرك yt-dlp</string>
+    <string name="settings_engine_version">الإصدار: %1$s</string>
+    <string name="settings_engine_update">انقر للتحديث</string>
+    <string name="settings_queue">قائمة انتظار التنزيل</string>
+    <string name="settings_queue_subtitle">العناصر المحفوظة للاحقًا</string>
+    <string name="settings_statistics">الإحصائيات</string>
+    <string name="settings_statistics_subtitle">إحصائيات التنزيل الخاصة بك</string>
+    <string name="settings_about">حول</string>
+    <string name="settings_about_subtitle">الإصدار، التراخيص، الخصوصية</string>
+    <string name="settings_folder_dialog_title">اختر مجلد التنزيل</string>
+    <string name="settings_folder_dialog_desc">اختر مجلدًا من وحدة تخزين جهازك. تُحفظ الملفات هناك، مع بادئة حسب النوع:\nMUSIC_song.mp3\nVIDEO_clip.mp4\nIMAGES_photo.jpg</string>
+    <string name="settings_folder_current">الحالي: %1$s</string>
+    <string name="settings_folder_choose_btn">اختر المجلد</string>
+
+    <!-- AppearanceScreen -->
+    <string name="appearance_title">المظهر</string>
+    <string name="appearance_theme">المظهر</string>
+    <string name="appearance_theme_system">افتراضي النظام</string>
+    <string name="appearance_theme_light">فاتح</string>
+    <string name="appearance_theme_dark">داكن</string>
+    <string name="appearance_language">اللغة</string>
+    <string name="appearance_language_caption">تُطبَّق إعادة التشغيل على التطبيق بأكمله.</string>
+    <string name="appearance_lang_system">افتراضي النظام</string>
+    <string name="appearance_lang_english">English</string>
+    <string name="appearance_lang_indonesian">Bahasa Indonesia</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">حول</string>
+    <string name="about_tagline">أداة تنزيل وسائط مدعومة بـ yt-dlp</string>
+    <string name="about_version">الإصدار</string>
+    <string name="about_version_value">v%1$s</string>
+    <string name="about_check_updates">التحقق من التحديثات</string>
+    <string name="about_update_available">يتوفر تحديث: %1$s</string>
+    <string name="about_up_to_date">أنت تستخدم أحدث إصدار</string>
+    <string name="about_tap_to_check">انقر للتحقق</string>
+    <string name="about_unknown_error">خطأ غير معروف</string>
+    <string name="about_whats_new">ما الجديد</string>
+    <string name="about_whats_new_subtitle">ملاحظات الإصدار على GitHub</string>
+    <string name="about_licenses">تراخيص المصدر المفتوح</string>
+    <string name="about_licenses_subtitle">مكوّنات الطرف الثالث</string>
+    <string name="about_privacy">سياسة الخصوصية</string>
+    <string name="about_privacy_subtitle">كيف تتم معالجة بياناتك</string>
+    <string name="about_copyright">© 2026 Torikomi</string>
+    <string name="about_licenses_intro">تم بناء Torikomi باستخدام مكوّنات المصدر المفتوح التالية:</string>
+    <string name="about_privacy_body">لا يجمع Torikomi أي بيانات شخصية أو يخزّنها أو يرسلها إلى مطوّريه. لا توجد أدوات تحليلات أو متعقّبات تابعة لجهات خارجية.\n\n• يُخزَّن سجل التنزيلات (العناوين، الروابط، الصور المصغّرة، أسماء الملفات) محليًا فقط على جهازك ويمكن مسحه في أي وقت من علامة التبويب السجل.\n\n• يستخدم التطبيق الشبكة فقط من أجل: (أ) جلب الوسائط التي تختار تنزيلها من الروابط التي تقدّمها (عبر yt-dlp)، و(ب) التحقق من تحديثات التطبيق من GitHub، و(ج) تنزيل/تحديث محرك yt-dlp من GitHub.\n\n• الأذونات المستخدمة: التخزين (لحفظ تنزيلاتك) والإشعارات (لعرض حالة التنزيل والتحديث) — لهذه الأغراض فقط.\n\n• يخضع المحتوى الذي تم تنزيله لحقوق النشر وشروط مصدره الأصلي؛ وأنت مسؤول عن كيفية استخدامه.\n\n• Torikomi مفتوح المصدر — راجع تراخيص المصدر المفتوح للاطلاع على المكوّنات المستخدمة.</string>
+
+    <!-- StatisticsScreen -->
+    <string name="stats_title">الإحصائيات</string>
+    <string name="stats_empty_title">لا توجد إحصائيات بعد</string>
+    <string name="stats_empty_subtitle">ستظهر إحصائيات التنزيل الخاصة بك هنا</string>
+    <string name="stats_total_downloads">إجمالي التنزيلات</string>
+    <string name="stats_total_downloaded">إجمالي ما تم تنزيله</string>
+    <string name="stats_by_type">حسب النوع</string>
+    <string name="stats_video">فيديو</string>
+    <string name="stats_audio">صوت</string>
+    <string name="stats_image">صورة</string>
+    <string name="stats_last_7_days">%1$d تنزيلات خلال الأيام السبعة الماضية</string>
+    <string name="stats_top_platforms">أبرز المنصّات</string>
+
+    <!-- OnboardingScreen -->
+    <string name="onboarding_get_started">ابدأ</string>
+    <string name="onboarding_continue">متابعة</string>
+    <string name="onboarding_welcome_title">مرحبًا بك في Torikomi</string>
+    <string name="onboarding_welcome_subtitle">أداة تنزيل وسائط شاملة\nمدعومة بـ yt-dlp.</string>
+    <string name="onboarding_welcome_hint">سنقوم بإعداد بعض الأذونات واختيار\nمكان حفظ تنزيلاتك.</string>
+    <string name="onboarding_notif_title">ابقَ على اطّلاع</string>
+    <string name="onboarding_notif_desc">اسمح بالإشعارات حتى يتمكّن Torikomi من عرض تقدّم التنزيل وتنبيهك بتحديثات التطبيق الجديدة.</string>
+    <string name="onboarding_notif_granted">تم تمكين الإشعارات</string>
+    <string name="onboarding_notif_action">السماح بالإشعارات</string>
+    <string name="onboarding_notif_force">اسمح بالإشعارات للمتابعة</string>
+    <string name="onboarding_storage_title">السماح بالوصول إلى التخزين</string>
+    <string name="onboarding_storage_desc">على Android 9 والأقدم، يحتاج Torikomi إلى إذن التخزين لحفظ التنزيلات في مجلد التنزيلات الخاص بك.</string>
+    <string name="onboarding_storage_granted">تم منح الوصول إلى التخزين</string>
+    <string name="onboarding_storage_action">السماح بالتخزين</string>
+    <string name="onboarding_storage_force">اسمح بالتخزين للمتابعة</string>
+    <string name="onboarding_folder_title">أين يجب أن نحفظ التنزيلات؟</string>
+    <string name="onboarding_folder_subtitle">يمكنك تغيير هذا لاحقًا في الإعدادات.</string>
+    <string name="onboarding_folder_default_title">المجلد الافتراضي</string>
+    <string name="onboarding_folder_default_desc">ستُحفظ الملفات في\nTorikomi (جذر بطاقة SD)</string>
+    <string name="onboarding_folder_custom_title">مجلد مخصص</string>
+    <string name="onboarding_folder_custom_selected">المحدد: %1$s</string>
+    <string name="onboarding_folder_custom_pick">انقر لاختيار مجلد من وحدة تخزينك</string>
+    <string name="onboarding_folder_pick_first">اختر مجلدًا أولًا</string>
+    <string name="onboarding_folder_selected_label">المحدد</string>
+    <string name="onboarding_done_title">كل شيء جاهز!</string>
+    <string name="onboarding_done_save_custom">جارٍ الحفظ في %1$s</string>
+    <string name="onboarding_done_save_default">جارٍ الحفظ في مجلد Torikomi الافتراضي</string>
+    <string name="onboarding_done_body">Torikomi جاهز للاستخدام.\n%1$s</string>
+    <string name="onboarding_enter">الدخول إلى Torikomi</string>
+
+    <!-- SetupScreen -->
+    <string name="setup_title">تنزيل محرك yt-dlp</string>
+    <string name="setup_desc">يحتاج Torikomi إلى أحدث إصدار من yt-dlp لجلب الوسائط وتنزيلها. هذا تنزيل لمرة واحدة (يمكنك تحديثه لاحقًا في الإعدادات).</string>
+    <string name="setup_downloading">جارٍ تنزيل yt-dlp…</string>
+    <string name="setup_download_btn">تنزيل yt-dlp</string>
+
+    <!-- WhatsAppStatusScreen -->
+    <string name="wa_save_all">حفظ الكل</string>
+    <string name="wa_photos">%1$d صور</string>
+    <string name="wa_videos">%1$d مقاطع فيديو</string>
+    <string name="wa_section_photos">الصور</string>
+    <string name="wa_section_videos">مقاطع الفيديو</string>
+    <string name="wa_permission_title">يلزم إذن التخزين</string>
+    <string name="wa_permission_desc">يحتاج Torikomi إلى الوصول إلى التخزين لقراءة حالات WhatsApp الخاصة بك.</string>
+    <string name="wa_grant_permission">منح الإذن</string>
+    <string name="wa_error_title">حدث خطأ</string>
+    <string name="wa_empty_title">لم يتم العثور على حالات</string>
+    <string name="wa_empty_desc">شاهد بعض حالات WhatsApp أولًا، ثم عُد إلى هنا.</string>
+    <string name="wa_saved_to_folder">تم الحفظ في المجلد</string>
+    <string name="wa_saved_to_gallery">تم الحفظ في المعرض</string>
+    <string name="wa_save_failed">فشل الحفظ: %1$s</string>
+    <string name="wa_files_saved">تم حفظ %1$d ملفات</string>
+
+    <!-- HistoryScreen -->
+    <string name="history_filter_type">النوع</string>
+    <string name="history_filter_platform">المنصة</string>
+    <string name="history_filter_all">الكل</string>
+    <string name="history_filter_video">فيديو</string>
+    <string name="history_filter_audio">صوت</string>
+    <string name="history_filter_image">صورة</string>
+    <string name="history_items_found">تم العثور على %1$d عناصر</string>
+    <string name="history_empty_title">لا توجد تنزيلات بعد</string>
+    <string name="history_empty_subtitle">ستظهر التنزيلات هنا</string>
+    <string name="history_clear_all">مسح الكل</string>
+    <string name="history_today">اليوم %1$s</string>
+    <string name="history_yesterday">أمس %1$s</string>
+    <string name="history_days_ago">قبل %1$d يوم</string>
+    <string name="history_clear_dialog_title">مسح كل السجل؟</string>
+    <string name="history_clear_dialog_text">سيؤدي هذا إلى إزالة جميع إدخالات السجل وحذف الملفات التي تم تنزيلها. لا يمكن التراجع عن ذلك.</string>
+    <string name="history_clear_dialog_confirm">حذف الكل</string>
+    <string name="history_delete_dialog_title">حذف التنزيل؟</string>
+    <string name="history_delete_dialog_text">ستتم إزالة \"%1$s\" من السجل وحذفه من وحدة التخزين.</string>
+    <string name="history_delete_dialog_confirm">حذف</string>
+    <string name="history_file_not_found">الملف غير موجود</string>
+    <string name="history_no_app_open">لا يتوفر تطبيق لفتح هذا الملف</string>
+    <string name="history_no_app_share">لا يتوفر تطبيق لمشاركة هذا الملف</string>
+
+    <!-- DownloadViewModel toasts / errors -->
+    <string name="toast_download_started">بدأ التنزيل</string>
+    <string name="toast_saved_for_later">محفوظ للاحقًا</string>
+    <string name="error_paste_link_first">الصق رابطًا أولًا</string>
+    <string name="error_invalid_link">لا يبدو هذا رابطًا صالحًا</string>
+    <string name="error_no_internet">لا يوجد اتصال بالإنترنت. تحقق من شبكتك وحاول مرة أخرى.</string>
+    <string name="error_fetch_generic">تعذّر جلب الوسائط. يُرجى المحاولة مرة أخرى.</string>
+    <string name="error_unsupported_link">هذا الرابط غير مدعوم من قبل yt-dlp.</string>
+    <string name="error_unreachable">تعذّر الوصول إلى الخادم. جرّب شبكة أخرى أو VPN.</string>
+    <string name="error_timeout">انتهت مهلة الطلب. تحقق من اتصالك وحاول مرة أخرى.</string>
+    <string name="error_access_blocked">الوصول محظور من قبل المصدر — قد يكون الرابط خاصًا أو محدود المعدل.</string>
+    <string name="error_not_found">المحتوى غير موجود — ربما تمت إزالة الرابط.</string>
+
+    <!-- DownloadService notifications -->
+    <string name="notif_app_name">Torikomi</string>
+    <string name="notif_preparing">جارٍ تجهيز التنزيل…</string>
+    <string name="notif_downloading">جارٍ التنزيل</string>
+    <string name="notif_status_starting">جارٍ البدء…</string>
+    <string name="notif_status_downloading_pct">جارٍ التنزيل %1$d%%</string>
+    <string name="notif_progress">%1$s — %2$d%%</string>
+    <string name="notif_saving">جارٍ الحفظ…</string>
+    <string name="notif_completed">اكتمل</string>
+    <string name="notif_failed">فشل: %1$s</string>
+    <string name="notif_default_title">تنزيل</string>
+    <string name="notif_unknown_error">خطأ غير معروف</string>
+    <string name="history_untitled">بلا عنوان</string>
+
+    <!-- Startup update dialog (App.kt) -->
+    <string name="startup_update_title">يتوفر تحديث</string>
+    <string name="startup_update_body">يتوفر إصدار أحدث (%1$s).\n\n%2$s</string>
+    <string name="startup_update_no_changelog">لم يتم توفير سجل تغييرات.</string>
+    <string name="startup_update_btn">تحديث</string>
+    <string name="startup_update_later">لاحقًا</string>
+
+    <!-- SplashScreen -->
+    <string name="splash_subtitle">أداة تنزيل الوسائط</string>
+</resources>

@@ -49,8 +49,12 @@ android {
         applicationId = "univzy.torikomi"
         minSdk        = 24
         targetSdk     = 35
-        versionCode   = 3
-        versionName   = "1.0.2"
+        versionCode   = 4
+        versionName   = "2.0.0"
+
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -79,6 +83,15 @@ android {
 
     buildFeatures {
         compose = true
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
@@ -118,6 +131,10 @@ dependencies {
 
     // FontAwesome
     implementation(libs.compose.icons.fontawesome)
+
+    // yt-dlp engine (Python + yt-dlp bundled, FFmpeg bundled)
+    implementation(libs.youtubedl.android.library)
+    implementation(libs.youtubedl.android.ffmpeg)
 
     // Tests
     testImplementation(libs.junit)

@@ -1,0 +1,230 @@
+<resources>
+    <string name="app_name">Torikomi</string>
+
+    <!-- Common -->
+    <string name="action_back">Atrás</string>
+    <string name="action_close">Cerrar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_retry">Reintentar</string>
+    <string name="action_refresh">Actualizar</string>
+    <string name="action_open">Abrir</string>
+    <string name="action_dismiss">Descartar</string>
+    <string name="action_remove">Quitar</string>
+
+    <!-- Bottom navigation / tab titles -->
+    <string name="tab_downloads">Descargas</string>
+    <string name="tab_whatsapp">WhatsApp</string>
+    <string name="tab_history">Historial</string>
+    <string name="tab_settings">Ajustes</string>
+
+    <!-- HomeScreen -->
+    <string name="home_my_downloads">Mis descargas</string>
+    <string name="home_toggle_theme">Cambiar tema</string>
+    <string name="home_about">Acerca de</string>
+    <string name="home_share_hint">Pega cualquier enlace de video/audio, o compártelo desde otra app</string>
+    <string name="home_link_label">Enlace</string>
+    <string name="home_link_placeholder">https://…</string>
+    <string name="home_clear">Borrar</string>
+    <string name="home_fetch">Obtener</string>
+    <string name="home_fetching">Obteniendo…</string>
+    <string name="home_choose_quality">Elegir calidad</string>
+    <string name="home_download_now">Descargar ahora</string>
+    <string name="home_later">Más tarde</string>
+    <string name="home_duration_none">—</string>
+    <string name="home_storage_permission_required">Se requiere permiso de almacenamiento para guardar las descargas</string>
+
+    <!-- DownloadsHubScreen -->
+    <string name="hub_title">Mis Descargas</string>
+    <string name="hub_tab_now">Ahora</string>
+    <string name="hub_tab_later">Más tarde</string>
+    <string name="hub_empty_now_title">No hay descargas activas</string>
+    <string name="hub_empty_now_subtitle">Las descargas que inicies mostrarán su progreso aquí</string>
+    <string name="hub_empty_later_title">No hay descargas guardadas</string>
+    <string name="hub_empty_later_subtitle">Los elementos que elijas como \'Más tarde\' aparecerán aquí</string>
+    <string name="hub_saved_for_later">Guardado para más tarde</string>
+    <string name="hub_download_all">Descargar todo</string>
+    <string name="hub_status_completed">Completado</string>
+    <string name="hub_status_failed">Fallido</string>
+    <string name="hub_download_now">Descargar ahora</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings_section_download">Ajustes de descarga</string>
+    <string name="settings_section_app">Ajustes de la app</string>
+    <string name="settings_download_folder">Carpeta de descargas</string>
+    <string name="settings_download_folder_choose">Toca para elegir carpeta</string>
+    <string name="settings_appearance">Apariencia</string>
+    <string name="settings_appearance_subtitle">Tema e idioma</string>
+    <string name="settings_engine">Motor yt-dlp</string>
+    <string name="settings_engine_version">Versión: %1$s</string>
+    <string name="settings_engine_update">Toca para actualizar</string>
+    <string name="settings_queue">Cola de descargas</string>
+    <string name="settings_queue_subtitle">Elementos guardados para más tarde</string>
+    <string name="settings_statistics">Estadísticas</string>
+    <string name="settings_statistics_subtitle">Tus estadísticas de descargas</string>
+    <string name="settings_about">Acerca de</string>
+    <string name="settings_about_subtitle">Versión, licencias, privacidad</string>
+    <string name="settings_folder_dialog_title">Elegir carpeta de descargas</string>
+    <string name="settings_folder_dialog_desc">Selecciona una carpeta del almacenamiento de tu dispositivo. Los archivos se guardan allí, con un prefijo según el tipo:\nMUSIC_song.mp3\nVIDEO_clip.mp4\nIMAGES_photo.jpg</string>
+    <string name="settings_folder_current">Actual: %1$s</string>
+    <string name="settings_folder_choose_btn">Elegir carpeta</string>
+
+    <!-- AppearanceScreen -->
+    <string name="appearance_title">Apariencia</string>
+    <string name="appearance_theme">Tema</string>
+    <string name="appearance_theme_system">Predeterminado del sistema</string>
+    <string name="appearance_theme_light">Claro</string>
+    <string name="appearance_theme_dark">Oscuro</string>
+    <string name="appearance_language">Idioma</string>
+    <string name="appearance_language_caption">El reinicio se aplica a toda la app.</string>
+    <string name="appearance_lang_system">Predeterminado del sistema</string>
+    <string name="appearance_lang_english">English</string>
+    <string name="appearance_lang_indonesian">Bahasa Indonesia</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">Acerca de</string>
+    <string name="about_tagline">Descargador de medios con tecnología yt-dlp</string>
+    <string name="about_version">Versión</string>
+    <string name="about_version_value">v%1$s</string>
+    <string name="about_check_updates">Buscar actualizaciones</string>
+    <string name="about_update_available">Actualización disponible: %1$s</string>
+    <string name="about_up_to_date">Tienes la última versión</string>
+    <string name="about_tap_to_check">Toca para comprobar</string>
+    <string name="about_unknown_error">Error desconocido</string>
+    <string name="about_whats_new">Novedades</string>
+    <string name="about_whats_new_subtitle">Notas de la versión en GitHub</string>
+    <string name="about_licenses">Licencias de código abierto</string>
+    <string name="about_licenses_subtitle">Componentes de terceros</string>
+    <string name="about_privacy">Política de privacidad</string>
+    <string name="about_privacy_subtitle">Cómo se gestionan tus datos</string>
+    <string name="about_copyright">© 2026 Torikomi</string>
+    <string name="about_licenses_intro">Torikomi está construido con estos componentes de código abierto:</string>
+    <string name="about_privacy_body">Torikomi no recopila, almacena ni transmite ningún dato personal a sus desarrolladores. No hay analíticas ni rastreadores de terceros.\n\n• El historial de descargas (títulos, enlaces, miniaturas, nombres de archivo) se almacena únicamente de forma local en tu dispositivo y puede borrarse en cualquier momento desde la pestaña Historial.\n\n• La app usa la red solo para: (a) obtener el medio que eliges descargar desde los enlaces que proporcionas (mediante yt-dlp), (b) comprobar actualizaciones de la app en GitHub, y (c) descargar/actualizar el motor yt-dlp desde GitHub.\n\n• Permisos utilizados: almacenamiento (para guardar tus descargas) y notificaciones (para mostrar el estado de descargas y actualizaciones) — solo para esos fines.\n\n• El contenido descargado está sujeto a los derechos de autor y los términos de su fuente original; eres responsable del uso que le des.\n\n• Torikomi es de código abierto — consulta Licencias de código abierto para ver los componentes utilizados.</string>
+
+    <!-- StatisticsScreen -->
+    <string name="stats_title">Estadísticas</string>
+    <string name="stats_empty_title">Aún no hay estadísticas</string>
+    <string name="stats_empty_subtitle">Tus estadísticas de descargas aparecerán aquí</string>
+    <string name="stats_total_downloads">Total de descargas</string>
+    <string name="stats_total_downloaded">Total descargado</string>
+    <string name="stats_by_type">Por tipo</string>
+    <string name="stats_video">Video</string>
+    <string name="stats_audio">Audio</string>
+    <string name="stats_image">Imagen</string>
+    <string name="stats_last_7_days">%1$d descargas en los últimos 7 días</string>
+    <string name="stats_top_platforms">Plataformas principales</string>
+
+    <!-- OnboardingScreen -->
+    <string name="onboarding_get_started">Empezar</string>
+    <string name="onboarding_continue">Continuar</string>
+    <string name="onboarding_welcome_title">Bienvenido a Torikomi</string>
+    <string name="onboarding_welcome_subtitle">Un descargador de medios universal\ncon tecnología yt-dlp.</string>
+    <string name="onboarding_welcome_hint">Configuraremos algunos permisos y elegiremos\ndónde guardar tus descargas.</string>
+    <string name="onboarding_notif_title">Mantente informado</string>
+    <string name="onboarding_notif_desc">Permite las notificaciones para que Torikomi pueda mostrar el progreso de las descargas y avisarte de nuevas actualizaciones de la app.</string>
+    <string name="onboarding_notif_granted">Notificaciones activadas</string>
+    <string name="onboarding_notif_action">Permitir notificaciones</string>
+    <string name="onboarding_notif_force">Permite las notificaciones para continuar</string>
+    <string name="onboarding_storage_title">Permitir acceso al almacenamiento</string>
+    <string name="onboarding_storage_desc">En Android 9 y versiones anteriores, Torikomi necesita permiso de almacenamiento para guardar las descargas en tu carpeta de Descargas.</string>
+    <string name="onboarding_storage_granted">Acceso al almacenamiento concedido</string>
+    <string name="onboarding_storage_action">Permitir almacenamiento</string>
+    <string name="onboarding_storage_force">Permite el almacenamiento para continuar</string>
+    <string name="onboarding_folder_title">¿Dónde deberíamos guardar las descargas?</string>
+    <string name="onboarding_folder_subtitle">Puedes cambiar esto más tarde en Ajustes.</string>
+    <string name="onboarding_folder_default_title">Carpeta predeterminada</string>
+    <string name="onboarding_folder_default_desc">Los archivos se guardarán en\nTorikomi (raíz de la tarjeta SD)</string>
+    <string name="onboarding_folder_custom_title">Carpeta personalizada</string>
+    <string name="onboarding_folder_custom_selected">Seleccionada: %1$s</string>
+    <string name="onboarding_folder_custom_pick">Toca para elegir una carpeta de tu almacenamiento</string>
+    <string name="onboarding_folder_pick_first">Elige primero una carpeta</string>
+    <string name="onboarding_folder_selected_label">Seleccionada</string>
+    <string name="onboarding_done_title">¡Todo listo!</string>
+    <string name="onboarding_done_save_custom">Guardando en %1$s</string>
+    <string name="onboarding_done_save_default">Guardando en la carpeta predeterminada de Torikomi</string>
+    <string name="onboarding_done_body">Torikomi está listo para usar.\n%1$s</string>
+    <string name="onboarding_enter">Entrar a Torikomi</string>
+
+    <!-- SetupScreen -->
+    <string name="setup_title">Descargar el motor yt-dlp</string>
+    <string name="setup_desc">Torikomi necesita la última versión de yt-dlp para obtener y descargar medios. Esta es una descarga única (puedes actualizarla más tarde en Ajustes).</string>
+    <string name="setup_downloading">Descargando yt-dlp…</string>
+    <string name="setup_download_btn">Descargar yt-dlp</string>
+
+    <!-- WhatsAppStatusScreen -->
+    <string name="wa_save_all">Guardar todo</string>
+    <string name="wa_photos">%1$d fotos</string>
+    <string name="wa_videos">%1$d videos</string>
+    <string name="wa_section_photos">Fotos</string>
+    <string name="wa_section_videos">Videos</string>
+    <string name="wa_permission_title">Se requiere permiso de almacenamiento</string>
+    <string name="wa_permission_desc">Torikomi necesita acceso al almacenamiento para leer tus estados de WhatsApp.</string>
+    <string name="wa_grant_permission">Conceder permiso</string>
+    <string name="wa_error_title">Ocurrió un error</string>
+    <string name="wa_empty_title">No se encontraron estados</string>
+    <string name="wa_empty_desc">Mira algunos estados de WhatsApp primero, luego vuelve aquí.</string>
+    <string name="wa_saved_to_folder">Guardado en la carpeta</string>
+    <string name="wa_saved_to_gallery">Guardado en la galería</string>
+    <string name="wa_save_failed">Error al guardar: %1$s</string>
+    <string name="wa_files_saved">%1$d archivos guardados</string>
+
+    <!-- HistoryScreen -->
+    <string name="history_filter_type">TIPO</string>
+    <string name="history_filter_platform">PLATAFORMA</string>
+    <string name="history_filter_all">Todos</string>
+    <string name="history_filter_video">Video</string>
+    <string name="history_filter_audio">Audio</string>
+    <string name="history_filter_image">Imagen</string>
+    <string name="history_items_found">%1$d elementos encontrados</string>
+    <string name="history_empty_title">Aún no hay descargas</string>
+    <string name="history_empty_subtitle">Las descargas aparecerán aquí</string>
+    <string name="history_clear_all">Borrar todo</string>
+    <string name="history_today">Hoy %1$s</string>
+    <string name="history_yesterday">Ayer %1$s</string>
+    <string name="history_days_ago">hace %1$dd</string>
+    <string name="history_clear_dialog_title">¿Borrar todo el historial?</string>
+    <string name="history_clear_dialog_text">Esto eliminará todas las entradas del historial y borrará los archivos descargados. Esto no se puede deshacer.</string>
+    <string name="history_clear_dialog_confirm">Eliminar todo</string>
+    <string name="history_delete_dialog_title">¿Eliminar descarga?</string>
+    <string name="history_delete_dialog_text">\"%1$s\" se eliminará del historial y se borrará del almacenamiento.</string>
+    <string name="history_delete_dialog_confirm">Eliminar</string>
+    <string name="history_file_not_found">Archivo no encontrado</string>
+    <string name="history_no_app_open">No hay ninguna app disponible para abrir este archivo</string>
+    <string name="history_no_app_share">No hay ninguna app disponible para compartir este archivo</string>
+
+    <!-- DownloadViewModel toasts / errors -->
+    <string name="toast_download_started">Descarga iniciada</string>
+    <string name="toast_saved_for_later">Guardado para más tarde</string>
+    <string name="error_paste_link_first">Pega primero un enlace</string>
+    <string name="error_invalid_link">Eso no parece un enlace válido</string>
+    <string name="error_no_internet">Sin conexión a internet. Comprueba tu red e inténtalo de nuevo.</string>
+    <string name="error_fetch_generic">No se pudo obtener el medio. Inténtalo de nuevo.</string>
+    <string name="error_unsupported_link">Este enlace no es compatible con yt-dlp.</string>
+    <string name="error_unreachable">No se pudo conectar con el servidor. Prueba con otra red o una VPN.</string>
+    <string name="error_timeout">La solicitud expiró. Comprueba tu conexión e inténtalo de nuevo.</string>
+    <string name="error_access_blocked">Acceso bloqueado por la fuente — el enlace puede ser privado o estar limitado.</string>
+    <string name="error_not_found">Contenido no encontrado — es posible que el enlace se haya eliminado.</string>
+
+    <!-- DownloadService notifications -->
+    <string name="notif_app_name">Torikomi</string>
+    <string name="notif_preparing">Preparando descarga…</string>
+    <string name="notif_downloading">Descargando</string>
+    <string name="notif_status_starting">Iniciando…</string>
+    <string name="notif_status_downloading_pct">Descargando %1$d%%</string>
+    <string name="notif_progress">%1$s — %2$d%%</string>
+    <string name="notif_saving">Guardando…</string>
+    <string name="notif_completed">Completado</string>
+    <string name="notif_failed">Fallido: %1$s</string>
+    <string name="notif_default_title">Descarga</string>
+    <string name="notif_unknown_error">error desconocido</string>
+    <string name="history_untitled">Sin título</string>
+
+    <!-- Startup update dialog (App.kt) -->
+    <string name="startup_update_title">Actualización disponible</string>
+    <string name="startup_update_body">Hay disponible una versión más reciente (%1$s).\n\n%2$s</string>
+    <string name="startup_update_no_changelog">No se proporcionó registro de cambios.</string>
+    <string name="startup_update_btn">Actualizar</string>
+    <string name="startup_update_later">Más tarde</string>
+
+    <!-- SplashScreen -->
+    <string name="splash_subtitle">Descargador de medios</string>
+</resources>
