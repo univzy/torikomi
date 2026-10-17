@@ -229,8 +229,12 @@ async function main() {
     const fields=await page.locator('.settings-grid select').evaluateAll(elements=>elements.map(select=>({height:select.getBoundingClientRect().height,appearance:getComputedStyle(select).appearance,arrow:!!select.parentElement.querySelector('.icon')})));
     assert.equal(fields.length,3);
     for(const field of fields){assert.ok(field.height>=48,'Dropdowns need a consistent comfortable target');assert.equal(field.appearance,'none');assert.equal(field.arrow,true,'Dropdown arrows need inset spacing');}
-    await page.locator('#preferences [name="fontFamily"]').focus();await page.keyboard.press('ArrowDown');await page.keyboard.press('Tab');
+    const fontSelect=page.locator('#preferences [name="fontFamily"]');
+    await fontSelect.focus();await page.keyboard.press('Tab');
+    assert.equal(await fontSelect.evaluate(select=>document.activeElement!==select&&document.activeElement!==document.body),true,'Tab must advance keyboard focus from the font selector');
+    await fontSelect.selectOption('sans');
     await page.waitForFunction(()=>state.document.settings.value.fontFamily==='sans');
+    assert.match(await page.evaluate(()=>document.body.style.fontFamily),/Arial/,'The selected font must be applied');
     await page.selectOption('#preferences [name="fontFamily"]','system');
     await page.check('#preferences [name="glass"]');
     await page.waitForFunction(()=>document.body.classList.contains('glass'));
