@@ -2,100 +2,313 @@ name: Build & Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  build:
-    name: Build Release APK
+  catalog:
+    name: Translation and theme catalogs
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
+          python-version: '3.12'
+      - run: python scripts/generate_locales.py --check
+      - run: python -m unittest discover -s scripts -p 'test_*.py'
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+  android:
+    needs: catalog
+    name: Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Decode keystore
+          python-version: '3.12'
+      - name: Verify Android gallery packages and extractor runtime
+        run: python android/src/test/python/test_gallery_runtime.py
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Test and lint Android
         run: |
-          mkdir -p keys
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keys/torikomi-release.jks
-
-      - name: Build Release APK
+          chmod +x gradlew
+          ./gradlew :android:testDebugUnitTest :android:lintDebug
+      - name: Build APK
         env:
-          TORIKOMI_STOREFILE: ${{ github.workspace }}/keys/torikomi-release.jks
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           TORIKOMI_STOREPASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
           TORIKOMI_KEYALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
           TORIKOMI_KEYPASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
-        run: ./gradlew assembleRelease
-
-      - name: Get version name
-        id: version
         run: |
-          VERSION=$(./gradlew -q printVersionName 2>/dev/null || echo "${{ github.ref_name }}")
-          echo "name=$VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Rename APK
-        run: |
-          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
-          mv "$APK_PATH" "torikomi-${{ github.ref_name }}.apk"
-
-      - name: Generate changelog
-        id: changelog
-        run: |
-          CURRENT_TAG="${{ github.ref_name }}"
-          PREVIOUS_TAG=$(git tag --sort=-creatordate | grep -v "^${CURRENT_TAG}$" | head -n 1 || true)
-
-          if [ -z "$PREVIOUS_TAG" ]; then
-            echo "No previous tag found, using full history."
-            RANGE="$CURRENT_TAG"
-            COMPARE_LINE=""
+          mkdir -p artifacts
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            test -n "$TORIKOMI_STOREPASSWORD" && test -n "$TORIKOMI_KEYALIAS" && test -n "$TORIKOMI_KEYPASSWORD"
+            printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+            export TORIKOMI_STOREFILE="$RUNNER_TEMP/release.jks"
+            ./gradlew :android:assembleRelease
+            cp android/build/outputs/apk/release/*.apk artifacts/Torikomi-android.apk
+          elif [ "$GITHUB_REF_TYPE" = tag ]; then
+            echo 'Release tags require the Android keystore secrets.' >&2
+            exit 1
           else
-            echo "Generating changelog from $PREVIOUS_TAG to $CURRENT_TAG"
-            RANGE="${PREVIOUS_TAG}..${CURRENT_TAG}"
-            COMPARE_LINE="**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}"
+            ./gradlew :android:assembleDebug
+            cp android/build/outputs/apk/debug/*.apk artifacts/Torikomi-android-debug.apk
           fi
-
-          COMMITS=$(git log --no-merges --pretty=format:"- %s (%h)" "$RANGE")
-
-          if [ -z "$COMMITS" ]; then
-            COMMITS="- No notable changes."
-          fi
-
-          {
-            echo "log<<__CHANGELOG_EOF__"
-            echo "$COMMITS"
-            if [ -n "$COMPARE_LINE" ]; then
-              echo ""
-              echo "$COMPARE_LINE"
-            fi
-            echo "__CHANGELOG_EOF__"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - uses: actions/upload-artifact@v4
         with:
-          name: "Torikomi ${{ github.ref_name }}"
-          body: |
-            ## Release ${{ github.ref_name }}
+          name: android
+          path: artifacts/*.apk
+          if-no-files-found: error
 
-            ### Changelog
-            ${{ steps.changelog.outputs.log }}
+  desktop:
+    needs: catalog
+    name: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: Windows
+            directory: windows
+            artifact: '*.exe'
+            engine-platform: windows
+            engine-arch: x86_64
+          - os: macos-15
+            platform: macOS
+            directory: macos
+            artifact: '*.dmg'
+            engine-platform: macos
+            engine-arch: aarch64
+          - os: macos-15-intel
+            platform: macOS Intel
+            directory: macos
+            artifact: '*.dmg'
+            engine-platform: macos
+            engine-arch: x86_64
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: shared/desktop/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install macOS build tools
+        if: runner.os == 'macOS'
+        run: brew install pkg-config
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: shared/desktop/src-tauri -> target
+      - run: npm run setup
+      - run: npm test
+      - name: Install UI test browser
+        run: npm --prefix ../shared/desktop run setup:browser
+      - name: Desktop UI smoke test
+        run: npm run test:ui
+      - name: Prepare standalone desktop engines
+        run: python ../scripts/prepare_desktop_engines.py --platform ${{ matrix.engine-platform }} --arch ${{ matrix.engine-arch }}
+      - name: Package separate engine downloads and embed verified metadata
+        shell: bash
+        run: |
+          TAG="$GITHUB_REF_NAME"
+          if [ "$GITHUB_REF_TYPE" != tag ]; then TAG="v$(python -c 'import json; print(json.load(open("../shared/desktop/package.json"))["version"])')"; fi
+          python ../scripts/pack_desktop_engines.py --bundle ../shared/desktop/src-tauri/resources/engines/${{ matrix.engine-platform }}-${{ matrix.engine-arch }} --output dist/engines --manifest ../shared/desktop/src-tauri/bootstrap-engines.json --tag "$TAG"
+      - name: Exercise separate photo engine offline
+        shell: bash
+        run: |
+          ENGINE=../shared/desktop/src-tauri/resources/engines/${{ matrix.engine-platform }}-${{ matrix.engine-arch }}/gallery-dl
+          if [ "$RUNNER_OS" = Windows ]; then ENGINE="$ENGINE.exe"; fi
+          python ../scripts/test_gallery_engine.py --gallery-dl "$ENGINE"
+      - name: Exercise audio metadata, playback copies and local thumbnails
+        env:
+          TORIKOMI_FFMPEG: ${{ github.workspace }}/shared/desktop/src-tauri/resources/engines/${{ matrix.engine-platform }}-${{ matrix.engine-arch }}/ffmpeg${{ runner.os == 'Windows' && '.exe' || '' }}
+          TORIKOMI_YTDLP: ${{ github.workspace }}/shared/desktop/src-tauri/resources/engines/${{ matrix.engine-platform }}-${{ matrix.engine-arch }}/yt-dlp${{ runner.os == 'Windows' && '.exe' || '' }}
+        run: cargo test --locked --manifest-path ../shared/desktop/src-tauri/Cargo.toml --test media --test preview -- --include-ignored
+      - name: Validate engine update feed and local updater contracts
+        run: cargo test --locked --manifest-path ../shared/desktop/src-tauri/Cargo.toml --test updater
+      - name: Validate bounded decompression and pinned engine URLs
+        run: cargo test --locked --manifest-path ../shared/desktop/src-tauri/Cargo.toml --lib updater::tests
+      - name: Verify engine audio, artwork, architecture and runtime compatibility
+        run: python ../scripts/test_engine_compatibility.py --bundle ../shared/desktop/src-tauri/resources/engines/${{ matrix.engine-platform }}-${{ matrix.engine-arch }}
+      - name: Package Windows
+        if: matrix.platform == 'Windows'
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          if ($env:WINDOWS_CERTIFICATE) {
+            $certificateFile = Join-Path $env:RUNNER_TEMP 'torikomi-desktop.pfx'
+            [IO.File]::WriteAllBytes($certificateFile, [Convert]::FromBase64String($env:WINDOWS_CERTIFICATE))
+            $certificatePassword = ConvertTo-SecureString $env:WINDOWS_CERTIFICATE_PASSWORD -AsPlainText -Force
+            $certificate = Import-PfxCertificate -FilePath $certificateFile -CertStoreLocation Cert:\CurrentUser\My -Password $certificatePassword
+            $configuration = Get-Content tauri.conf.json -Raw | ConvertFrom-Json -AsHashtable
+            $configuration.bundle.windows.certificateThumbprint = $certificate.Thumbprint
+            $configuration.bundle.windows.digestAlgorithm = 'sha256'
+            $configuration.bundle.windows.timestampUrl = 'http://timestamp.digicert.com'
+            $configurationFile = Join-Path $env:RUNNER_TEMP 'tauri-windows-signing.json'
+            $configuration | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $configurationFile -Encoding utf8
+            npm.cmd --prefix ../shared/desktop run dist -- --config $configurationFile
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            node ../shared/desktop/scripts/copy-artifacts.mjs windows
+          } else {
+            npm run dist
+          }
+      - name: Import optional macOS certificate
+        if: runner.os == 'macOS'
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.MAC_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.MAC_SIGNING_IDENTITY }}
+        run: |
+          if [ -z "$APPLE_CERTIFICATE" ]; then
+            echo 'APPLE_SIGNING_IDENTITY=-' >> "$GITHUB_ENV"
+            exit 0
+          fi
+          test -n "$APPLE_SIGNING_IDENTITY" && test -n "$APPLE_CERTIFICATE_PASSWORD"
+          KEYCHAIN_PASSWORD=$(openssl rand -hex 24)
+          printf '%s' "$APPLE_CERTIFICATE" | base64 --decode > "$RUNNER_TEMP/desktop.p12"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/desktop.keychain-db"
+          security set-keychain-settings -lut 21600 "$RUNNER_TEMP/desktop.keychain-db"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/desktop.keychain-db"
+          security import "$RUNNER_TEMP/desktop.p12" -P "$APPLE_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$RUNNER_TEMP/desktop.keychain-db"
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/desktop.keychain-db"
+          security list-keychains -d user -s "$RUNNER_TEMP/desktop.keychain-db" "$HOME/Library/Keychains/login.keychain-db"
+          echo "APPLE_SIGNING_IDENTITY=$APPLE_SIGNING_IDENTITY" >> "$GITHUB_ENV"
+      - name: Package macOS
+        if: runner.os == 'macOS'
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: npm run dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.platform }}
+          path: ${{ matrix.directory }}/dist/${{ matrix.artifact }}
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: engines-${{ matrix.engine-platform }}-${{ matrix.engine-arch }}
+          path: ${{ matrix.directory }}/dist/engines/*
+          if-no-files-found: error
 
-            ### Download
-            Install the APK below on your Android device (Android 7.0+).
-          files: "torikomi-${{ github.ref_name }}.apk"
-          draft: false
+  ios:
+    needs: catalog
+    name: iOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test portable backup core
+        run: swift test --package-path ios
+      - name: Generate Xcode project
+        working-directory: ios
+        run: |
+          brew install xcodegen
+          xcodegen generate
+      - name: Import optional iOS signing credentials
+        id: signing
+        env:
+          CERTIFICATE: ${{ secrets.IOS_CERTIFICATE_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          if [ -z "$CERTIFICATE" ]; then
+            echo 'signed=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          test -n "$PROFILE" && test -n "$TEAM_ID"
+          KEYCHAIN_PASSWORD=$(openssl rand -hex 24)
+          printf '%s' "$CERTIFICATE" | base64 --decode > "$RUNNER_TEMP/ios.p12"
+          printf '%s' "$PROFILE" | base64 --decode > "$RUNNER_TEMP/profile.mobileprovision"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/torikomi.keychain-db"
+          security set-keychain-settings -lut 21600 "$RUNNER_TEMP/torikomi.keychain-db"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/torikomi.keychain-db"
+          security import "$RUNNER_TEMP/ios.p12" -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$RUNNER_TEMP/torikomi.keychain-db"
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/torikomi.keychain-db"
+          security list-keychains -d user -s "$RUNNER_TEMP/torikomi.keychain-db" "$HOME/Library/Keychains/login.keychain-db"
+          security cms -D -i "$RUNNER_TEMP/profile.mobileprovision" > "$RUNNER_TEMP/profile.plist"
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c 'Print UUID' "$RUNNER_TEMP/profile.plist")
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp "$RUNNER_TEMP/profile.mobileprovision" "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
+          echo "profile=$PROFILE_UUID" >> "$GITHUB_OUTPUT"
+          echo 'signed=true' >> "$GITHUB_OUTPUT"
+      - name: Archive iOS app
+        env:
+          SIGNED: ${{ steps.signing.outputs.signed }}
+          PROFILE_UUID: ${{ steps.signing.outputs.profile }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          if [ "$SIGNED" = true ]; then
+            xcodebuild -project ios/Torikomi.xcodeproj -scheme Torikomi -configuration Release -destination 'generic/platform=iOS' -archivePath build/Torikomi.xcarchive archive CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$APPLE_TEAM_ID" PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" CODE_SIGN_IDENTITY='Apple Distribution'
+          else
+            xcodebuild -project ios/Torikomi.xcodeproj -scheme Torikomi -configuration Release -destination 'generic/platform=iOS' -archivePath build/Torikomi.xcarchive archive CODE_SIGNING_ALLOWED=NO
+          fi
+      - name: Export signed IPA or unsigned archive
+        env:
+          SIGNED: ${{ steps.signing.outputs.signed }}
+          PROFILE_UUID: ${{ steps.signing.outputs.profile }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          IOS_EXPORT_METHOD: ${{ vars.IOS_EXPORT_METHOD || 'release-testing' }}
+        run: |
+          mkdir -p artifacts
+          if [ "$SIGNED" = true ]; then
+            python3 - <<'PY'
+          import os, plistlib
+          options = {'method': os.environ['IOS_EXPORT_METHOD'], 'teamID': os.environ['APPLE_TEAM_ID'], 'signingStyle': 'manual', 'provisioningProfiles': {'univzy.torikomi.ios': os.environ['PROFILE_UUID']}, 'destination': 'export'}
+          with open('build/ExportOptions.plist', 'wb') as output:
+              plistlib.dump(options, output)
+          PY
+            xcodebuild -exportArchive -archivePath build/Torikomi.xcarchive -exportOptionsPlist build/ExportOptions.plist -exportPath artifacts
+          else
+            ditto -c -k --keepParent build/Torikomi.xcarchive artifacts/Torikomi-ios-unsigned.xcarchive.zip
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios
+          path: artifacts/*
+          if-no-files-found: error
+
+  release:
+    name: Publish all platforms
+    if: github.ref_type == 'tag'
+    needs: [android, desktop, ios]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: Torikomi ${{ github.ref_name }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
           prerelease: ${{ contains(github.ref_name, '-') }}
+          body: |
+            Android APK, Windows installer, macOS DMG, and iOS build are attached.
+            Preferences and library links transfer between devices through JSON import/export.
+            Windows and macOS use Rust/Tauri and the system WebView. Installers contain the app only; first launch offers verified downloads of the separate gallery-dl, yt-dlp and FFmpeg assets, or manual setup.
+            Managed desktop engines support verified background updates from separate engines-* releases. Automatic delivery requires the stable desktop engine workflow and its first successful feed publication. Manually selected executable paths remain user-managed.
+            macOS has separate Apple Silicon and Intel DMGs. Desktop photos/albums use gallery-dl; videos retain all explicit source formats through yt-dlp.
+            Android/desktop expose actual source formats. Android installs its verified gallery runtime on first use. iOS saves original direct HTTPS media files; saved site links can be exported to Android/desktop.
+            All platforms include media thumbnails, local playback, audio favorite folders, appearance preferences and JSON backup. Media files stay on each device.
+            Without Apple signing secrets, the iOS artifact is an unsigned Xcode archive, not an installable IPA. Unsigned desktop builds may require OS approval.
+          files: artifacts/*

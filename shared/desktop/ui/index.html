@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Torikomi</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="catalog.js"></script>
+  <script defer src="bridge.js"></script>
+  <script defer src="media-ui.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <svg class="icon-defs" aria-hidden="true"><defs>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"/></symbol>
+    <symbol id="i-library" viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="9" y="4" width="5" height="16" rx="1"/><path d="m16 5 3-1 4 15-3 1z"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 13 4-4m-6 6-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 3 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(1 1)"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V5h7l2 2h9v13H3z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6zM8 12l3 3 5-6"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 4v16M16 4v16"/></symbol>
+    <symbol id="i-previous" viewBox="0 0 24 24"><path d="M5 4v16m14-16L7 12l12 8z"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M19 4v16M5 4l12 8-12 8z"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H4m6-6-6 6 6 6"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 3h7v7m0-7L10 14M10 3H3v18h18v-7"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></symbol>
+    <symbol id="i-folder-plus" viewBox="0 0 24 24"><path d="M3 7V5h7l2 2h9v13H3zM9 13h6m-3-3v6"/></symbol>
+    <symbol id="i-folder-minus" viewBox="0 0 24 24"><path d="M3 7V5h7l2 2h9v13H3zM9 13h6"/></symbol>
+    <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M3 6h3c5 0 7 12 12 12h3m-4-4 4 4-4 4M3 18h3c2 0 4-3 6-6s4-6 6-6h3m-4-4 4 4-4 4"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m16 2 4 4-4 4M4 11V9a3 3 0 0 1 3-3h13M8 22l-4-4 4-4m12-1v2a3 3 0 0 1-3 3H4"/></symbol>
+    <symbol id="i-repeat-one" viewBox="0 0 24 24"><path d="m16 2 4 4-4 4M4 11V9a3 3 0 0 1 3-3h13M8 22l-4-4 4-4m12-1v2a3 3 0 0 1-3 3H4m6-7 2-1v5"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M3 9h4l5-5v16l-5-5H3zM16 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m3 17 5-5 4 4 4-6 5 7"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-volume-off" viewBox="0 0 24 24"><path d="M3 9h4l5-5v16l-5-5H3zM16 9l6 6m0-6-6 6"/></symbol>
+  </defs></svg>
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+  <aside class="sidebar">
+    <div class="brand"><img src="icon.png" alt="" width="40" height="40"><div><strong>torikomi<span>.</span></strong><small data-i18n="tagline">Your media, within reach</small></div></div>
+    <nav aria-label="Main navigation">
+      <button data-page="download" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="download">Download</span></button>
+      <button data-page="library"><svg class="icon" aria-hidden="true"><use href="#i-library"/></svg><span data-media-i18n="media_history">History</span><span id="library-count" class="nav-count">0</span></button>
+      <button data-page="favorites"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg><span data-media-i18n="media_favorites">Favorites</span></button>
+      <button data-page="settings"><svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg><span data-i18n="settings">Settings</span></button>
+    </nav>
+    <div class="sidebar-footer"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><small data-i18n="revision_local">On your device. In your control.</small><span class="version">TORIKOMI 2.0</span></div>
+  </aside>
+  <main id="main" tabindex="-1">
+    <header class="workspace-header"><span>TORIKOMI <span class="separator">/</span> <span id="current-page" data-i18n="download">Download</span></span><button id="open-folder" class="quiet"><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg><span data-i18n="openFolder">Open download folder</span></button></header>
+    <section id="download" class="page">
+      <div class="page-intro"><p class="eyebrow" data-i18n="revision_workspace">YOUR MEDIA WORKSPACE</p><h1 data-i18n="downloadTitle">Keep something worth saving.</h1><p class="muted" data-i18n="revision_download_intro">One link. Every available format. You choose.</p></div>
+      <form id="download-form" class="panel link-panel">
+        <label for="url" data-i18n="mediaLink">Media link</label>
+        <div class="url-control"><svg class="icon" aria-hidden="true"><use href="#i-link"/></svg><input id="url" name="url" type="url" placeholder="https://" required autocomplete="off"><button id="inspect-button" class="primary" type="submit"><span data-i18n="revision_inspect">Show formats</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+        <div class="link-footer"><button id="save-link" type="button" class="quiet" data-i18n="saveLink">Save link for later</button></div>
+      </form>
+      <div id="inspection-loading" class="panel empty-state" role="status" hidden><span class="loader" aria-hidden="true"></span><p data-i18n="home_fetching">Fetching media info…</p></div>
+      <section id="format-panel" class="panel" hidden aria-labelledby="media-title">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="home_choose_quality">Choose quality</p><h2 id="media-title"></h2></div><span id="format-count" class="badge"></span></div>
+        <div class="format-filters" role="group" aria-label="Media type"><button type="button" data-format-kind="all" aria-pressed="true" data-i18n="history_filter_all">All</button><button type="button" data-format-kind="video" aria-pressed="false" data-i18n="history_filter_video">Video</button><button type="button" data-format-kind="audio" aria-pressed="false" data-i18n="history_filter_audio">Audio</button></div>
+        <fieldset id="format-list"><legend class="sr-only" data-i18n="revision_choose_format">Choose a source format</legend><div id="formats"></div></fieldset>
+        <p id="format-empty" class="muted" hidden data-i18n="revision_no_formats">No downloadable formats in this category.</p>
+        <div id="audio-track-control" hidden><label for="audio-track" data-i18n="revision_audio_track">Add an audio track</label><span class="select-control"><select id="audio-track"></select><svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></div>
+        <div id="audio-output-control" hidden><label for="audio-output" data-i18n="revision_audio_output">Audio output</label><span class="select-control"><select id="audio-output"><option value="original" data-i18n="revision_original">Original format</option><option value="mp3">MP3</option><option value="m4a">M4A</option><option value="opus">Opus</option><option value="flac">FLAC</option><option value="wav">WAV</option></select><svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></div>
+        <div class="download-footer"><p id="format-selection-note" class="muted small" data-i18n="revision_choose_format">Choose a source format</p><button id="download-button" class="primary" type="button" disabled><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="download">Download</span></button></div>
+      </section>
+      <section id="gallery-panel" class="panel" hidden aria-labelledby="gallery-title">
+        <div class="section-heading"><h2 id="gallery-title" data-i18n="desktop_mode_photos">Photos / Albums</h2><span id="gallery-count" class="badge"></span></div>
+        <p class="small muted" data-i18n="desktop_album_note">Choose original photos from this album. Each photo is saved separately in your library.</p>
+        <div class="actions"><button id="gallery-all" type="button" data-i18n="desktop_select_all">Select all photos</button><button id="gallery-none" type="button" data-i18n="desktop_select_none">Clear selection</button><button id="gallery-preview-retry" type="button" hidden data-i18n="action_retry">Retry</button></div>
+        <fieldset><legend class="sr-only" data-i18n="desktop_album_select">Select photos</legend><div id="gallery-items"></div></fieldset>
+        <div class="download-footer"><p class="muted small"><span data-i18n="desktop_selected">Selected photos</span>: <span id="gallery-selected">0</span></p><button id="gallery-download" class="primary" type="button" data-i18n="download">Download</button></div>
+      </section>
+      <div id="progress-panel" class="panel" hidden><div class="section-heading"><h2 data-i18n="working">Downloading…</h2><button id="cancel" class="quiet" data-i18n="cancel">Cancel download</button></div><progress id="progress" max="100"></progress><p id="progress-text" class="muted small"></p></div>
+      <div id="download-empty" class="download-empty"><div class="empty-icon"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></div><h2 data-i18n="revision_ready">Ready when you are.</h2><p class="muted" data-i18n="revision_download_intro">One link. Every available format. You choose.</p></div>
+    </section>
+    <section id="library" class="page" hidden>
+      <div class="page-intro"><p class="eyebrow" data-media-i18n="media_history">History</p><h1 data-media-i18n="media_history_title">Your downloads, ready to revisit.</h1><p class="muted" data-i18n="revision_library_intro">Your saved links and downloads, together in one place.</p></div>
+      <div id="history-filters" class="format-filters" role="group" aria-label="Media type"><button data-history-kind="all" aria-pressed="true" data-media-i18n="media_all">All</button><button data-history-kind="video" aria-pressed="false" data-media-i18n="media_video">Video</button><button data-history-kind="image" aria-pressed="false" data-media-i18n="media_photo">Photos</button><button data-history-kind="audio" aria-pressed="false" data-media-i18n="media_audio">Audio</button></div>
+      <label for="search" data-i18n="search">Search library</label><input id="search" type="search">
+      <p id="empty-library" class="panel muted" data-i18n="revision_empty_library">Your library starts with a link.</p>
+      <button id="library-preview-retry" type="button" hidden data-i18n="action_retry">Retry</button><div id="entries" class="entries"></div><button id="more" hidden data-i18n="more">Show more</button>
+    </section>
+    <section id="favorites" class="page" hidden>
+      <div class="section-heading"><div class="page-intro"><p class="eyebrow" data-media-i18n="media_favorites">Favorites</p><h1 id="favorite-title" data-media-i18n="media_favorites_title">Keep your favorites together.</h1></div><button id="new-favorite-folder" type="button" data-media-i18n="media_new_folder">New folder</button></div>
+      <p id="favorites-note" class="muted" data-media-i18n="media_favorites_note">Favorite an audio from History, then arrange it into your own folders.</p>
+      <div id="favorite-folders" class="favorite-folders"></div>
+      <div id="favorite-folder-actions" class="actions" hidden><button id="favorite-back" type="button" data-media-i18n="media_back_folders">All folders</button><button id="favorite-play" type="button" class="primary" data-media-i18n="media_play">Play</button><button id="favorite-rename" type="button" data-media-i18n="media_rename">Rename folder</button><button id="favorite-delete" type="button" data-media-i18n="media_delete_folder">Remove folder</button></div>
+      <p id="favorite-empty" class="panel muted" hidden data-media-i18n="media_empty_folder">No audio in this folder yet. Add audio from History.</p>
+      <div id="favorite-tracks" class="entries"></div>
+    </section>
+    <section id="settings" class="page" hidden>
+      <div class="page-intro"><p class="eyebrow" data-i18n="settings">Settings</p><h1 data-i18n="settingsTitle">Make yourself at home.</h1></div>
+      <form id="preferences" class="panel">
+        <input type="hidden" name="themeMode"><input type="hidden" name="themeColor">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="appearance">Appearance</p><h2 data-i18n="theme">Theme</h2></div><button id="preview-theme" type="button" data-i18n="theme_preview">Preview theme</button></div>
+        <label class="device-toggle" for="follow-device"><span><strong data-i18n="theme_follow_device">Same as device theme</strong><small class="muted" data-i18n="theme_follow_device_note">Match your device's light or dark mode.</small></span><input id="follow-device" type="checkbox" role="switch"></label>
+        <h3 id="default-label" data-i18n="theme_default_themes">Default themes</h3><div id="default-themes" class="swatches" role="radiogroup" aria-labelledby="default-label"></div>
+        <h3 id="color-label" data-i18n="theme_color_themes">Color themes</h3><div id="color-themes" class="swatches" role="radiogroup" aria-labelledby="color-label"></div>
+        <div class="settings-grid">
+          <label><span data-i18n="language">Language</span><span class="select-control"><select name="language" id="language-options"></select><svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></label>
+          <label><span data-i18n="font">Font</span><span class="select-control"><select name="fontFamily"><option value="system" data-i18n="system">System</option><option value="sans">Sans serif</option><option value="serif">Serif</option><option value="mono">Monospace</option></select><svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></label>
+          <label><span class="field-label"><span data-i18n="fontSize">Text size</span><output id="font-size-value" for="text-size">100%</output></span><input id="text-size" name="fontScale" type="range" min="1" max="1.5" step="0.05"></label>
+          <label><span data-i18n="layout">Layout</span><span class="select-control"><select name="layout"><option value="comfortable" data-i18n="comfortable">Comfortable</option><option value="compact" data-i18n="compact">Compact</option></select><svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></label>
+        </div>
+        <label class="toggle"><span data-i18n="notifications">Download notifications</span><input name="notifications" type="checkbox" role="switch"></label>
+        <label class="toggle"><span data-i18n="glass">Glass effect</span><input name="glass" type="checkbox" role="switch"></label><p id="glass-note" class="small muted" data-i18n="glassNote">Native glass where supported. Respects reduced transparency.</p>
+      </form>
+      <section id="engine-updates" class="panel" aria-labelledby="engine-updates-title"><h2 id="engine-updates-title" data-media-i18n="media_engine_updates">Engine updates</h2><label class="toggle"><span data-media-i18n="media_auto_updates">Update engines automatically</span><input id="auto-engine-updates" type="checkbox" role="switch"></label><p class="small muted" data-media-i18n="media_update_note">Checks every 24 hours. Your manually selected tools remain under your control.</p><dl id="engine-versions" class="engine-versions"></dl><p id="engine-update-status" class="small" role="status" aria-live="polite"></p><button id="check-engine-updates" type="button" data-media-i18n="media_check_updates">Check now</button></section>
+      <section class="panel" aria-labelledby="backup-title"><div class="section-heading"><div><p class="eyebrow">JSON</p><h2 id="backup-title" data-i18n="revision_backup">Backup & restore</h2></div><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></div><p class="muted" data-i18n="revision_backup_note">Export your preferences and library to JSON. Import on any device. Media files and credentials are excluded.</p><div class="actions"><button id="backup-export" type="button" data-i18n="revision_export">Export JSON</button><button id="backup-import" type="button" data-i18n="revision_import">Import JSON</button></div></section>
+      <section class="panel" aria-labelledby="engine-title"><h2 id="engine-title" data-i18n="downloads">Downloads & engine</h2><p id="folder-path" class="path"></p><div class="actions"><button data-choose="folder" data-i18n="chooseFolder">Choose folder</button><button data-choose="engine" data-i18n="chooseEngine">Select yt-dlp</button><button data-choose="gallery" data-i18n="desktop_choose_gallery">Select gallery-dl</button><button data-choose="ffmpeg" data-i18n="chooseFFmpeg">Select FFmpeg</button><button id="manage-engines" type="button" data-i18n="desktop_setup_manage">Set up engines</button></div><p id="engine-path" class="small path"></p></section>
+    </section>
+    <section id="now-playing" class="page now-playing" hidden aria-labelledby="now-playing-title">
+      <div class="section-heading player-page-heading"><button id="now-playing-back" type="button" class="icon-button quiet" data-icon-label="action_back"><svg class="icon" aria-hidden="true"><use href="#i-back"/></svg></button><p class="eyebrow" data-media-i18n="media_now_playing">Now playing</p></div>
+      <div class="listening-layout panel">
+        <div class="listening-art"><img id="now-playing-cover" alt="" hidden><div id="now-playing-cover-empty" class="artwork-empty" data-media-i18n="media_no_artwork">No artwork available</div></div>
+        <div class="listening-details">
+          <p class="eyebrow" data-media-i18n="media_audio">Audio</p><h1 id="now-playing-title"></h1><p id="now-playing-artist" class="muted"></p><p id="now-playing-album" class="small muted"></p>
+          <div class="actions listening-actions"><button id="now-playing-favorite" type="button" class="icon-button quiet" data-current-favorite aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></button><button id="now-playing-folder" type="button" class="icon-button quiet" data-icon-label="media_add_folder"><svg class="icon" aria-hidden="true"><use href="#i-folder-plus"/></svg></button><button id="now-playing-system" type="button" class="icon-button quiet" data-icon-label="media_open_system"><svg class="icon" aria-hidden="true"><use href="#i-external"/></svg></button></div>
+        </div>
+          <div class="listening-controls">
+            <label class="player-timeline"><span class="player-elapsed">0:00</span><input data-player-seek type="range" min="0" max="0" step="0.1" value="0"><span class="player-duration">0:00</span></label>
+            <div class="player-control-row">
+            <div class="player-buttons"><button data-player="shuffle" class="quiet" type="button" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-shuffle"/></svg></button><button data-player="previous" class="quiet" type="button"><svg class="icon" aria-hidden="true"><use href="#i-previous"/></svg></button><button data-player="play" class="primary" type="button"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></button><button data-player="pause" class="primary" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#i-pause"/></svg></button><button data-player="next" class="quiet" type="button"><svg class="icon" aria-hidden="true"><use href="#i-next"/></svg></button><button data-player="repeat" class="quiet" type="button" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-repeat"/></svg></button></div>
+            <div class="player-volume"><button type="button" class="icon-button quiet" data-player-mute><svg class="icon" aria-hidden="true"><use href="#i-volume"/></svg></button><input data-player-volume type="range" min="0" max="100" step="1" value="100"><output data-volume-value>100%</output></div>
+          </div>
+          <p id="player-error" role="status"></p><button id="prepare-playback" type="button" hidden data-media-i18n="media_prepare_playback">Prepare playback copy</button><button id="cancel-playback-copy" type="button" hidden data-i18n="action_cancel">Cancel</button>
+        </div>
+      </div>
+      <div class="listening-lists">
+        <section id="player-queue-panel" class="listening-queue" aria-labelledby="player-queue-title"><div class="section-heading"><h2 id="player-queue-title" data-media-i18n="media_play_queue">Play queue</h2></div><div id="player-queue"></div><p id="player-queue-empty" class="small muted" data-media-i18n="media_queue_empty">No upcoming tracks.</p></section>
+      </div>
+    </section>
+    <p id="status" role="status" aria-live="polite" aria-atomic="true"></p>
+  </main>
+  <audio id="audio-player" preload="metadata"></audio>
+  <aside id="player-bar" class="player-bar" hidden aria-label="Audio player">
+    <button id="show-now-playing" type="button" class="current-track"><img id="player-cover" alt="" hidden><span><strong id="player-title"></strong><small id="player-artist" class="muted"></small></span></button>
+    <button id="player-favorite" type="button" class="icon-button quiet" data-current-favorite aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></button>
+    <div class="player-transport"><div class="player-buttons"><button data-player="shuffle" class="quiet" type="button" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-shuffle"/></svg></button><button data-player="previous" type="button"><svg class="icon" aria-hidden="true"><use href="#i-previous"/></svg></button><button data-player="play" class="primary" type="button"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></button><button data-player="pause" class="primary" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#i-pause"/></svg></button><button data-player="next" type="button"><svg class="icon" aria-hidden="true"><use href="#i-next"/></svg></button><button data-player="repeat" class="quiet" type="button" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-repeat"/></svg></button></div><label class="player-timeline"><span class="player-elapsed">0:00</span><input data-player-seek type="range" min="0" max="0" step="0.1" value="0"><span class="player-duration">0:00</span></label></div>
+    <div class="player-volume"><button type="button" class="icon-button quiet" data-player-mute><svg class="icon" aria-hidden="true"><use href="#i-volume"/></svg></button><input data-player-volume type="range" min="0" max="100" step="1" value="100"><output data-volume-value>100%</output></div>
+  </aside>
+  <dialog id="media-viewer" class="media-viewer" aria-labelledby="viewer-title"><div class="section-heading"><h2 id="viewer-title"></h2><button data-close-dialog="media-viewer" type="button" data-media-i18n="media_close">Close</button></div><div class="viewer-stage"><img id="viewer-image" alt="" hidden><video id="viewer-video" controls playsinline preload="metadata" hidden></video></div><p id="viewer-error" role="status" hidden data-media-i18n="media_codec_error">This format could not be displayed. You can open the original in your system app.</p><label id="viewer-zoom-label" hidden><span data-media-i18n="media_zoom">Zoom</span><input id="viewer-zoom" type="range" min="100" max="300" step="25" value="100"></label><div class="actions"><button id="viewer-system-open" type="button" data-media-i18n="media_open_system">Open in system app</button></div></dialog>
+  <dialog id="folder-dialog" aria-labelledby="folder-dialog-title"><form id="folder-form"><h2 id="folder-dialog-title" data-media-i18n="media_new_folder">New folder</h2><label for="folder-name" data-media-i18n="media_folder_name">Folder name</label><input id="folder-name" required maxlength="80" autocomplete="off"><p id="folder-error" role="alert"></p><div class="actions"><button id="save-folder" class="primary" type="submit" data-media-i18n="media_save">Save</button><button data-close-dialog="folder-dialog" type="button" data-i18n="action_cancel">Cancel</button></div></form></dialog>
+  <dialog id="collection-dialog" aria-labelledby="collection-title"><h2 id="collection-title" data-media-i18n="media_add_folder">Add to folder</h2><p class="small muted" data-media-i18n="media_folder_note">Collections reference your downloads. Your media files stay in place.</p><div id="collection-options"></div><div class="actions"><button id="collection-new-folder" type="button" data-media-i18n="media_new_folder">New folder</button><button id="close-collections" type="button" data-media-i18n="media_done">Done</button></div></dialog>
+  <dialog id="theme-preview" aria-labelledby="preview-title"><div class="section-heading"><h2 id="preview-title" data-i18n="theme_preview_title">Your theme, in context</h2><button id="close-preview" type="button" data-i18n="action_close">Close</button></div><p class="muted" data-i18n="theme_preview_note">Try a theme here before applying it to the app.</p><div id="preview-swatches" class="swatches" role="radiogroup" aria-label="Theme"></div><div id="preview-sample" class="preview-sample"><p class="eyebrow">TORIKOMI</p><h2 data-i18n="downloadTitle">Keep something worth saving.</h2><p class="muted" data-i18n="revision_download_intro">One link. Every available format. You choose.</p><div class="panel"><p>https://example.com/video.mp4</p><span class="sample-button" data-i18n="download">Download</span></div></div><div class="actions"><button id="apply-preview" type="button" class="primary" data-i18n="theme_apply">Apply theme</button></div></dialog>
+  <dialog id="backup-preview" aria-labelledby="import-title"><p class="eyebrow">JSON</p><h2 id="import-title" data-i18n="revision_import_title">Restore this backup?</h2><p id="backup-summary" class="badge"></p><p class="muted" data-i18n="revision_import_note">Your preferences will be restored. Library links are merged with this device; media files are kept.</p><div class="actions"><button id="apply-import" class="primary" type="button" data-i18n="revision_restore">Restore backup</button><button id="cancel-import" type="button" data-i18n="action_cancel">Cancel</button></div></dialog>
+  <dialog id="onboarding" aria-labelledby="onboarding-title" aria-describedby="onboarding-note">
+    <div class="onboarding-brand"><img src="icon.png" width="54" height="54" alt=""><span class="eyebrow">TORIKOMI</span><span id="onboarding-step" class="badge">1 / 2</span></div>
+    <section id="onboarding-intro">
+      <h1 id="onboarding-title" data-i18n="desktop_welcome">A place for what you love.</h1>
+      <p id="onboarding-note" class="muted" data-i18n="desktop_welcome_note">Save videos, photos and albums in your own collection. Your files stay on your device.</p>
+      <div class="welcome-features"><p><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="desktop_feature_photos">Original photos and complete albums</span></p><p><svg class="icon" aria-hidden="true"><use href="#i-link"/></svg><span data-i18n="desktop_feature_video">Every video format, with your choice of quality</span></p><p><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span data-i18n="desktop_feature_backup">Your library travels with JSON backups</span></p></div>
+      <label for="welcome-language" data-i18n="language">Language</label><span class="select-control"><select id="welcome-language"></select><svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
+      <div class="actions"><button id="onboarding-next" type="button" class="primary" data-i18n="onboarding_get_started">Get started</button></div>
+    </section>
+    <section id="onboarding-setup" hidden aria-labelledby="setup-title">
+      <h1 id="setup-title" data-i18n="desktop_setup_title">Ready your workspace.</h1>
+      <p id="setup-note" class="muted" data-i18n="desktop_setup_note">Download gallery-dl, yt-dlp and FFmpeg to start saving media, or choose tools already on your computer.</p>
+      <div class="actions"><button id="setup-auto" class="primary" type="button" data-i18n="desktop_setup_auto">Download engines</button><button id="setup-cancel" type="button" hidden data-i18n="action_cancel">Cancel</button></div>
+      <p id="setup-unavailable" class="small muted" hidden data-i18n="desktop_setup_unavailable">Engine downloads are unavailable for this build. Select installed executables below.</p>
+      <details id="setup-manual"><summary data-i18n="desktop_setup_manual">Choose executables manually</summary><div class="setup-tools"><div><strong>gallery-dl</strong><p id="setup-gallery-path" class="path"></p><button data-choose="gallery" type="button" data-i18n="desktop_choose_gallery">Select gallery-dl</button></div><div><strong>yt-dlp</strong><p id="setup-engine-path" class="path"></p><button data-choose="engine" type="button" data-i18n="chooseEngine">Select yt-dlp</button></div><div><strong>FFmpeg</strong><p id="setup-ffmpeg-path" class="path"></p><button data-choose="ffmpeg" type="button" data-i18n="chooseFFmpeg">Select FFmpeg</button></div></div></details>
+      <p id="setup-progress" class="small muted" role="status" aria-live="polite"></p>
+      <progress id="setup-meter" max="100" hidden aria-labelledby="setup-progress"></progress>
+      <p id="setup-error" role="alert" class="small"></p>
+      <div class="actions"><button id="setup-finish" class="primary" type="button" disabled data-i18n="desktop_setup_finish">Open Torikomi</button><button id="setup-back" type="button" data-i18n="desktop_setup_back">Back</button></div>
+    </section>
+  </dialog>
+</body>
+</html>

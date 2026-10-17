@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Torikomi",
+  "version": "2.0.0",
+  "identifier": "univzy.torikomi.desktop",
+  "build": { "frontendDist": "../ui" },
+  "app": {
+    "withGlobalTauri": true,
+    "macOSPrivateApi": true,
+    "windows": [{
+      "label": "main", "title": "Torikomi", "create": false, "width": 1120, "height": 800,
+      "minWidth": 620, "minHeight": 520, "transparent": true,
+      "backgroundColor": "#16171f", "dragDropEnabled": false
+    }],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: media: http://media.localhost; media-src 'self' media: http://media.localhost; connect-src ipc: http://ipc.localhost; object-src 'none'; base-uri 'self'; frame-src 'none'; form-action 'none'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis", "dmg"],
+    "icon": ["icons/icon.png", "icons/icon.ico", "icons/icon.icns"],
+    "category": "Utility",
+    "shortDescription": "Your media, across your devices",
+    "windows": { "nsis": { "displayLanguageSelector": true, "languages": ["English", "Indonesian"] } },
+    "macOS": { "minimumSystemVersion": "11.0" }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 2,
+  "settings": {
+    "updatedAt": 1770000000000,
+    "deviceId": "fixture-device",
+    "value": {
+      "themeMode": "dark", "themeColor": "forest", "fontScale": 1.2,
+      "fontFamily": "serif", "layout": "compact", "language": "id",
+      "notifications": false, "glass": true
+    }
+  },
+  "entries": [
+    {
+      "id": "fixture-audio", "url": "https://example.org/audio.mp3",
+      "title": "Fixture track", "kind": "audio", "createdAt": 1760000000000,
+      "updatedAt": 1770000000000, "deviceId": "fixture-device", "deletedAt": 0,
+      "metadata": { "artist": "Fixture artist", "album": "Fixture album", "albumArtist": "Fixture artist", "trackNumber": 2, "genre": "Pop", "year": 2026, "duration": 123.5 }
+    }
+  ],
+  "folders": [
+    { "id": "fixture-folder", "name": "MusicKu", "createdAt": 1770000000000, "updatedAt": 1770000000000, "deviceId": "fixture-device", "deletedAt": 0 }
+  ],
+  "memberships": [
+    { "folderId": "favorites", "entryId": "fixture-audio", "updatedAt": 1770000000000, "deviceId": "fixture-device", "deletedAt": 0 },
+    { "folderId": "fixture-folder", "entryId": "fixture-audio", "updatedAt": 1770000000010, "deviceId": "fixture-device", "deletedAt": 1770000000010 }
+  ]
+}

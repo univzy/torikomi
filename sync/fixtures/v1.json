@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "settings": {
+    "updatedAt": 1770000000000,
+    "deviceId": "fixture-device",
+    "value": {
+      "themeMode": "dark", "themeColor": "forest", "fontScale": 1.2,
+      "fontFamily": "serif", "layout": "compact", "language": "id",
+      "notifications": false, "glass": true
+    }
+  },
+  "entries": [
+    {
+      "id": "fixture-link", "url": "https://example.org/clip.mp4",
+      "title": "Video tersimpan", "kind": "video", "createdAt": 1760000000000,
+      "updatedAt": 1770000000000, "deviceId": "fixture-device", "deletedAt": 0
+    },
+    {
+      "id": "fixture-removed", "url": "https://example.org/audio.mp3",
+      "title": "Audio", "kind": "audio", "createdAt": 1760000000000,
+      "updatedAt": 1770000000010, "deviceId": "fixture-device", "deletedAt": 1770000000010
+    }
+  ]
+}

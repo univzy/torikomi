@@ -1,0 +1,10 @@
+mod app;
+pub mod core;
+pub mod gallery;
+pub mod media;
+pub mod preview;
+pub mod process;
+pub mod setup;
+pub mod storage;
+pub mod updater;
+pub use app::run;

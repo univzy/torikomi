@@ -1,0 +1,146 @@
+[
+  {
+    "code": "en",
+    "name": "English",
+    "android": "values",
+    "rtl": false
+  },
+  {
+    "code": "id",
+    "name": "Bahasa Indonesia",
+    "android": "values-in",
+    "rtl": false
+  },
+  {
+    "code": "es",
+    "name": "Español",
+    "android": "values-es",
+    "rtl": false
+  },
+  {
+    "code": "pt",
+    "name": "Português",
+    "android": "values-pt",
+    "rtl": false
+  },
+  {
+    "code": "fr",
+    "name": "Français",
+    "android": "values-fr",
+    "rtl": false
+  },
+  {
+    "code": "de",
+    "name": "Deutsch",
+    "android": "values-de",
+    "rtl": false
+  },
+  {
+    "code": "it",
+    "name": "Italiano",
+    "android": "values-it",
+    "rtl": false
+  },
+  {
+    "code": "ru",
+    "name": "Русский",
+    "android": "values-ru",
+    "rtl": false
+  },
+  {
+    "code": "tr",
+    "name": "Türkçe",
+    "android": "values-tr",
+    "rtl": false
+  },
+  {
+    "code": "vi",
+    "name": "Tiếng Việt",
+    "android": "values-vi",
+    "rtl": false
+  },
+  {
+    "code": "ar",
+    "name": "العربية",
+    "android": "values-ar",
+    "rtl": true
+  },
+  {
+    "code": "hi",
+    "name": "हिन्दी",
+    "android": "values-hi",
+    "rtl": false
+  },
+  {
+    "code": "zh-CN",
+    "name": "简体中文",
+    "android": "values-zh-rCN",
+    "rtl": false
+  },
+  {
+    "code": "ja",
+    "name": "日本語",
+    "android": "values-ja",
+    "rtl": false
+  },
+  {
+    "code": "ko",
+    "name": "한국어",
+    "android": "values-ko",
+    "rtl": false
+  },
+  {
+    "code": "nl",
+    "name": "Nederlands",
+    "android": "values-nl",
+    "rtl": false
+  },
+  {
+    "code": "pl",
+    "name": "Polski",
+    "android": "values-pl",
+    "rtl": false
+  },
+  {
+    "code": "uk",
+    "name": "Українська",
+    "android": "values-uk",
+    "rtl": false
+  },
+  {
+    "code": "th",
+    "name": "ไทย",
+    "android": "values-th",
+    "rtl": false
+  },
+  {
+    "code": "ms",
+    "name": "Bahasa Melayu",
+    "android": "values-ms",
+    "rtl": false
+  },
+  {
+    "code": "fil",
+    "name": "Filipino",
+    "android": "values-b+fil",
+    "rtl": false
+  },
+  {
+    "code": "bn",
+    "name": "বাংলা",
+    "android": "values-bn",
+    "rtl": false
+  },
+  {
+    "code": "fa",
+    "name": "فارسی",
+    "android": "values-fa",
+    "rtl": true
+  },
+  {
+    "code": "zh-TW",
+    "name": "繁體中文",
+    "android": "values-zh-rTW",
+    "rtl": false
+  }
+]

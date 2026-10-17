@@ -1,0 +1,17 @@
+{
+  "name": "torikomi-desktop",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Torikomi Rust desktop application for Windows and macOS",
+  "scripts": {
+    "start": "tauri dev",
+    "test": "cargo test --locked --manifest-path src-tauri/Cargo.toml && node --test test/*.test.cjs",
+    "test:ui": "node test/ui-smoke.cjs && node test/media-ui-smoke.cjs",
+    "setup:browser": "playwright install chromium",
+    "dist": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.12.3",
+    "@playwright/test": "1.64.1"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "torikomi-windows",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "setup": "npm --prefix ../shared/desktop ci",
+    "start": "npm --prefix ../shared/desktop start",
+    "test": "npm --prefix ../shared/desktop test",
+    "test:ui": "npm --prefix ../shared/desktop run test:ui",
+    "dist": "npm --prefix ../shared/desktop run dist -- --config ../../windows/tauri.conf.json && node ../shared/desktop/scripts/copy-artifacts.mjs windows"
+  }
+}

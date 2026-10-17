@@ -17,4 +17,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Torikomi"
-include(":app")
+include(":android")
