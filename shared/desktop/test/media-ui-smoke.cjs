@@ -22,6 +22,9 @@ async function assertIconActions(page,selector) {
 async function playerPreferences(page) {
   return page.evaluate(()=>JSON.parse(localStorage.getItem(`torikomi.player.${state.deviceId||state.document.settings.deviceId||'local'}`)));
 }
+async function stagePlayerPreferences(page,value) {
+  await page.evaluate(value=>sessionStorage.setItem('torikomi.test.playerPreferences',JSON.stringify({key:`torikomi.player.${state.deviceId||state.document.settings.deviceId||'local'}`,value})),value);
+}
 async function assertNoPlaybackHistory(page) {
   assert.equal(await page.locator('#player-history,#player-history-empty,#clear-playback-history').count(),0,'The player has no playback history controls');
   assert.equal(Object.hasOwn(await playerPreferences(page)||{},'history'),false,'Player preferences do not store playback history');
@@ -103,6 +106,11 @@ async function main() {
     const page=await browser.newPage({viewport:{width:1280,height:900}}), errors=[];
     page.setDefaultTimeout(3000);page.on('pageerror',error=>errors.push(error.message));
     await page.addInitScript(mockBackend);
+    // Apply fixtures after the old document and its queued media events are gone.
+    await page.addInitScript(()=>{
+      const raw=sessionStorage.getItem('torikomi.test.playerPreferences');if(raw===null)return;
+      const {key,value}=JSON.parse(raw);sessionStorage.removeItem('torikomi.test.playerPreferences');localStorage.setItem(key,value);
+    });
     await page.addInitScript(url=>{window.mediaFixture=url;window.previewFixture='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=';},origin+'/fixture.wav');
     await page.goto(origin);await page.waitForFunction(()=>typeof state!=='undefined'&&state);
     await page.evaluate(()=>{window.seedMediaLibrary();document.querySelector('#onboarding').close();});
@@ -329,7 +337,11 @@ async function main() {
     await page.waitForFunction(()=>document.querySelector('#audio-player').currentTime>0);
     await assertNoPlaybackHistory(page);
     await page.locator('#now-playing [data-player-mute]').click();await assertVolume(page,5);
-    await page.evaluate(()=>localStorage.setItem(`torikomi.player.${state.deviceId||state.document.settings.deviceId||'local'}`,JSON.stringify({volume:35,muted:true,lastVolume:35,history:[{entryId:'song-one',playedAt:Date.now()}]})));
+    await stagePlayerPreferences(page,JSON.stringify({volume:35,muted:true,lastVolume:35,history:[{entryId:'song-one',playedAt:Date.now()}]}));
+    await page.locator('#audio-player').evaluate(audio=>new Promise(resolve=>{
+      audio.addEventListener('volumechange',()=>resolve(),{once:true});audio.volume=0.25;
+    }));
+    await assertVolume(page,50);
     await page.reload();await page.waitForFunction(()=>typeof state!=='undefined'&&state);
     assert.deepEqual(await playerPreferences(page),{volume:35,muted:true,lastVolume:35},'Startup removes legacy playback history while preserving volume and mute');
     await page.evaluate(()=>{window.seedMediaLibrary();document.querySelector('#onboarding').close();});
@@ -338,7 +350,7 @@ async function main() {
     await page.click('[data-page="library"]');await page.click('[data-history-kind="audio"]');await page.locator('#entries [data-play="song-two"]').click();
     await page.waitForFunction(()=>document.querySelector('#audio-player').currentTime>0);
     await page.locator('#now-playing [data-player-mute]').click();await assertVolume(page,35);
-    await page.evaluate(()=>localStorage.setItem(`torikomi.player.${state.deviceId||state.document.settings.deviceId||'local'}`,'{broken'));
+    await stagePlayerPreferences(page,'{broken');
     await page.reload();await page.waitForFunction(()=>typeof state!=='undefined'&&state);
     await page.evaluate(()=>{window.seedMediaLibrary();document.querySelector('#onboarding').close();});
     await assertVolume(page,100);
@@ -349,7 +361,7 @@ async function main() {
     await page.waitForFunction(()=>document.querySelector('#player-error').textContent.length>0);
     await assertNoPlaybackHistory(page);
     await page.locator('#audio-player').evaluate(a=>{a.play=window.originalAudioPlay;});
-    await page.evaluate(()=>localStorage.setItem(`torikomi.player.${state.deviceId||state.document.settings.deviceId||'local'}`,JSON.stringify({volume:150,muted:'yes',lastVolume:-5})));
+    await stagePlayerPreferences(page,JSON.stringify({volume:150,muted:'yes',lastVolume:-5}));
     await page.reload();await page.waitForFunction(()=>typeof state!=='undefined'&&state);
     await page.evaluate(()=>{window.seedMediaLibrary();document.querySelector('#onboarding').close();});
     await assertVolume(page,100);
