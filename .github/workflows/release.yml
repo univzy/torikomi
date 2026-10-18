@@ -197,7 +197,20 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: npm run dist
+        run: |
+          if [ "${APPLE_SIGNING_IDENTITY:--}" = "-" ]; then
+            export APPLE_SIGNING_IDENTITY=-
+            # Tauri treats empty authentication variables as a request to notarize.
+            unset APPLE_ID APPLE_PASSWORD APPLE_TEAM_ID APPLE_API_KEY APPLE_API_ISSUER APPLE_API_KEY_PATH
+          else
+            for name in APPLE_ID APPLE_PASSWORD APPLE_TEAM_ID; do
+              if [ -z "${!name}" ]; then
+                echo "::error::$name must be configured for macOS notarization."
+                exit 1
+              fi
+            done
+          fi
+          npm run dist
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform }}

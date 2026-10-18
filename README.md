@@ -273,9 +273,11 @@ Android tag builds require the keystore secrets listed above. Manual builds can
 produce a debug APK when no release key is configured.
 
 Desktop signing is optional. The macOS workflow uses base64 `MAC_CERTIFICATE`,
-`MAC_CERTIFICATE_PASSWORD` and `MAC_SIGNING_IDENTITY`; notarization also uses
-`APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD` and `APPLE_TEAM_ID`. Windows CI imports a
-base64 PFX from `WINDOWS_CERTIFICATE` with `WINDOWS_CERTIFICATE_PASSWORD` when
+`MAC_CERTIFICATE_PASSWORD` and `MAC_SIGNING_IDENTITY`. Without a certificate, macOS
+builds use ad-hoc signing and skip notarization. Certificate-signed builds require
+`APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD` and `APPLE_TEAM_ID` for notarization.
+Windows CI imports a base64 PFX from `WINDOWS_CERTIFICATE` with
+`WINDOWS_CERTIFICATE_PASSWORD` when
 provided. Local builds can use `certificateThumbprint` or a signing command in
 `windows/tauri.conf.json`. Unsigned builds may show OS security prompts.
 
