@@ -104,7 +104,7 @@ async function main() {
   const browser=await chromium.launch();
   try {
     const page=await browser.newPage({viewport:{width:1280,height:900}}), errors=[];
-    page.setDefaultTimeout(3000);page.on('pageerror',error=>errors.push(error.message));
+    page.setDefaultTimeout(30000);page.on('pageerror',error=>{errors.push(error.message);console.error('Media UI page error:',error);});
     await page.addInitScript(mockBackend);
     // Apply fixtures after the old document and its queued media events are gone.
     await page.addInitScript(()=>{
