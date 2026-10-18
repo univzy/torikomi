@@ -13,7 +13,12 @@ TOOLS = ("yt-dlp", "gallery-dl", "ffmpeg", "ffprobe")
 
 
 def execute(arguments):
-    return subprocess.run([str(argument) for argument in arguments], check=True, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120).stdout
+    command = [str(argument) for argument in arguments]
+    try:
+        return subprocess.run(command, check=True, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120).stdout
+    except subprocess.CalledProcessError as error:
+        details = "\n".join(value.strip() for value in (error.stdout, error.stderr) if value)
+        raise RuntimeError(f"Engine check failed ({error.returncode}): {command!r}\n{details}") from error
 
 
 def verify_bundle(bundle):
@@ -48,7 +53,7 @@ def verify_bundle(bundle):
                             raise ValueError(f"Unbundled engine dependency: {dependency}")
         else:
             architecture = "arm64" if manifest["arch"] == "aarch64" else "x86_64"
-            execute(["lipo", "-verify_arch", architecture, binary])
+            execute(["lipo", binary, "-verify_arch", architecture])
             dependencies = execute(["otool", "-arch", architecture, "-L", binary])
             for line in dependencies.splitlines()[1:]:
                 library = line.strip().split(" (", 1)[0]
