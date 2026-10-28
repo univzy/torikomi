@@ -189,63 +189,63 @@ final class AppStore: ObservableObject {
             do {
                 var lastTitle = ""
                 for raw in urls {
-                try Task.checkCancellation()
-                let url = try SyncDocument.mediaURL(raw)
-                guard url.scheme?.lowercased() == "https" else { throw SyncError.invalidURL }
-                let delegate = DirectMediaDownload()
-                let temporary: URL
-                let response: URLResponse
-                var request = URLRequest(url: url)
-                if let referer {
-                    request.setValue(referer.absoluteString, forHTTPHeaderField: "Referer")
-                    request.setValue("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1", forHTTPHeaderField: "User-Agent")
-                }
-                do { (temporary, response) = try await URLSession.shared.download(for: request, delegate: delegate) }
-                catch { if delegate.sizeExceeded { throw MediaFailure.downloadSize }; throw error }
-                defer { try? FileManager.default.removeItem(at: temporary) }
-                guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else { throw SyncError.server((response as? HTTPURLResponse)?.statusCode ?? 0) }
-                guard let finalURL = response.url, finalURL.scheme?.lowercased() == "https", finalURL.user == nil, finalURL.password == nil else { throw SyncError.invalidURL }
-                let mime = (response.mimeType ?? "").lowercased()
-                let type = UTType(mimeType: mime)
-                let kind = type?.conforms(to: .audio) == true ? "audio" : type?.conforms(to: .image) == true ? "image" : type?.conforms(to: .movie) == true ? "video" : nil
-                guard let kind, mime != "image/svg+xml" else {
-                    throw MediaFailure.unsupported
-                }
-                guard entry == nil || entry?.kind == "link" || entry?.kind == kind else { throw SyncError.invalidData }
-                try Task.checkCancellation()
-                let bytes = try temporary.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
-                guard bytes > 0, bytes < DirectMediaDownload.maxBytes else { throw MediaFailure.downloadSize }
-                let title = (response.suggestedFilename ?? url.lastPathComponent).components(separatedBy: CharacterSet(charactersIn: "/\\")).last ?? "media"
-                lastTitle = title
-                let filename = UUID().uuidString.lowercased() + "." + (type?.preferredFilenameExtension ?? "media")
-                let destination = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(filename)
-                try FileManager.default.moveItem(at: temporary, to: destination)
-                do {
-                    let metadata = kind == "image" ? nil : await LocalMedia.metadata(destination)
                     try Task.checkCancellation()
-                    var next = local
-                    let stamp = try time()
-                    let saved: LibraryEntry
-                    if let entry {
-                        let index = try next.document.activeEntryIndex(entry.id)
-                        next.document.entries[index].kind = kind; next.document.entries[index].title = String(title.prefix(1000))
-                        next.document.entries[index].metadata = metadata
-                        next.document.entries[index].updatedAt = stamp; next.document.entries[index].deviceId = deviceId
-                        saved = next.document.entries[index]
-                    } else {
-                        var created = LibraryEntry(url: url.absoluteString, title: String(title.prefix(1000)), kind: kind, time: stamp, deviceId: deviceId)
-                        created.metadata = metadata; next.document.entries.append(created); saved = created
+                    let url = try SyncDocument.mediaURL(raw)
+                    guard url.scheme?.lowercased() == "https" else { throw SyncError.invalidURL }
+                    let delegate = DirectMediaDownload()
+                    let temporary: URL
+                    let response: URLResponse
+                    var request = URLRequest(url: url)
+                    if let referer {
+                        request.setValue(referer.absoluteString, forHTTPHeaderField: "Referer")
+                        request.setValue("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1", forHTTPHeaderField: "User-Agent")
                     }
-                    let oldFile = localFile(saved)
-                    next.files[saved.id] = filename
-                    if next.downloadedAt == nil { next.downloadedAt = [:] }
-                    next.downloadedAt?[saved.id] = Int64(Date().timeIntervalSince1970 * 1000)
-                    try save(next)
-                    if let oldFile { try? FileManager.default.removeItem(at: oldFile) }
-                } catch {
-                    try? FileManager.default.removeItem(at: destination)
-                    throw error
-                }
+                    do { (temporary, response) = try await URLSession.shared.download(for: request, delegate: delegate) }
+                    catch { if delegate.sizeExceeded { throw MediaFailure.downloadSize }; throw error }
+                    defer { try? FileManager.default.removeItem(at: temporary) }
+                    guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else { throw SyncError.server((response as? HTTPURLResponse)?.statusCode ?? 0) }
+                    guard let finalURL = response.url, finalURL.scheme?.lowercased() == "https", finalURL.user == nil, finalURL.password == nil else { throw SyncError.invalidURL }
+                    let mime = (response.mimeType ?? "").lowercased()
+                    let type = UTType(mimeType: mime)
+                    let kind = type?.conforms(to: .audio) == true ? "audio" : type?.conforms(to: .image) == true ? "image" : type?.conforms(to: .movie) == true ? "video" : nil
+                    guard let kind, mime != "image/svg+xml" else {
+                        throw MediaFailure.unsupported
+                    }
+                    guard entry == nil || entry?.kind == "link" || entry?.kind == kind else { throw SyncError.invalidData }
+                    try Task.checkCancellation()
+                    let bytes = try temporary.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
+                    guard bytes > 0, bytes < DirectMediaDownload.maxBytes else { throw MediaFailure.downloadSize }
+                    let title = (response.suggestedFilename ?? url.lastPathComponent).components(separatedBy: CharacterSet(charactersIn: "/\\")).last ?? "media"
+                    lastTitle = title
+                    let filename = UUID().uuidString.lowercased() + "." + (type?.preferredFilenameExtension ?? "media")
+                    let destination = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(filename)
+                    try FileManager.default.moveItem(at: temporary, to: destination)
+                    do {
+                        let metadata = kind == "image" ? nil : await LocalMedia.metadata(destination)
+                        try Task.checkCancellation()
+                        var next = local
+                        let stamp = try time()
+                        let saved: LibraryEntry
+                        if let entry {
+                            let index = try next.document.activeEntryIndex(entry.id)
+                            next.document.entries[index].kind = kind; next.document.entries[index].title = String(title.prefix(1000))
+                            next.document.entries[index].metadata = metadata
+                            next.document.entries[index].updatedAt = stamp; next.document.entries[index].deviceId = deviceId
+                            saved = next.document.entries[index]
+                        } else {
+                            var created = LibraryEntry(url: url.absoluteString, title: String(title.prefix(1000)), kind: kind, time: stamp, deviceId: deviceId)
+                            created.metadata = metadata; next.document.entries.append(created); saved = created
+                        }
+                        let oldFile = localFile(saved)
+                        next.files[saved.id] = filename
+                        if next.downloadedAt == nil { next.downloadedAt = [:] }
+                        next.downloadedAt?[saved.id] = Int64(Date().timeIntervalSince1970 * 1000)
+                        try save(next)
+                        if let oldFile { try? FileManager.default.removeItem(at: oldFile) }
+                    } catch {
+                        try? FileManager.default.removeItem(at: destination)
+                        throw error
+                    }
                 }
                 status = text("notif_completed")
                 if preferences.notifications {

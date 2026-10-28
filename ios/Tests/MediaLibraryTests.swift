@@ -30,6 +30,7 @@ final class MediaLibraryTests: XCTestCase {
         XCTAssertTrue(document.contains("song", in: "favorites"))
         XCTAssertEqual(document.memberships.first?.deletedAt, 6)
         XCTAssertEqual(document.folders.first?.deletedAt, 6)
+        document.memberships.sort { $0.folderId < $1.folderId }
         XCTAssertEqual(try document.merging(before), document)
         XCTAssertEqual(try SyncDocument.decode(document.encoded()), document)
     }

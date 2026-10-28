@@ -56,7 +56,7 @@ struct GalleryBrowser: UIViewRepresentable {
                     for _ in 0..<90 {
                         try Task.checkCancellation()
                         if let raw = try await webView.evaluateJavaScript(script) as? String {
-                            let album = try PhotoAlbum.decode(Data(raw.utf8), sourceURL: parent.sourceURL)
+                            let album = try PhotoAlbum.decode(Data(raw.utf8), sourceURL: webView.url ?? parent.sourceURL)
                             guard !finished else { return }
                             finished = true
                             parent.resolved(album)

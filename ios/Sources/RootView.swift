@@ -107,7 +107,11 @@ struct RootView: View {
             }.listRowBackground(AppPanel())
             }
             Section {
+                if album != nil || (try? PhotoAlbum.requestURL(url)) != nil {
+                    Text(store.text("desktop_album_note")).font(.callout).foregroundStyle(.secondary)
+                } else {
                 Text(store.text("iOS saves the original file from a direct HTTPS media URL. Site pages do not expose format choices here. Export saved links as JSON, then import them on Android or desktop to choose formats with yt-dlp. Keep this app open during downloads.", "iOS menyimpan file asli dari URL media HTTPS langsung. Pilihan format halaman situs tidak tersedia di sini. Ekspor tautan tersimpan sebagai JSON, lalu impor di Android atau desktop untuk memilih format dengan yt-dlp. Biarkan aplikasi terbuka selama mengunduh.")).font(.callout).foregroundStyle(.secondary)
+                }
             }.listRowBackground(AppPanel())
             if store.downloading { Section { ProgressView(store.text("Downloading…", "Mengunduh…")); Button(store.text("Cancel download", "Batalkan unduhan"), role: .cancel) { store.cancelDownload() } }.listRowBackground(AppPanel()) }
         }.modifier(AppSurface()).navigationTitle("Torikomi")

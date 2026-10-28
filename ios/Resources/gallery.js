@@ -1,12 +1,14 @@
 (() => {
   const photoUrls = [];
   let title = '';
+  const tiktokId = location.pathname.match(/\/(?:photo|video)\/(\d+)/)?.[1];
+  const instagramCode = location.pathname.match(/\/(?:p|reel|reels|tv)\/([^/]+)/)?.[1];
   const add = value => {
     if (photoUrls.length > 100) return;
     if (typeof value === 'string' && value.startsWith('https://') && !photoUrls.includes(value)) photoUrls.push(value);
   };
   const tiktok = item => {
-    if (!item || !item.imagePost) return;
+    if (!tiktokId || !item || String(item.id) !== tiktokId || !item.imagePost) return;
     title = typeof item.desc === 'string' ? item.desc.slice(0, 1000) : title;
     for (const image of item.imagePost.images || []) {
       add(image.imageURL?.urlList?.find(url => typeof url === 'string' && url.startsWith('https://')));
@@ -23,11 +25,10 @@
     }
   };
   let visited = 0;
+  const currentInstagram = value => value && instagramCode && (value.shortcode === instagramCode || value.code === instagramCode);
   const findInstagram = (value, depth = 0) => {
     if (!value || typeof value !== 'object' || depth > 24 || ++visited > 20000 || photoUrls.length > 100) return;
-    if (value.xdt_shortcode_media) instagram(value.xdt_shortcode_media);
-    if (value.shortcode_media) instagram(value.shortcode_media);
-    if (Array.isArray(value.items)) for (const item of value.items) instagram(item);
+    if (currentInstagram(value)) instagram(value);
     for (const child of Object.values(value)) findInstagram(child, depth + 1);
   };
   for (const script of document.querySelectorAll('script[type="application/json"], script#__UNIVERSAL_DATA_FOR_REHYDRATION__, script#SIGI_STATE')) {
