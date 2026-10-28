@@ -8,6 +8,7 @@ final class PhotoAlbumTests: XCTestCase {
 
     func testNormalizesTikTokPhotosAndKeepsShortLinks() throws {
         XCTAssertEqual(try PhotoAlbum.requestURL(source.absoluteString).path, "/@user/video/123")
+        XCTAssertEqual(try PhotoAlbum.requestURL(" HTTPS://WWW.TIKTOK.COM/@user/photo/123 ").path, "/@user/video/123")
         XCTAssertEqual(try PhotoAlbum.requestURL("https://vt.tiktok.com/share/").absoluteString, "https://vt.tiktok.com/share/")
         for url in ["http://www.tiktok.com/@user/photo/123", "https://tiktok.com.attacker.example/post", "file:///photo.jpg"] {
             XCTAssertThrowsError(try PhotoAlbum.requestURL(url))

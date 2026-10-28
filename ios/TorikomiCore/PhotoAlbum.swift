@@ -15,9 +15,11 @@ public struct PhotoAlbum: Equatable, Sendable {
         guard url.scheme?.lowercased() == "https", ["tiktok.com", "www.tiktok.com", "vt.tiktok.com", "vm.tiktok.com", "instagram.com", "www.instagram.com"].contains(url.host?.lowercased() ?? "") else {
             throw SyncError.invalidURL
         }
-        var parts = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        if (url.host ?? "").hasSuffix("tiktok.com") { parts.path = parts.path.replacingOccurrences(of: "/photo/", with: "/video/") }
-        return parts.url!
+        guard var parts = URLComponents(url: url, resolvingAgainstBaseURL: false) else { throw SyncError.invalidURL }
+        parts.scheme = "https"
+        if (url.host ?? "").lowercased().hasSuffix("tiktok.com") { parts.path = parts.path.replacingOccurrences(of: "/photo/", with: "/video/") }
+        guard let normalized = parts.url else { throw SyncError.invalidURL }
+        return normalized
     }
 
     public static func decode(_ data: Data, sourceURL: URL) throws -> PhotoAlbum {

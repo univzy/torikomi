@@ -120,7 +120,7 @@ struct RootView: View {
                 NavigationStack {
                     VStack(spacing: 0) {
                         if !albumError.isEmpty { Text(store.text(albumError)).padding().foregroundStyle(.secondary) }
-                        if let source = URL(string: url) {
+                        if let source = try? PhotoAlbum.requestURL(url) {
                             GalleryBrowser(sourceURL: source, resolved: { found in album = found; browsingAlbum = false },
                                            failed: { message in albumError = message })
                         }
