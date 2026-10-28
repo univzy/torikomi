@@ -32,6 +32,10 @@ struct GalleryBrowser: UIViewRepresentable {
         init(_ parent: GalleryBrowser) { self.parent = parent }
         func cancel() { finished = true; polling?.cancel() }
 
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+            polling?.cancel()
+        }
+
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             guard navigationAction.targetFrame?.isMainFrame != false else { decisionHandler(.allow); return }
             guard let url = navigationAction.request.url, url.scheme == "https", url.user == nil, url.password == nil,
@@ -56,6 +60,7 @@ struct GalleryBrowser: UIViewRepresentable {
                     for _ in 0..<90 {
                         try Task.checkCancellation()
                         if let raw = try await webView.evaluateJavaScript(script) as? String {
+                            try Task.checkCancellation()
                             let album = try PhotoAlbum.decode(Data(raw.utf8), sourceURL: webView.url ?? parent.sourceURL)
                             guard !finished else { return }
                             finished = true
