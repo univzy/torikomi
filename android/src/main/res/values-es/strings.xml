@@ -314,4 +314,12 @@
     <string name="media_share">Compartir archivo</string>
     <string name="media_folder_error">No se pudo guardar la carpeta. Usa un nombre único de 1–80 caracteres.</string>
     <string name="media_delete_error">No se pudieron eliminar algunos archivos. Se conservó su historial.</string>
+    <string name="desktop_album_select">Seleccionar fotos</string>
+    <string name="desktop_select_all">Seleccionar todas las fotos</string>
+    <string name="desktop_select_none">Borrar selección</string>
+    <string name="desktop_selected">Fotos seleccionadas</string>
+    <string name="desktop_preview_unavailable">Vista previa no disponible</string>
+    <string name="media_photo">Foto</string>
+    <string name="gallery_previous_photo">Foto anterior</string>
+    <string name="gallery_next_photo">Foto siguiente</string>
 </resources>

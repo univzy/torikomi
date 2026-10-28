@@ -467,5 +467,7 @@
   "ios_repeat_off": "끔",
   "ios_download_limit": "미디어 다운로드 크기는 2 GiB 미만이어야 합니다.",
   "ios_direct_media_only": "오디오, 사진 또는 동영상의 직접 HTTPS URL을 사용하세요. 웹 페이지와 실행 파일은 지원되지 않습니다.",
-  "media_delete_error": "일부 파일을 삭제할 수 없습니다. 해당 기록은 유지되었습니다."
+  "media_delete_error": "일부 파일을 삭제할 수 없습니다. 해당 기록은 유지되었습니다.",
+  "gallery_previous_photo": "이전 사진",
+  "gallery_next_photo": "다음 사진"
 }

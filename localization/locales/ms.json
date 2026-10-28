@@ -467,5 +467,7 @@
   "ios_repeat_off": "Mati",
   "ios_download_limit": "Muat turun media mestilah lebih kecil daripada 2 GiB.",
   "ios_direct_media_only": "Gunakan URL HTTPS terus untuk audio, foto atau video. Halaman web dan fail boleh laku tidak disokong.",
-  "media_delete_error": "Sesetengah fail tidak dapat dipadamkan. Sejarahnya dikekalkan."
+  "media_delete_error": "Sesetengah fail tidak dapat dipadamkan. Sejarahnya dikekalkan.",
+  "gallery_previous_photo": "Foto sebelumnya",
+  "gallery_next_photo": "Foto seterusnya"
 }

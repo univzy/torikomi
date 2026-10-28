@@ -314,4 +314,12 @@
     <string name="media_share">Compartilhar arquivo</string>
     <string name="media_folder_error">Não foi possível salvar a pasta. Use um nome exclusivo de 1–80 caracteres.</string>
     <string name="media_delete_error">Não foi possível excluir alguns arquivos. O histórico deles foi mantido.</string>
+    <string name="desktop_album_select">Selecionar fotos</string>
+    <string name="desktop_select_all">Selecionar todas as fotos</string>
+    <string name="desktop_select_none">Limpar seleção</string>
+    <string name="desktop_selected">Fotos selecionadas</string>
+    <string name="desktop_preview_unavailable">Prévia indisponível</string>
+    <string name="media_photo">Foto</string>
+    <string name="gallery_previous_photo">Foto anterior</string>
+    <string name="gallery_next_photo">Próxima foto</string>
 </resources>

@@ -467,5 +467,7 @@
   "ios_repeat_off": "Désactivé",
   "ios_download_limit": "Les téléchargements multimédias doivent faire moins de 2 Gio.",
   "ios_direct_media_only": "Utilisez une URL HTTPS directe de fichier audio, photo ou vidéo. Les pages web et les fichiers exécutables ne sont pas pris en charge.",
-  "media_delete_error": "Certains fichiers n’ont pas pu être supprimés. Leur historique a été conservé."
+  "media_delete_error": "Certains fichiers n’ont pas pu être supprimés. Leur historique a été conservé.",
+  "gallery_previous_photo": "Photo précédente",
+  "gallery_next_photo": "Photo suivante"
 }

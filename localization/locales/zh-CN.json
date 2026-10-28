@@ -467,5 +467,7 @@
   "ios_repeat_off": "关闭",
   "ios_download_limit": "下载的媒体文件必须小于 2 GiB。",
   "ios_direct_media_only": "请使用音频、照片或视频的 HTTPS 直链。不支持网页和可执行文件。",
-  "media_delete_error": "部分文件无法删除，其历史记录已保留。"
+  "media_delete_error": "部分文件无法删除，其历史记录已保留。",
+  "gallery_previous_photo": "上一张照片",
+  "gallery_next_photo": "下一张照片"
 }

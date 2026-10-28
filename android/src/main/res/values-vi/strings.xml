@@ -314,4 +314,12 @@
     <string name="media_share">Chia sẻ tệp</string>
     <string name="media_folder_error">Không thể lưu thư mục. Hãy dùng tên duy nhất dài 1–80 ký tự.</string>
     <string name="media_delete_error">Không thể xóa một số tệp. Lịch sử của chúng được giữ lại.</string>
+    <string name="desktop_album_select">Chọn ảnh</string>
+    <string name="desktop_select_all">Chọn tất cả ảnh</string>
+    <string name="desktop_select_none">Bỏ chọn tất cả</string>
+    <string name="desktop_selected">Ảnh đã chọn</string>
+    <string name="desktop_preview_unavailable">Không thể xem trước</string>
+    <string name="media_photo">Ảnh</string>
+    <string name="gallery_previous_photo">Ảnh trước</string>
+    <string name="gallery_next_photo">Ảnh tiếp theo</string>
 </resources>

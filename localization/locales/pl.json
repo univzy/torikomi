@@ -467,5 +467,7 @@
   "ios_repeat_off": "Wyłączone",
   "ios_download_limit": "Pobierane multimedia muszą mieć mniej niż 2 GiB.",
   "ios_direct_media_only": "Użyj bezpośredniego adresu HTTPS pliku audio, zdjęcia lub filmu. Strony internetowe i pliki wykonywalne nie są obsługiwane.",
-  "media_delete_error": "Nie można usunąć niektórych plików. Ich historia została zachowana."
+  "media_delete_error": "Nie można usunąć niektórych plików. Ich historia została zachowana.",
+  "gallery_previous_photo": "Poprzednie zdjęcie",
+  "gallery_next_photo": "Następne zdjęcie"
 }

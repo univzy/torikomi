@@ -467,5 +467,7 @@
   "ios_repeat_off": "Kapalı",
   "ios_download_limit": "Medya indirmeleri 2 GiB boyutundan küçük olmalıdır.",
   "ios_direct_media_only": "Ses, fotoğraf veya video için doğrudan HTTPS adresi kullanın. Web sayfaları ve çalıştırılabilir dosyalar desteklenmez.",
-  "media_delete_error": "Bazı dosyalar silinemedi. Geçmişleri korundu."
+  "media_delete_error": "Bazı dosyalar silinemedi. Geçmişleri korundu.",
+  "gallery_previous_photo": "Önceki fotoğraf",
+  "gallery_next_photo": "Sonraki fotoğraf"
 }

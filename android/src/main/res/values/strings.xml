@@ -314,4 +314,12 @@
     <string name="media_share">Share file</string>
     <string name="media_folder_error">Unable to save the folder. Use a unique name of 1–80 characters.</string>
     <string name="media_delete_error">Some files could not be deleted. Their history was kept.</string>
+    <string name="desktop_album_select">Select photos</string>
+    <string name="desktop_select_all">Select all photos</string>
+    <string name="desktop_select_none">Clear selection</string>
+    <string name="desktop_selected">Selected photos</string>
+    <string name="desktop_preview_unavailable">Preview unavailable</string>
+    <string name="media_photo">Photo</string>
+    <string name="gallery_previous_photo">Previous photo</string>
+    <string name="gallery_next_photo">Next photo</string>
 </resources>

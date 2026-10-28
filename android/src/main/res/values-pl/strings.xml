@@ -314,4 +314,12 @@
     <string name="media_share">Udostępnij plik</string>
     <string name="media_folder_error">Nie można zapisać folderu. Użyj unikalnej nazwy o długości 1–80 znaków.</string>
     <string name="media_delete_error">Nie można usunąć niektórych plików. Ich historia została zachowana.</string>
+    <string name="desktop_album_select">Wybierz zdjęcia</string>
+    <string name="desktop_select_all">Wybierz wszystkie zdjęcia</string>
+    <string name="desktop_select_none">Wyczyść zaznaczenie</string>
+    <string name="desktop_selected">Wybrane zdjęcia</string>
+    <string name="desktop_preview_unavailable">Podgląd niedostępny</string>
+    <string name="media_photo">Zdjęcie</string>
+    <string name="gallery_previous_photo">Poprzednie zdjęcie</string>
+    <string name="gallery_next_photo">Następne zdjęcie</string>
 </resources>

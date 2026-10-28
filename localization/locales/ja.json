@@ -467,5 +467,7 @@
   "ios_repeat_off": "オフ",
   "ios_download_limit": "メディアのダウンロードは 2 GiB 未満にしてください。",
   "ios_direct_media_only": "音声・写真・動画への直接の HTTPS URL を使用してください。ウェブページや実行ファイルには対応していません。",
-  "media_delete_error": "一部のファイルを削除できませんでした。該当する履歴は保持されています。"
+  "media_delete_error": "一部のファイルを削除できませんでした。該当する履歴は保持されています。",
+  "gallery_previous_photo": "前の写真",
+  "gallery_next_photo": "次の写真"
 }

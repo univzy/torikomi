@@ -314,4 +314,12 @@
     <string name="media_share">Поделиться файлом</string>
     <string name="media_folder_error">Не удалось сохранить папку. Используйте уникальное имя длиной 1–80 символов.</string>
     <string name="media_delete_error">Некоторые файлы не удалось удалить. Их история сохранена.</string>
+    <string name="desktop_album_select">Выбрать фотографии</string>
+    <string name="desktop_select_all">Выбрать все фотографии</string>
+    <string name="desktop_select_none">Снять выделение</string>
+    <string name="desktop_selected">Выбранные фотографии</string>
+    <string name="desktop_preview_unavailable">Предпросмотр недоступен</string>
+    <string name="media_photo">Фото</string>
+    <string name="gallery_previous_photo">Предыдущее фото</string>
+    <string name="gallery_next_photo">Следующее фото</string>
 </resources>

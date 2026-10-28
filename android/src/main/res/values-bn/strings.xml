@@ -314,4 +314,12 @@
     <string name="media_share">ফাইল শেয়ার করুন</string>
     <string name="media_folder_error">ফোল্ডার সংরক্ষণ করা যায়নি। ১–৮০ অক্ষরের একটি স্বতন্ত্র নাম দিন।</string>
     <string name="media_delete_error">কিছু ফাইল মুছে ফেলা যায়নি। সেগুলোর ইতিহাস রাখা হয়েছে।</string>
+    <string name="desktop_album_select">ছবি বেছে নিন</string>
+    <string name="desktop_select_all">সব ছবি বেছে নিন</string>
+    <string name="desktop_select_none">নির্বাচন মুছুন</string>
+    <string name="desktop_selected">নির্বাচিত ছবি</string>
+    <string name="desktop_preview_unavailable">প্রিভিউ উপলব্ধ নয়</string>
+    <string name="media_photo">ছবি</string>
+    <string name="gallery_previous_photo">আগের ছবি</string>
+    <string name="gallery_next_photo">পরের ছবি</string>
 </resources>

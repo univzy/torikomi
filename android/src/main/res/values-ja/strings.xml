@@ -314,4 +314,12 @@
     <string name="media_share">ファイルを共有</string>
     <string name="media_folder_error">フォルダーを保存できません。1〜80文字の重複しない名前を指定してください。</string>
     <string name="media_delete_error">一部のファイルを削除できませんでした。該当する履歴は保持されています。</string>
+    <string name="desktop_album_select">写真を選択</string>
+    <string name="desktop_select_all">すべての写真を選択</string>
+    <string name="desktop_select_none">選択を解除</string>
+    <string name="desktop_selected">選択した写真</string>
+    <string name="desktop_preview_unavailable">プレビューを表示できません</string>
+    <string name="media_photo">写真</string>
+    <string name="gallery_previous_photo">前の写真</string>
+    <string name="gallery_next_photo">次の写真</string>
 </resources>

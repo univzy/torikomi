@@ -311,5 +311,13 @@
   "media_actions",
   "media_share",
   "media_folder_error",
-  "media_delete_error"
+  "media_delete_error",
+  "desktop_album_select",
+  "desktop_select_all",
+  "desktop_select_none",
+  "desktop_selected",
+  "desktop_preview_unavailable",
+  "media_photo",
+  "gallery_previous_photo",
+  "gallery_next_photo"
 ]

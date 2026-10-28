@@ -314,4 +314,12 @@
     <string name="media_share">파일 공유</string>
     <string name="media_folder_error">폴더를 저장할 수 없습니다. 1~80자의 고유한 이름을 사용하세요.</string>
     <string name="media_delete_error">일부 파일을 삭제할 수 없습니다. 해당 기록은 유지되었습니다.</string>
+    <string name="desktop_album_select">사진 선택</string>
+    <string name="desktop_select_all">모든 사진 선택</string>
+    <string name="desktop_select_none">선택 해제</string>
+    <string name="desktop_selected">선택한 사진</string>
+    <string name="desktop_preview_unavailable">미리보기를 사용할 수 없습니다</string>
+    <string name="media_photo">사진</string>
+    <string name="gallery_previous_photo">이전 사진</string>
+    <string name="gallery_next_photo">다음 사진</string>
 </resources>

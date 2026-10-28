@@ -467,5 +467,7 @@
   "ios_repeat_off": "Naka-off",
   "ios_download_limit": "Dapat mas maliit sa 2 GiB ang ida-download na media.",
   "ios_direct_media_only": "Gumamit ng direktang HTTPS URL ng audio, larawan o video. Hindi sinusuportahan ang mga web page at executable file.",
-  "media_delete_error": "Hindi matanggal ang ilang file. Pinanatili ang kanilang kasaysayan."
+  "media_delete_error": "Hindi matanggal ang ilang file. Pinanatili ang kanilang kasaysayan.",
+  "gallery_previous_photo": "Nakaraang larawan",
+  "gallery_next_photo": "Susunod na larawan"
 }

@@ -467,5 +467,7 @@
   "ios_repeat_off": "Nonaktif",
   "ios_download_limit": "Unduhan media harus lebih kecil dari 2 GiB.",
   "ios_direct_media_only": "Gunakan URL HTTPS langsung untuk audio, foto atau video. Halaman situs dan file program tidak didukung.",
-  "media_delete_error": "Sebagian file tidak dapat dihapus. Riwayatnya tetap disimpan."
+  "media_delete_error": "Sebagian file tidak dapat dihapus. Riwayatnya tetap disimpan.",
+  "gallery_previous_photo": "Foto sebelumnya",
+  "gallery_next_photo": "Foto berikutnya"
 }

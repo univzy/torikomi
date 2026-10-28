@@ -314,4 +314,12 @@
     <string name="media_share">Datei teilen</string>
     <string name="media_folder_error">Ordner konnte nicht gespeichert werden. Verwende einen eindeutigen Namen mit 1–80 Zeichen.</string>
     <string name="media_delete_error">Einige Dateien konnten nicht gelöscht werden. Ihr Verlauf wurde beibehalten.</string>
+    <string name="desktop_album_select">Fotos auswählen</string>
+    <string name="desktop_select_all">Alle Fotos auswählen</string>
+    <string name="desktop_select_none">Auswahl aufheben</string>
+    <string name="desktop_selected">Ausgewählte Fotos</string>
+    <string name="desktop_preview_unavailable">Vorschau nicht verfügbar</string>
+    <string name="media_photo">Foto</string>
+    <string name="gallery_previous_photo">Vorheriges Foto</string>
+    <string name="gallery_next_photo">Nächstes Foto</string>
 </resources>

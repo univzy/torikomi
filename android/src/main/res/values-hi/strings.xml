@@ -314,4 +314,12 @@
     <string name="media_share">फ़ाइल साझा करें</string>
     <string name="media_folder_error">फ़ोल्डर सहेजा नहीं जा सका। 1–80 अक्षरों का एक अद्वितीय नाम दें।</string>
     <string name="media_delete_error">कुछ फ़ाइलें हटाई नहीं जा सकीं। उनका इतिहास रखा गया है।</string>
+    <string name="desktop_album_select">फ़ोटो चुनें</string>
+    <string name="desktop_select_all">सभी फ़ोटो चुनें</string>
+    <string name="desktop_select_none">चयन हटाएँ</string>
+    <string name="desktop_selected">चुनी गई फ़ोटो</string>
+    <string name="desktop_preview_unavailable">प्रीव्यू उपलब्ध नहीं है</string>
+    <string name="media_photo">फ़ोटो</string>
+    <string name="gallery_previous_photo">पिछली फ़ोटो</string>
+    <string name="gallery_next_photo">अगली फ़ोटो</string>
 </resources>

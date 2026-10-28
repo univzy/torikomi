@@ -314,4 +314,12 @@
     <string name="media_share">Ibahagi ang file</string>
     <string name="media_folder_error">Hindi ma-save ang folder. Gumamit ng natatanging pangalan na may 1–80 character.</string>
     <string name="media_delete_error">Hindi matanggal ang ilang file. Pinanatili ang kanilang kasaysayan.</string>
+    <string name="desktop_album_select">Pumili ng mga larawan</string>
+    <string name="desktop_select_all">Piliin ang lahat ng larawan</string>
+    <string name="desktop_select_none">Alisin ang mga pinili</string>
+    <string name="desktop_selected">Mga napiling larawan</string>
+    <string name="desktop_preview_unavailable">Hindi available ang preview</string>
+    <string name="media_photo">Larawan</string>
+    <string name="gallery_previous_photo">Nakaraang larawan</string>
+    <string name="gallery_next_photo">Susunod na larawan</string>
 </resources>

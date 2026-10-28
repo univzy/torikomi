@@ -467,5 +467,7 @@
   "ios_repeat_off": "Aus",
   "ios_download_limit": "Mediendownloads müssen kleiner als 2 GiB sein.",
   "ios_direct_media_only": "Verwende eine direkte HTTPS-URL für Audio, Fotos oder Videos. Webseiten und ausführbare Dateien werden nicht unterstützt.",
-  "media_delete_error": "Einige Dateien konnten nicht gelöscht werden. Ihr Verlauf wurde beibehalten."
+  "media_delete_error": "Einige Dateien konnten nicht gelöscht werden. Ihr Verlauf wurde beibehalten.",
+  "gallery_previous_photo": "Vorheriges Foto",
+  "gallery_next_photo": "Nächstes Foto"
 }

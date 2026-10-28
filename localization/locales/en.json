@@ -467,5 +467,7 @@
   "ios_repeat_off": "Off",
   "ios_download_limit": "Media downloads must be smaller than 2 GiB.",
   "ios_direct_media_only": "Use a direct HTTPS audio, photo or video URL. Site pages and executable files are unsupported.",
-  "media_delete_error": "Some files could not be deleted. Their history was kept."
+  "media_delete_error": "Some files could not be deleted. Their history was kept.",
+  "gallery_previous_photo": "Previous photo",
+  "gallery_next_photo": "Next photo"
 }

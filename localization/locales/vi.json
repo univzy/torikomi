@@ -467,5 +467,7 @@
   "ios_repeat_off": "Tắt",
   "ios_download_limit": "Tệp đa phương tiện tải xuống phải nhỏ hơn 2 GiB.",
   "ios_direct_media_only": "Dùng URL HTTPS trực tiếp đến âm thanh, ảnh hoặc video. Không hỗ trợ trang web và tệp thực thi.",
-  "media_delete_error": "Không thể xóa một số tệp. Lịch sử của chúng được giữ lại."
+  "media_delete_error": "Không thể xóa một số tệp. Lịch sử của chúng được giữ lại.",
+  "gallery_previous_photo": "Ảnh trước",
+  "gallery_next_photo": "Ảnh tiếp theo"
 }

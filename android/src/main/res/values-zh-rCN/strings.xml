@@ -314,4 +314,12 @@
     <string name="media_share">分享文件</string>
     <string name="media_folder_error">无法保存文件夹。请使用 1–80 个字符的唯一名称。</string>
     <string name="media_delete_error">部分文件无法删除，其历史记录已保留。</string>
+    <string name="desktop_album_select">选择照片</string>
+    <string name="desktop_select_all">选择所有照片</string>
+    <string name="desktop_select_none">清除选择</string>
+    <string name="desktop_selected">已选照片</string>
+    <string name="desktop_preview_unavailable">预览不可用</string>
+    <string name="media_photo">照片</string>
+    <string name="gallery_previous_photo">上一张照片</string>
+    <string name="gallery_next_photo">下一张照片</string>
 </resources>

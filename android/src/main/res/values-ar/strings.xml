@@ -314,4 +314,12 @@
     <string name="media_share">مشاركة الملف</string>
     <string name="media_folder_error">تعذر حفظ المجلد. استخدم اسماً فريداً من حرف واحد إلى 80 حرفاً.</string>
     <string name="media_delete_error">تعذر حذف بعض الملفات. تم الاحتفاظ بسجلها.</string>
+    <string name="desktop_album_select">اختيار الصور</string>
+    <string name="desktop_select_all">اختيار كل الصور</string>
+    <string name="desktop_select_none">إلغاء التحديد</string>
+    <string name="desktop_selected">الصور المحددة</string>
+    <string name="desktop_preview_unavailable">المعاينة غير متاحة</string>
+    <string name="media_photo">صورة</string>
+    <string name="gallery_previous_photo">الصورة السابقة</string>
+    <string name="gallery_next_photo">الصورة التالية</string>
 </resources>

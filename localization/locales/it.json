@@ -467,5 +467,7 @@
   "ios_repeat_off": "Disattivato",
   "ios_download_limit": "I download multimediali devono essere inferiori a 2 GiB.",
   "ios_direct_media_only": "Usa un URL HTTPS diretto a un file audio, foto o video. Le pagine web e i file eseguibili non sono supportati.",
-  "media_delete_error": "Impossibile eliminare alcuni file. La loro cronologia è stata conservata."
+  "media_delete_error": "Impossibile eliminare alcuni file. La loro cronologia è stata conservata.",
+  "gallery_previous_photo": "Foto precedente",
+  "gallery_next_photo": "Foto successiva"
 }

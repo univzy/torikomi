@@ -314,4 +314,12 @@
     <string name="media_share">اشتراک‌گذاری فایل</string>
     <string name="media_folder_error">پوشه ذخیره نشد. از نامی یکتا با ۱ تا ۸۰ نویسه استفاده کنید.</string>
     <string name="media_delete_error">برخی فایل‌ها حذف نشدند. سابقهٔ آن‌ها حفظ شد.</string>
+    <string name="desktop_album_select">انتخاب عکس‌ها</string>
+    <string name="desktop_select_all">انتخاب همهٔ عکس‌ها</string>
+    <string name="desktop_select_none">لغو انتخاب‌ها</string>
+    <string name="desktop_selected">عکس‌های انتخاب‌شده</string>
+    <string name="desktop_preview_unavailable">پیش‌نمایش در دسترس نیست</string>
+    <string name="media_photo">عکس</string>
+    <string name="gallery_previous_photo">عکس قبلی</string>
+    <string name="gallery_next_photo">عکس بعدی</string>
 </resources>
