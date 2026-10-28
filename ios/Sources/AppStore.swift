@@ -176,17 +176,31 @@ final class AppStore: ObservableObject {
     }
     func cancelDownload() { downloadTask?.cancel() }
     func download(_ raw: String, entry: LibraryEntry? = nil) {
-        guard !downloading else { return }
+        download([raw], entry: entry, referer: nil)
+    }
+    func downloadPhotos(_ photos: [AlbumPhoto], sourceURL: URL) {
+        download(photos.map { $0.url.absoluteString }, entry: nil, referer: sourceURL)
+    }
+    private func download(_ urls: [String], entry: LibraryEntry?, referer: URL?) {
+        guard !downloading, !urls.isEmpty, urls.count <= 100, entry == nil || urls.count == 1 else { return }
         downloading = true; status = ""; isError = false
         downloadTask = Task {
             defer { downloading = false; downloadTask = nil }
             do {
+                var lastTitle = ""
+                for raw in urls {
+                try Task.checkCancellation()
                 let url = try SyncDocument.mediaURL(raw)
                 guard url.scheme?.lowercased() == "https" else { throw SyncError.invalidURL }
                 let delegate = DirectMediaDownload()
                 let temporary: URL
                 let response: URLResponse
-                do { (temporary, response) = try await URLSession.shared.download(from: url, delegate: delegate) }
+                var request = URLRequest(url: url)
+                if let referer {
+                    request.setValue(referer.absoluteString, forHTTPHeaderField: "Referer")
+                    request.setValue("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1", forHTTPHeaderField: "User-Agent")
+                }
+                do { (temporary, response) = try await URLSession.shared.download(for: request, delegate: delegate) }
                 catch { if delegate.sizeExceeded { throw MediaFailure.downloadSize }; throw error }
                 defer { try? FileManager.default.removeItem(at: temporary) }
                 guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else { throw SyncError.server((response as? HTTPURLResponse)?.statusCode ?? 0) }
@@ -202,6 +216,7 @@ final class AppStore: ObservableObject {
                 let bytes = try temporary.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
                 guard bytes > 0, bytes < DirectMediaDownload.maxBytes else { throw MediaFailure.downloadSize }
                 let title = (response.suggestedFilename ?? url.lastPathComponent).components(separatedBy: CharacterSet(charactersIn: "/\\")).last ?? "media"
+                lastTitle = title
                 let filename = UUID().uuidString.lowercased() + "." + (type?.preferredFilenameExtension ?? "media")
                 let destination = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(filename)
                 try FileManager.default.moveItem(at: temporary, to: destination)
@@ -231,11 +246,13 @@ final class AppStore: ObservableObject {
                     try? FileManager.default.removeItem(at: destination)
                     throw error
                 }
+                }
                 status = text("notif_completed")
                 if preferences.notifications {
                     let center = UNUserNotificationCenter.current()
                     if (try? await center.requestAuthorization(options: [.alert, .sound])) == true {
-                        let content = UNMutableNotificationContent(); content.title = "Torikomi"; content.body = title
+                        let content = UNMutableNotificationContent(); content.title = "Torikomi"
+                        content.body = urls.count == 1 ? lastTitle : String(format: text("wa_photos"), urls.count)
                         try? await center.add(UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil))
                     }
                 }

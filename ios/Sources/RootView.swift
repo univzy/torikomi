@@ -11,6 +11,9 @@ struct RootView: View {
     @Environment(\.colorScheme) private var scheme
     @State private var selection: Destination? = .download
     @State private var url = ""
+    @State private var album: PhotoAlbum?
+    @State private var browsingAlbum = false
+    @State private var albumError = ""
     @AppStorage("onboarding.complete") private var onboarded = false
     var body: some View {
         Group {
@@ -81,7 +84,16 @@ struct RootView: View {
                 TextField("https://", text: $url).keyboardType(.URL).textInputAutocapitalization(.never).autocorrectionDisabled()
                     .accessibilityLabel(store.text("Media link", "Tautan media"))
                 Button(store.text("Save link for later", "Simpan tautan untuk nanti")) { store.addLink(url) }.disabled(url.isEmpty)
+                if (try? PhotoAlbum.requestURL(url)) != nil {
+                    Button(store.text("desktop_album_inspect")) { albumError = ""; browsingAlbum = true }
+                        .disabled(store.downloading)
+                }
             }.listRowBackground(AppPanel())
+            if let album {
+                Section(store.text("desktop_album_select")) { PhotoAlbumView(album: album).id(album.photos.map(\.id)) }
+                    .listRowBackground(AppPanel())
+            }
+            if album == nil && (try? PhotoAlbum.requestURL(url)) == nil {
             Section(store.text("Available download", "Unduhan tersedia")) {
                 Label {
                     VStack(alignment: .leading, spacing: 6) {
@@ -93,11 +105,28 @@ struct RootView: View {
                     Label(store.text("Download original file", "Unduh file asli"), systemImage: "arrow.down.circle.fill").frame(minHeight: 44)
                 }.disabled(url.isEmpty || store.downloading)
             }.listRowBackground(AppPanel())
+            }
             Section {
                 Text(store.text("iOS saves the original file from a direct HTTPS media URL. Site pages do not expose format choices here. Export saved links as JSON, then import them on Android or desktop to choose formats with yt-dlp. Keep this app open during downloads.", "iOS menyimpan file asli dari URL media HTTPS langsung. Pilihan format halaman situs tidak tersedia di sini. Ekspor tautan tersimpan sebagai JSON, lalu impor di Android atau desktop untuk memilih format dengan yt-dlp. Biarkan aplikasi terbuka selama mengunduh.")).font(.callout).foregroundStyle(.secondary)
             }.listRowBackground(AppPanel())
             if store.downloading { Section { ProgressView(store.text("Downloading…", "Mengunduh…")); Button(store.text("Cancel download", "Batalkan unduhan"), role: .cancel) { store.cancelDownload() } }.listRowBackground(AppPanel()) }
         }.modifier(AppSurface()).navigationTitle("Torikomi")
+            .onChange(of: url) { _, _ in album = nil }
+            .sheet(isPresented: $browsingAlbum) {
+                NavigationStack {
+                    VStack(spacing: 0) {
+                        if !albumError.isEmpty { Text(store.text(albumError)).padding().foregroundStyle(.secondary) }
+                        if let source = URL(string: url) {
+                            GalleryBrowser(sourceURL: source, resolved: { found in album = found; browsingAlbum = false },
+                                           failed: { message in albumError = message })
+                        }
+                    }
+                    .navigationTitle(store.text("desktop_album_inspect"))
+                    .toolbar { ToolbarItem(placement: .cancellationAction) {
+                        Button(store.text("Close")) { browsingAlbum = false }
+                    } }
+                }
+            }
     }
     private var accent: Color { Color(catalogHex: (scheme == .dark ? AppearanceCatalog.theme(store.preferences.themeColor).dark : AppearanceCatalog.theme(store.preferences.themeColor).light).accent) }
 }

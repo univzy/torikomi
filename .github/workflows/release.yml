@@ -236,6 +236,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Test gallery page extraction
+        run: node --test scripts/test_ios_gallery.cjs
       - name: Test portable backup core
         run: swift test --package-path ios
       - name: Generate Xcode project
