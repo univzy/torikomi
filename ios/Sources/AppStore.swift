@@ -176,12 +176,12 @@ final class AppStore: ObservableObject {
     }
     func cancelDownload() { downloadTask?.cancel() }
     func download(_ raw: String, entry: LibraryEntry? = nil) {
-        download([raw], entry: entry, referer: nil)
+        download([raw], entry: entry, albumSourceURL: nil)
     }
     func downloadPhotos(_ photos: [AlbumPhoto], sourceURL: URL) {
-        download(photos.map { $0.url.absoluteString }, entry: nil, referer: sourceURL)
+        download(photos.map { $0.url.absoluteString }, entry: nil, albumSourceURL: sourceURL)
     }
-    private func download(_ urls: [String], entry: LibraryEntry?, referer: URL?) {
+    private func download(_ urls: [String], entry: LibraryEntry?, albumSourceURL: URL?) {
         guard !downloading, !urls.isEmpty, urls.count <= 100, entry == nil || urls.count == 1 else { return }
         downloading = true; status = ""; isError = false
         downloadTask = Task {
@@ -196,8 +196,8 @@ final class AppStore: ObservableObject {
                     let temporary: URL
                     let response: URLResponse
                     var request = URLRequest(url: url)
-                    if let referer {
-                        request.setValue(referer.absoluteString, forHTTPHeaderField: "Referer")
+                    if let albumSourceURL {
+                        request.setValue(albumSourceURL.absoluteString, forHTTPHeaderField: "Referer")
                         request.setValue("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1", forHTTPHeaderField: "User-Agent")
                     }
                     do { (temporary, response) = try await URLSession.shared.download(for: request, delegate: delegate) }
@@ -208,7 +208,7 @@ final class AppStore: ObservableObject {
                     let mime = (response.mimeType ?? "").lowercased()
                     let type = UTType(mimeType: mime)
                     let kind = type?.conforms(to: .audio) == true ? "audio" : type?.conforms(to: .image) == true ? "image" : type?.conforms(to: .movie) == true ? "video" : nil
-                    guard let kind, mime != "image/svg+xml" else {
+                    guard let kind, mime != "image/svg+xml", albumSourceURL == nil || kind == "image" else {
                         throw MediaFailure.unsupported
                     }
                     guard entry == nil || entry?.kind == "link" || entry?.kind == kind else { throw SyncError.invalidData }
